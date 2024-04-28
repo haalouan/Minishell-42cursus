@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 16:38:45 by haalouan          #+#    #+#             */
-/*   Updated: 2024/04/28 18:34:02 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/04/28 19:22:37 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,9 +166,9 @@ void handele_line(char **line, char **tab, t_check check)
 char **handele_parssing(char *line)
 {
     int count = count_lists(line);
-    printf("*-------------------------*\n");
-    printf("|   nbr of cmds -> [%d]    |\n", count);
-    printf("*-------------------------*\n");
+    // printf("*-------------------------*\n");
+    // printf("|   nbr of cmds -> [%d]    |\n", count);
+    // printf("*-------------------------*\n");
     // return NULL;
     // exit(0);
     t_check check;
@@ -191,6 +191,27 @@ char **handele_parssing(char *line)
 }
 
 
+int check(char **tab)
+{
+    int i = 0;
+    if (tab[0][0] == '>' || tab[0][0] == '<' || tab[0][0] == '|')
+        return 1;
+    while (tab[i])
+    {
+        if (tab[i] && tab[i][0] == '|' && tab[i + 1] && tab[i + 1][0] == '|')
+            return 1;
+        if (tab[i] && tab[i][0] == '<' && tab[i + 1] && tab[i + 1][0] == '<')
+            return 1;
+        if (tab[i] && tab[i][0] == '>' && tab[i + 1] && tab[i + 1][0] == '>')
+            return 1;
+        i++;
+    }
+    if (tab[i - 1][0] == '|')
+        return 1;
+    return 0;
+}
+
+
 t_list **parssing(char *line)
 {
     char **tab = NULL;
@@ -207,6 +228,11 @@ t_list **parssing(char *line)
         return NULL;
     }
     tab = handele_parssing(line);
+    if (check(tab) == 1)
+    {
+        handele_error();
+        return NULL;
+    }
     count = count_lists(line);
     size = count_pipe(tab, count);
     list = (t_list **)malloc(sizeof(t_list *) * (size + 1) + 1);

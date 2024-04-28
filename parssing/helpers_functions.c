@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:27:26 by haalouan          #+#    #+#             */
-/*   Updated: 2024/04/28 17:44:23 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/04/28 19:18:24 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,7 @@ void print_tab(char **tab, char *line, t_list **list)
     // i = 0;
     while (list[i] != NULL)
     {
+        printf("*-------------------------*\n");
         printf("|           (%d)           |\n", i + 1);
         printf("*-------------------------*\n");
         printf("|");
