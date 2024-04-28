@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:22:31 by haalouan          #+#    #+#             */
-/*   Updated: 2024/04/28 02:17:45 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/04/28 13:49:54 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 #define ANSI_BACKGROUND_RED     "\x1b[41m"
 #define ANSI_COLOR_MAGENTA      "\x1b[35m"
 //
+
 typedef struct s_check
 {
     int find_word;
@@ -56,24 +57,26 @@ size_t	ft_strlen(const char *str);
 char    *ft_strncpy(char *dest, const char *src, int len);
 int	ft_strcmp(const char *str1, const char *str2);
 char *ft_strcat(char *dest, char *src);
-//handele_line
+int is_character(char c);
 
-//handele_error
+
+//parssing
+t_list **parssing(char *line);
 void handele_error();
-int check_syntax_error(char *line);
 int count_cmds(char *line);
-void print_tab(char **tab, char *line, t_list **list);
-//hndele_node
 void check_init(t_check *check);
 void check_check(char *line, t_check *check);
 int count_quote(char *line, int len);
 void handele_error();
 void add_tab(char *line, char **tab, int len);
-//parssing.c
 int count_pipe(char **tab, int len);
-char **parssing(char *line);
-void check_errors(char *line);
-int is_character(char c);
-void check_tab(char **tab, char *line);
+char **handele_parssing(char *line);
+int  check_tab(char **tab, char *line);
 void continue_parssing(t_list **temp, char **tab, char *line);
+void print_tab(char **tab, char *line, t_list **list);
+
+
+//execution
+
+
 #endif

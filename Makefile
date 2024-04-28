@@ -1,4 +1,4 @@
-SRCS =	main.c helpers_functions.c handele_syntax_errors.c parssing.c count_cmds.c parssing2.c
+SRCS =	main.c ./parssing/helpers_functions.c ./parssing/handele_syntax_errors.c ./parssing/parssing.c ./parssing/count_cmds.c ./parssing/parssing2.c
 OBJS = ${SRCS:.c=.o}
 NAME = minishell
 CC = cc

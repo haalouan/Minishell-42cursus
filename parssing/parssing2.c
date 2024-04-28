@@ -6,11 +6,11 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 11:05:44 by haalouan          #+#    #+#             */
-/*   Updated: 2024/04/28 02:00:38 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/04/28 13:42:54 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 int count_pipe(char **tab, int len)
 {
@@ -58,11 +58,17 @@ int find_redir(char **tab, int count)
 
 void continue_parssing(t_list **list, char **tab, char *line)
 {
-    int  count = count_cmds(line);
+    int count = count_cmds(line);
+    int size = count_pipe(tab, count);
+    int i = 0;
+    while (i <= size)
+    {
+        list[i] = NULL;
+        i++;
+    }
     int pipe = 0;
     int k = 0;
-    int i = 0;
-    int size = count_pipe(tab, count);
+    i = 0;
     int next_pipe = 0;
     while (k < size)
     {   
@@ -115,7 +121,6 @@ void continue_parssing(t_list **list, char **tab, char *line)
                     if (!list[k]->args[i])
                         exit(EXIT_FAILURE);
                     ft_strncpy(list[k]->args[i], tab[save], ft_strlen(tab[save]));
-                    // printf("args  %s\n", list[k]->args[i]);
                     save++;
                     i++;
                 }
