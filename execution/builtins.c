@@ -6,7 +6,7 @@
 /*   By: achater <achater@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 11:28:38 by achater           #+#    #+#             */
-/*   Updated: 2024/04/28 16:29:26 by achater          ###   ########.fr       */
+/*   Updated: 2024/04/28 18:55:10 by achater          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,11 @@ void	ft_echo(char **args)
 {
 	int j;
 	int n;
+	int x;
 
 	j = 0;
 	n = 0;
+	x = 0;
 	if (args == NULL)
 	{
 		printf("\n");
@@ -59,6 +61,7 @@ void	ft_echo(char **args)
 	{
 		j++;
 		n = 1;
+		x = 1;
 	}
 	while (args[j])
 	{
@@ -67,12 +70,14 @@ void	ft_echo(char **args)
 			j++;
 			continue ;
 		}
+		if (cmp(args[j]) != 0 )
+			n = 0;
 		printf("%s", args[j]);
 		if (args[j + 1])
 			printf(" ");
 		j++;
 	}
-	if (n == 0)
+	if (x == 0)
 		printf("\n");
 }
 void	ft_env(t_env *env_list, char **args)
@@ -82,13 +87,13 @@ void	ft_env(t_env *env_list, char **args)
 		printf("env: %s: No such file or directory\n", args[0]);
 		return;
 	}
-
 	while (env_list)
 	{
 		printf("%s=%s\n", env_list->key, env_list->value);
 		env_list = env_list->next;
 	}
 }
+
 void	ft_exit(char **args)
 {
 	printf("exit\n");
@@ -96,6 +101,7 @@ void	ft_exit(char **args)
 		printf("minishell: exit: %s: numeric argument required\n", args[0]);
 	exit(0);
 }
+
 void	ft_pwd()
 {
 	char *pwd;
@@ -108,6 +114,7 @@ void	ft_pwd()
 	}
 	printf("%s\n", pwd);
 }
+
 
 void	ft_remove(t_env **env_list, char *key)
 {
@@ -143,17 +150,18 @@ void	ft_remove(t_env **env_list, char *key)
 	return;
 }
 
-void	ft_unset(t_env **env_list, char **args)
+t_env	*ft_unset(t_env **env_list, char **args)
 {
 	int i = 0;
 
 	if (args == NULL)
-		return;
+		return (*env_list);
 	while (args[i])
 	{
 		ft_remove(env_list, args[i]);
 		i++;
 	}
+	return (*env_list);
 }
 
 void	ft_builtins(t_list *cmds, t_env **env_list)
@@ -166,10 +174,12 @@ void	ft_builtins(t_list *cmds, t_env **env_list)
 		ft_env(*env_list, cmds->args);
 	// else if (ft_strcmp(cmds->cmd, "export") == 0)
 	// 	ft_export(cmds->args);
-	else if (ft_strcmp(cmds->cmd, "pwd") == 0)
+	else if (ft_strcmp(cmds->cmd, "pwd") == 0 || ft_strcmp(cmds->cmd, "PWD") == 0)
 		ft_pwd();
 	else if (ft_strcmp(cmds->cmd, "unset") == 0)
-		ft_unset(env_list,cmds->args);
+	{
+		*env_list = ft_unset(env_list,cmds->args);
+	}
 	else if (ft_strcmp(cmds->cmd, "exit") == 0)
 		ft_exit(cmds->args);
 }
@@ -177,8 +187,6 @@ void	ft_builtins(t_list *cmds, t_env **env_list)
 void set_env(char **env, t_env **env_list)
 {
 	int i = 0;
-	// int j = 0;
-	// t_env *new;
 	char **splited_env = NULL;
 
 	while(env[i])
@@ -209,12 +217,12 @@ void set_env(char **env, t_env **env_list)
 // 	return (0);
 // }
 
-void execution(t_list **list,char **env)
+void execution(t_list **list, t_env *env_list)
 {
-	t_env *env_list = NULL;
-
-
-	set_env(env, &env_list);
 	ft_builtins(*list, &env_list);
-
+	// while(env_list)
+	// {
+	// 	printf("%s=%s\n", env_list->key, env_list->value);
+	// 	env_list = env_list->next;
+	// }
 }
