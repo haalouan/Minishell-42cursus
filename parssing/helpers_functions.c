@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:27:26 by haalouan          #+#    #+#             */
-/*   Updated: 2024/04/28 13:42:30 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/04/28 17:44:23 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 size_t	ft_strlen(const char *str)
 {
 	size_t	i;
-	
+
 	if (str == NULL)
 		return 0;
 	i = 0;
@@ -33,11 +33,6 @@ char    *ft_strncpy(char *dest, const char *src, int len)
 	k = 0;
 	while (src[i] != '\0' && len > 0)
 	{
-		if (src[i] == '\'' || src[i] == '\"')
-		{
-			i++;
-			continue;
-		}
 		dest[k] = src[i];
 		i++;
 		k++;
@@ -84,19 +79,7 @@ void check_init(t_check *check)
     check->find_$ = -1;
 }
 
-int	ft_strcmp(const char *str1, const char *str2)
-{
-	if (!str1 || !str2)
-		return 0;
-	while (*str1 != '\0' || *str2 != '\0')
-	{
-		if (*str1 != *str2)
-			return ((unsigned char)(*str1) - (unsigned char)(*str2));
-		str1++;
-		str2++;
-	}
-	return (0);
-}
+
 
 char *ft_strcat(char *dest, char *src)
 {
@@ -130,7 +113,7 @@ void print_tab(char **tab, char *line, t_list **list)
     (void)line;
     // if (!tab)
     //     return ;
-    // while (i < count_cmds(line))
+    // while (i < count_lists(line))
     // {
     //     printf(""ANSI_COLOR_GREEN  "      %s\n" ANSI_RESET_ALL "", tab[i]);
     //     printf("----------------------------------------------------------------------------\n");

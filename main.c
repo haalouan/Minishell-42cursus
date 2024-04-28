@@ -6,14 +6,16 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 16:35:11 by haalouan          #+#    #+#             */
-/*   Updated: 2024/04/28 13:50:17 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/04/28 16:57:40 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int main()
+int main(int arc, char **arv, char **env)
 {
+    (void)arc;
+    (void)arv;
     char *line;
     t_list **list;
 
@@ -28,7 +30,8 @@ int main()
             list = parssing(line);
             if (!list)
                 continue;
-            //execution 
+            //execution
+            execution(list,env);
         }
     }
 }

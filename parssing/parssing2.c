@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parssing2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: achater <achater@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 11:05:44 by haalouan          #+#    #+#             */
-/*   Updated: 2024/04/28 13:42:54 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/04/28 15:38:53 by achater          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int find_redir(char **tab, int count)
 
 void continue_parssing(t_list **list, char **tab, char *line)
 {
-    int count = count_cmds(line);
+    int count = count_lists(line);
     int size = count_pipe(tab, count);
     int i = 0;
     while (i <= size)
@@ -71,7 +71,7 @@ void continue_parssing(t_list **list, char **tab, char *line)
     i = 0;
     int next_pipe = 0;
     while (k < size)
-    {   
+    {
         next_pipe = finnd_pipe(tab, count);
         list[k] = malloc(sizeof(t_list) + 1);
         if (!list)
@@ -79,7 +79,6 @@ void continue_parssing(t_list **list, char **tab, char *line)
         list[k]->cmd = NULL;
         list[k]->redir = NULL;
         list[k]->args = NULL;
-        list[k]->next = NULL;
         if (tab[pipe] && tab[pipe][0] != '>' && tab[pipe][0] != '<')
         {
             list[k]->cmd = malloc(ft_strlen(tab[pipe]) + 1);

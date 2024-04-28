@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 21:55:56 by haalouan          #+#    #+#             */
-/*   Updated: 2024/04/28 13:42:42 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/04/28 17:45:23 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,16 @@
 void handele_error()
 {
     printf("=> " ANSI_BACKGROUND_RED     "syntax error"     ANSI_RESET_ALL "\n");
-    exit(0);
 }
-int  check_tab(char **tab, char *line)
+int  check_tab(t_list **list)
 {
     int i = 0;
-    if (tab[i] && (tab[i][0] == '>' || tab[i][0] == '<' || tab[i][0] == '|'))
-        return 1;
-    int count = count_cmds(line);
-    if (tab[i] && (tab[count - 1][0] == '>' || tab[count - 1][0] == '<' || tab[count - 1][0] == '|'))
-        return 1;
+    while (list && list[i])
+    {
+        if (list[i]->redir && (list[i]->redir[0] == '<' || list[i]->redir[0] == '>' || list[i]->redir[0] == '|') && list[i]->redir[1] == '\0')
+            return 1;
+        i++;
+    }
     return 0;
 }
 
