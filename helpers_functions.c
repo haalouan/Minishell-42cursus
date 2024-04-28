@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:27:26 by haalouan          #+#    #+#             */
-/*   Updated: 2024/04/27 00:50:03 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/04/27 22:52:54 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,16 +49,10 @@ char    *ft_strncpy(char *dest, const char *src, int len)
 
 void check_check(char *line, t_check *check)
 {
-        if ((*line <= 'z' && *line >= 'a') || (*line <= 'Z' && *line >= 'A'))
+        if (is_character(*line) == 1 || *line == '\"' || *line == '\'')
             check->find_word = 1;
-        if (*line == '\"')
-            check->in_d_cote = 1;
         if (*line == '$')
             check->find_$ = 1;
-        if (*line == '\'')
-            check->in_s_cote = 1;
-        if (*line == '-')
-            check->find_minus = 1;
         if (*line == '|')
             check->find_pipe = 1;
         if (*line == '>')
@@ -88,13 +82,12 @@ void check_init(t_check *check)
     check->find_append_op = -1;
     check->find_here_doc = -1;
     check->find_$ = -1;
-    check->in_d_cote = -1;
-    check->in_s_cote = -1;
-    check->find_minus = -1;
 }
 
 int	ft_strcmp(const char *str1, const char *str2)
 {
+	if (!str1 || !str2)
+		return 0;
 	while (*str1 != '\0' || *str2 != '\0')
 	{
 		if (*str1 != *str2)
@@ -123,9 +116,9 @@ char *ft_strcat(char *dest, char *src)
 	return (dest);
 }
 
-int is_word(char c)
+int is_character(char c)
 {
-	if ((c <= 'Z' && c >= 'A') || (c <= 'z' && c >= 'z'))
+	if ((c <= 'Z' && c >= 'A') || (c <= 'z' && c >= 'a') || (c <= '9' && c >= '0') || c == '*' || c == '\\' || c == '-')
 		return 1;
 	return 0;
 }
