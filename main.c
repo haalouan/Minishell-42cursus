@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: achater <achater@student.42.fr>            +#+  +:+       +#+        */
+/*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 16:35:11 by haalouan          #+#    #+#             */
-/*   Updated: 2024/04/28 18:31:22 by achater          ###   ########.fr       */
+/*   Updated: 2024/04/30 22:16:35 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ int main(int arc, char **arv, char **env)
 
     line = NULL;
     list = NULL;
+    env_list = NULL;
+    // env = NULL;
     set_env(env, &env_list);
     while (42)
     {
@@ -29,7 +31,7 @@ int main(int arc, char **arv, char **env)
         if (line)
         {
             //parssing
-            list = parssing(line);
+            list = parssing(line, env_list);
             if (!list)
                 continue;
             //execution

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: achater <achater@student.42.fr>            +#+  +:+       +#+        */
+/*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:22:31 by haalouan          #+#    #+#             */
-/*   Updated: 2024/04/28 18:42:49 by achater          ###   ########.fr       */
+/*   Updated: 2024/04/30 20:52:04 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <errno.h>
-
+#include <string.h>
 
 //
 #define ANSI_RESET_ALL          "\x1b[0m"
@@ -71,7 +71,8 @@ int ft_lstsize(t_env *lst);
 t_env	*ft_lstlast(t_env *lst);
 void execution(t_list **list, t_env *env_list);
 void set_env(char **env, t_env **env_list);
-
+int	ft_is_alpha(char c);
+int check_args(char *args,char *str);
 
 
 
@@ -84,7 +85,7 @@ int is_character(char c);
 
 
 //parssing
-t_list **parssing(char *line);
+t_list **parssing(char *line, t_env *env_list);
 void handele_error();
 int count_lists(char *line);
 void check_init(t_check *check);
@@ -94,7 +95,6 @@ void handele_error();
 void add_tab(char *line, char **tab, int len);
 int count_pipe(char **tab, int len);
 char **handele_parssing(char *line);
-// int  check_tab(t_list **tab, char *line);
 void continue_parssing(t_list **temp, char **tab, char *line);
 void print_tab(char **tab, char *line, t_list **list);
 void remove_quotes(t_list** list);

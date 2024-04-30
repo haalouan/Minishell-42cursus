@@ -6,11 +6,36 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:27:26 by haalouan          #+#    #+#             */
-/*   Updated: 2024/04/28 19:18:24 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/04/29 15:08:52 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+
+
+int	ft_isdigit(int c)
+{
+	if (c >= '0' && c <= '9')
+		return (1);
+	return (0);
+}
+
+int	ft_isalpha(int c)
+{
+	if ((c <= 'z' && c >= 'a') || (c <= 'Z' && c >= 'A'))
+	{
+		return (1);
+	}
+	return (0);
+}
+
+int	ft_isalnum(int c)
+{
+	if (ft_isalpha(c) || ft_isdigit(c))
+		return (1);
+	return (0);
+}
 
 size_t	ft_strlen(const char *str)
 {
@@ -101,7 +126,7 @@ char *ft_strcat(char *dest, char *src)
 
 int is_character(char c)
 {
-	if (c != '<' && c != '>' && c != '\'' && c != '\"' && c != '$' && c != '|' && c != ' ' && c != '\t')
+	if (c != '<' && c != '>' && c != '\'' && c != '\"' && c != '|' && c != ' ' && c != '\t')
 		return 1;
 	return 0;
 }

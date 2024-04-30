@@ -45,6 +45,18 @@ int count_lists(char *line)
             count++;
             line++;
         }
+        // else if (*line == '$')
+        // {
+        //     count++;
+        //     line++;
+        //     if (line && is_character(*line == 1))
+        //     {
+        //         while (line && *line && is_character(*line) == 1)
+        //             line++;
+        //     }
+        //     else
+        //         continue;
+        // }
         else if (*line == '\'' || *line == '\"' || is_character(*line) == 1)
         {
             count++;

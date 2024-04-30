@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 21:55:56 by haalouan          #+#    #+#             */
-/*   Updated: 2024/04/28 17:45:23 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/04/30 15:14:22 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int  check_tab(t_list **list)
     int i = 0;
     while (list && list[i])
     {
-        if (list[i]->redir && (list[i]->redir[0] == '<' || list[i]->redir[0] == '>' || list[i]->redir[0] == '|') && list[i]->redir[1] == '\0')
+        if (list[i] && list[i]->redir && (list[i]->redir[0] == '<' || list[i]->redir[0] == '>' || list[i]->redir[0] == '|') && list[i]->redir[1] == '\0')
             return 1;
         i++;
     }
@@ -30,13 +30,18 @@ int  check_tab(t_list **list)
 
 int count_quote(char *line, int len)
 {
-    int count = 0;
+    int countd = 0;
+    int counts = 0;
     while (*line && len > 0)
     {
-        if (*line == '\"' || *line == '\'')
-            count++;
+        if (*line == '\"')
+            countd++;
+        if (*line == '\'')
+            counts++;
         line++;
         len--;
     }
-    return (count % 2);
+    if (counts % 2 == 1 || countd % 2 == 1)
+        return 1;
+    return 0;
 }
