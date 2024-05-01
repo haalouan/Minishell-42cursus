@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 16:38:45 by haalouan          #+#    #+#             */
-/*   Updated: 2024/04/30 22:43:20 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/05/01 15:57:23 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -363,10 +363,16 @@ char *remove_$(char *tab, int check)
         if (tab && tab[i] == '$')
             i++;
         tab[k] = tab[i];
-        i++;
-        k++;
+        if (tab[i])
+        {
+            i++;
+            k++;
+        }
+        else
+            break;
     }
-    tab[i] = '\0';
+    if (tab[k])
+        tab[k] = '\0';
     return tab;
 }
 
@@ -399,6 +405,11 @@ void expend(char **tab, t_env *env_list)
                             tab[i] = ft_str_replace(tab[i], key, value);
                             tab[i] = remove_$(tab[i], 1);
                         }
+                        else
+                        {
+                            tab[i] = ft_str_replace(tab[i], key, "");
+                            tab[i] = remove_$(tab[i], 1);
+                        }
                     }
                     j++;
                 }
@@ -413,15 +424,20 @@ void expend(char **tab, t_env *env_list)
             {
                 if (tab[i][j + 1] == '\"' || tab[i][j + 1] == '\'' )
                 {
-                    tab[i] = remove_$(tab[i], 1);
+                    // tab[i] = remove_$(tab[i], 1);
                     break;
                 }
-                while ()
+                // while ()
                 key = get_env_key(tab[i], j);
                 value = get_env_value(key, env_list);
                 if (key && value)
                 {
                     tab[i] = ft_str_replace(tab[i], key, value);
+                    tab[i] = remove_$(tab[i], 1);
+                }
+                else
+                {
+                    tab[i] = ft_str_replace(tab[i], key, "");
                     tab[i] = remove_$(tab[i], 1);
                 }
             }
