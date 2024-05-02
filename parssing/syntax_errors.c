@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 21:55:56 by haalouan          #+#    #+#             */
-/*   Updated: 2024/04/30 15:14:22 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/05/02 00:37:32 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,20 +28,63 @@ int  check_tab(t_list **list)
     return 0;
 }
 
-int count_quote(char *line, int len)
+
+int count_single_quote(char *line, int *i)
 {
-    int countd = 0;
-    int counts = 0;
-    while (*line && len > 0)
+    int count;
+    count = 0;
+    
+    count++;
+    line++;
+    while (line && line[*i] && line[*i] != '\'')
+        (*i)++;
+    if (line && line[*i] == '\'')
     {
-        if (*line == '\"')
-            countd++;
-        if (*line == '\'')
-            counts++;
+        count++;
+        (*i)++;
+    }
+    return count;
+}
+
+
+int count_double_quote(char *line, int *i)
+{
+    int count;
+    count = 0;
+    
+    count++;
+    line++;
+    while (line && line[*i] && line[*i] != '\"')
+        (*i)++;
+    if (line && line[*i] == '\"')
+    {
+        count++;
+        (*i)++;
+    }
+    return count;
+}
+
+int count_quote(char *line)
+{
+    int countd;
+    int counts;
+    int i;
+
+    i = 0;
+    countd = 0;
+    counts = 0;
+    while (line && line[i])
+    {
+        if (line && line[i] == '\"')
+            countd += count_double_quote(line, &i);
+        else if (line && line[i] == '\'')
+            counts += count_single_quote(line, &i);
         line++;
-        len--;
     }
     if (counts % 2 == 1 || countd % 2 == 1)
+    {
+        handele_error();
         return 1;
+    }
     return 0;
 }

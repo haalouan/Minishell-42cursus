@@ -6,59 +6,18 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 11:05:44 by haalouan          #+#    #+#             */
-/*   Updated: 2024/04/30 20:52:21 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/05/02 01:32:34 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int count_pipe(char **tab, int len)
-{
-    int i = 0;
-    int count = 0;
-    while (i < len)
-    {
-        if (tab[i][0] == '|')
-            count++;
-        i++;
-    }
-    return count + 1;
-}
+//ba9a mamgadach hh
 
-int finnd_pipe(char **tab, int count)
+void continue_parssing(t_list **list, char **tab, char *line, t_env *env_list)
 {
-    int i = 0;
-    int check = 0;
-    while (i < count && tab[i])
-    {
-        if (tab[i] && tab[i][0] == '|')
-        {
-            check = 1;
-            break;
-        }
-        i++;
-    }
-    if (check == 0)
-        return 0;
-    return i + 1;
-}
-
-
-int find_redir(char **tab, int count)
-{
-    int i = 0;
-    while (i < count)
-    {
-        if (tab[i][0] == '<')
-            break;
-        i++;
-    }
-    return i;
-}
-
-void continue_parssing(t_list **list, char **tab, char *line)
-{
-    int count = count_lists(line);
+    expend(tab, env_list);
+    int count = count_cmds(line);
     int size = count_pipe(tab, count);
     int i = 0;
     while (i <= size)

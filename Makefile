@@ -1,4 +1,4 @@
-SRCS =	main.c ./parssing/helpers_functions.c ./parssing/handele_syntax_errors.c ./parssing/count_cmds.c ./parssing/parssing.c  ./parssing/parssing2.c ./execution/builtins.c ./execution/ft_lstadd_back_bonus.c ./execution/ft_lstlast_bonus.c ./execution/ft_lstsize_bonus.c ./execution/ft_lstnew_bonus.c ./execution/ft_split.c ./execution/utils.c
+SRCS =	main.c  ./parssing/parssing3.c ./parssing/remove_quotes.c ./parssing/handele_line.c ./parssing/check.c ./parssing/helpers_functions2.c ./parssing/expend1.c ./parssing/expend2.c ./parssing/helpers_functions1.c ./parssing/syntax_errors.c ./parssing/count_cmds.c ./parssing/parssing1.c  ./parssing/parssing2.c ./execution/builtins.c ./execution/ft_lstadd_back_bonus.c ./execution/ft_lstlast_bonus.c ./execution/ft_lstsize_bonus.c ./execution/ft_lstnew_bonus.c ./execution/ft_split.c ./execution/utils.c
 OBJS = ${SRCS:.c=.o}
 NAME = minishell
 CC = cc
