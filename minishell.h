@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: achater <achater@student.42.fr>            +#+  +:+       +#+        */
+/*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:22:31 by haalouan          #+#    #+#             */
-/*   Updated: 2024/05/05 22:37:08 by achater          ###   ########.fr       */
+/*   Updated: 2024/05/06 11:05:39 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef struct s_list
     int nbr;
     char *cmd;
     char *redir;
+    int exit;
     char **args;
 }t_list;
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parssing1.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: achater <achater@student.42.fr>            +#+  +:+       +#+        */
+/*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 16:38:45 by haalouan          #+#    #+#             */
-/*   Updated: 2024/05/04 11:07:34 by achater          ###   ########.fr       */
+/*   Updated: 2024/05/06 11:45:11 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ t_list **parssing(char *line, t_env *env_list)
     if (check_tab(list) == 1)
         return NULL;
     remove_quotes(list);
+    list[0]->exit = 0;
     print_tab(tab, line, list);
     return list;
 }
