@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: achater <achater@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:22:31 by haalouan          #+#    #+#             */
-/*   Updated: 2024/05/02 01:27:30 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/05/05 22:37:08 by achater          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <readline/history.h>
 # include <errno.h>
 #include <string.h>
+# include <fcntl.h>
 
 //
 #define ANSI_RESET_ALL          "\x1b[0m"
@@ -45,6 +46,7 @@ typedef struct s_check
 
 typedef struct s_list
 {
+    int nbr;
     char *cmd;
     char *redir;
     char **args;
@@ -68,10 +70,19 @@ void ft_lstadd_back(t_env **lst, t_env *new);
 char **ft_split(char const *s, char c);
 int ft_lstsize(t_env *lst);
 t_env	*ft_lstlast(t_env *lst);
-void execution(t_list **list, t_env *env_list);
+void execution(t_list **list, t_env *env_list,char **env);
 void set_env(char **env, t_env **env_list);
 int	ft_is_alpha(char c);
 int check_args(char *args,char *str);
+void	ft_export(char **args, t_env **env);
+void	handle_cmd(t_list *cmds,char **env);
+char	*ft_strjoin3(char *s1, char *s2, char *s3);
+char	*ft_strnstr(const char *haystack, const char *needle, size_t len);
+void	childe_process(t_list *list, char **envp);
+void	last_command(t_list *list, char **envp);
+void	error(void);
+void	execute(char *argv, char **envp);
+
 
 /*******************************************************parssing*******************************************************/
 

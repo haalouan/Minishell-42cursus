@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helpers_functions1.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: achater <achater@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:27:26 by haalouan          #+#    #+#             */
-/*   Updated: 2024/05/02 01:12:16 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/05/04 14:59:09 by achater          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ char *ft_strstr(const char *haystack, const char *needle)
 {
     const char *h;
     const char *n;
-        
+
     if (!needle || !*needle)
         return (char *)haystack;
 
@@ -114,4 +114,5 @@ void print_tab(char **tab, char *line, t_list **list)
         printf("*-------------------------*\n");
         i++;
     }
+    (*list)->nbr = i;
 }

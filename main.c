@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: achater <achater@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 16:35:11 by haalouan          #+#    #+#             */
-/*   Updated: 2024/04/30 22:16:35 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/05/05 22:35:18 by achater          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ int main(int arc, char **arv, char **env)
     env_list = NULL;
     // env = NULL;
     set_env(env, &env_list);
+    dup2(3, 0);
+	dup2(4, 1);
     while (42)
     {
         line = readline("=>  "ANSI_COLOR_YELLOW  "minishell => "   ANSI_RESET_ALL "");
@@ -35,7 +37,9 @@ int main(int arc, char **arv, char **env)
             if (!list)
                 continue;
             //execution
-            execution(list, env_list);
+            execution(list, env_list, env);
+            dup2(0, 3);
+			dup2(1, 4);
         }
     }
 }

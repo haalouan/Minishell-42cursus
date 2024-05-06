@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 00:47:28 by haalouan          #+#    #+#             */
-/*   Updated: 2024/05/02 00:47:42 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/05/06 10:23:46 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,33 @@ void continue_handele_args(t_list **list, int *i, int *j, int *k, int *l)
 }
 
 
+// void handele_args(t_list **list, int *i, int *j, int *k, int *l)
+// {
+//     while (list && list[*i] && list[*i]->args && list[*i]->args[*j])
+//     {
+//         *l = 0;
+//         *k = 0;
+//         while (list && list[*i] && list[*i]->args && list[*i]->args[*j] && list[*i]->args[*j][*l])
+//         {
+//             if (list && list[*i] && list[*i]->args && list[*i]->args[*j] && list[*i]->args[*j][*l] && list[*i]->args[*j][*l] == '\"')
+//             {
+//                 while (list && list[*i] && list[*i]->args && list[*i]->args[*j][++(*l)] && list[*i]->args[*j][*l] != '\"')
+//                 {
+//                     list[*i]->args[*j][*k] = list[*i]->args[*j][*l];
+//                     (*k)++;
+//                     (*l)++;
+//                 }
+//                 if (list && list[*i] && list[*i]->args && list[*i]->args[*j] && list[*i]->args[*j][*l] == '\"')
+//                     (*l)++;
+//             }
+//             continue_handele_args(list, i, j, k, l);
+//         }
+//         if (list && list[*i] && list[*i]->args && list[*i]->args[*j])
+//             list[*i]->args[*j][*k] = '\0';
+//         (*j)++;
+//     }
+// }
+
 void handele_args(t_list **list, int *i, int *j, int *k, int *l)
 {
     while (list && list[*i] && list[*i]->args && list[*i]->args[*j])
@@ -95,7 +122,8 @@ void handele_args(t_list **list, int *i, int *j, int *k, int *l)
         {
             if (list && list[*i] && list[*i]->args && list[*i]->args[*j] && list[*i]->args[*j][*l] && list[*i]->args[*j][*l] == '\"')
             {
-                while (list && list[*i] && list[*i]->args && list[*i]->args[*j][++(*l)] && list[*i]->args[*j][*l] != '\"')
+                (*l)++;
+                while (list && list[*i] && list[*i]->args && list[*i]->args[*j][*l] && list[*i]->args[*j][*l] != '\"')
                 {
                     list[*i]->args[*j][*k] = list[*i]->args[*j][*l];
                     (*k)++;
@@ -104,14 +132,30 @@ void handele_args(t_list **list, int *i, int *j, int *k, int *l)
                 if (list && list[*i] && list[*i]->args && list[*i]->args[*j] && list[*i]->args[*j][*l] == '\"')
                     (*l)++;
             }
-            continue_handele_args(list, i, j, k, l);
+            else if (list && list[*i] && list[*i]->args && list[*i]->args[*j] && list[*i]->args[*j][*l] && list[*i]->args[*j][*l] == '\'')
+            {
+                (*l)++;
+                while (list && list[*i] && list[*i]->args && list[*i]->args[*j][*l] && list[*i]->args[*j][*l] != '\'')
+                {
+                    list[*i]->args[*j][*k] = list[*i]->args[*j][*l];
+                    (*k)++;
+                    (*l)++;
+                }
+                if (list && list[*i] && list[*i]->args && list[*i]->args[*j] && list[*i]->args[*j][*l] == '\'')
+                    (*l)++;
+            }
+            else if (list && list[*i] && list[*i]->args && list[*i]->args[*j] && list[*i]->args[*j][*l] && list[*i]->args[*j][*l] != '\"' && list[*i]->args[*j][*l] != '\'')
+            {
+                list[*i]->args[*j][*k] = list[*i]->args[*j][*l];
+                (*k)++;
+                (*l)++;
+            }
         }
         if (list && list[*i] && list[*i]->args && list[*i]->args[*j])
             list[*i]->args[*j][*k] = '\0';
         (*j)++;
     }
 }
-
 
 void remove_quotes(t_list** list)
 {
