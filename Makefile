@@ -10,7 +10,7 @@ OBJS = ${SRCS:.c=.o}
 NAME = minishell
 CC = cc
 RM = rm -f
-CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g
 
 $(NAME): $(OBJS)
 	@$(CC) -lreadline $(CFLAGS) $(OBJS) -o $(NAME)

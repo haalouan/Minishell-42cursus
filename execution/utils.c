@@ -6,7 +6,7 @@
 /*   By: achater <achater@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 15:31:52 by achater           #+#    #+#             */
-/*   Updated: 2024/05/04 11:22:14 by achater          ###   ########.fr       */
+/*   Updated: 2024/05/08 13:27:41 by achater          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int check_args(char *args,char *str)
 			if(ft_is_alpha(args[i]) == 0 && args[i] != '_' && (args[i] < '0' || args[i] > '9')
 				&& args[i] != '=' && (args[i] != '+'))
 				return (1);
-			if(args[i] == '+' && args[i + 1] != '=')
+			if(args[i] == '+' && i != (int)ft_strlen(args) - 1)
 				return (1);
 			i++;
 		}

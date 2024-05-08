@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: achater <achater@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:22:31 by haalouan          #+#    #+#             */
-/*   Updated: 2024/05/08 19:23:33 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/05/08 11:00:37 by achater          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,9 @@ typedef struct s_check
 typedef struct s_list
 {
     int nbr;
-    char *cmd;
-    char **redir;
     int exit;
+    char *cmd;
+    char *redir;
     char **args;
 }t_list;
 
@@ -79,12 +79,12 @@ void	ft_export(char **args, t_env **env);
 void	handle_cmd(t_list *cmds,char **env);
 char	*ft_strjoin3(char *s1, char *s2, char *s3);
 char	*ft_strnstr(const char *haystack, const char *needle, size_t len);
-void	childe_process(t_list *list, char **envp);
-void	last_command(t_list *list, char **envp);
 void	error(void);
 void	execute(char *argv, char **envp);
+void	change_value(t_env **env_list,char *value);
+char	*ft_strjoin(char *s1,char *s2);
 
-char *ft_substr(char const *s, unsigned int start, int len);
+
 /*******************************************************parssing*******************************************************/
 
 //expend2
@@ -105,7 +105,6 @@ char	*ft_strdup(const char *s1);
 int	ft_isdigit(int c);
 int is_character(char c);
 void print_tab(char **tab, char *line, t_list **list);//
-int is_character2(char c);
 
 //helpers_function2
 int	ft_isalpha(int c);
@@ -126,7 +125,6 @@ void check_check(char *line, t_check *check);
 void check_init(t_check *check);
 int check(char **tab);
 int check_error(char **tab);
-int check_line(char *line);
 
 //parssing1
 t_list **parssing(char *line, t_env *env_list);
@@ -135,7 +133,7 @@ void add_tab(char *line, char **tab, int len);
 
 //remove_quotes
 void handele_cmd(t_list **list, int *i, int *j, int *k);
-void handele_redir(t_list **list, int *i, int *j, int *k, int *l);
+void handele_redir(t_list **list, int *i, int *j, int *k);
 void continue_handele_args(t_list **list, int *i, int *j, int *k, int *l);
 void handele_args(t_list **list, int *i, int *j, int *k, int *l);
 void remove_quotes(t_list** list);

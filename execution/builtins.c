@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: achater <achater@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 11:28:38 by achater           #+#    #+#             */
-/*   Updated: 2024/05/07 15:53:36 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/05/08 10:40:09 by achater          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,12 +102,13 @@ void	ft_env(t_env *env_list, char **args)
 	}
 }
 
-void	ft_exit(char **args)
+void	ft_exit(char **args, t_list *cmds)
 {
-	printf("exit\n");
+	if(cmds->nbr == 1)
+		printf("exit\n");
 	if(args && args[0])
 		printf("minishell: exit: %s: numeric argument required\n", args[0]);
-	exit(EXIT_FAILURE);
+	exit(0);
 }
 
 void	ft_pwd()
@@ -178,6 +179,35 @@ t_env	*ft_unset(t_env **env_list, char **args)
 	}
 	return (*env_list);
 }
+void	handle_one_cmd(t_list *cmds, t_env **env_list,char **env)
+{
+	int pid;
+	if (ft_strcmp(cmds->cmd, "echo") == 0)
+		ft_echo(cmds->args, 0, 0, 0);
+	else if (ft_strcmp(cmds->cmd, "cd") == 0)
+		ft_cd(cmds->args, env_list);
+	else if (ft_strcmp(cmds->cmd, "env") == 0 && cmds)
+		ft_env(*env_list, cmds->args);
+	else if (ft_strcmp(cmds->cmd, "export") == 0)
+		ft_export(cmds->args, env_list);
+	else if (ft_strcmp(cmds->cmd, "pwd") == 0 || ft_strcmp(cmds->cmd, "PWD") == 0)
+		ft_pwd();
+	else if (ft_strcmp(cmds->cmd, "unset") == 0)
+		*env_list = ft_unset(env_list,cmds->args);
+	else if (ft_strcmp(cmds->cmd, "exit") == 0)
+		ft_exit(cmds->args, cmds);
+	else
+	{
+		pid = fork();
+		if (pid == -1)
+			error();
+		if (pid == 0)
+			handle_cmd(cmds, env);
+		else
+			wait(NULL);
+	}
+}
+
 
 void	ft_builtins(t_list *cmds, t_env **env_list,char **env)
 {
@@ -194,10 +224,9 @@ void	ft_builtins(t_list *cmds, t_env **env_list,char **env)
 	else if (ft_strcmp(cmds->cmd, "unset") == 0)
 		*env_list = ft_unset(env_list,cmds->args);
 	else if (ft_strcmp(cmds->cmd, "exit") == 0)
-		ft_exit(cmds->args);
+		ft_exit(cmds->args, cmds);
 	else
 		handle_cmd(cmds, env);
-
 }
 
 void set_env(char **env, t_env **env_list)
@@ -231,42 +260,41 @@ void execution(t_list **list, t_env *env_list, char **env)
     int prev_pipe = -1;
 
     i = 0;
-    if((*list)->nbr == 1)
-    {
-        ft_builtins(*list, &env_list, env);
-        return;
-    }
-    while (i < (*list)->nbr)
-    {
-        if (pipe(fd) == -1)
-            error();
-        pid = fork();
-        if (pid == -1)
-            error();
-        if (pid == 0)
-	{
-            if (i != 0)
-	    {
-                dup2(prev_pipe, STDIN_FILENO);
-                close(prev_pipe);
-            }
-            if (i != (*list)->nbr - 1)
-                dup2(fd[1], STDOUT_FILENO);
-            close(fd[0]);
-        //     ft_builtins(list[i], &env_list, env);
-	    handle_cmd(list[i], env);
-            exit(EXIT_SUCCESS);
-        }
+    if ((*list)->nbr == 1)
+    	handle_one_cmd(*list, &env_list, env);
+
 	else
 	{
-            if (i != 0)
-                close(prev_pipe);
-            prev_pipe = fd[0];
-            close(fd[1]);
+        while (i < (*list)->nbr)
+        {
+            if (pipe(fd) == -1)
+                error();
+            pid = fork();
+            if (pid == -1)
+                error();
+            if (pid == 0)
+	        {
+                if (i != 0)
+	                {
+                    dup2(prev_pipe, STDIN_FILENO);
+                    close(prev_pipe);
+                    }
+                    if (i != (*list)->nbr - 1)
+                        dup2(fd[1], STDOUT_FILENO);
+                    close(fd[0]);
+                    ft_builtins(list[i], &env_list, env);
+                     exit(EXIT_SUCCESS);
+            }
+	        else
+	        {
+                if (i != 0)
+                    close(prev_pipe);
+                prev_pipe = fd[0];
+                close(fd[1]);
+            }
+            i++;
         }
-        i++;
+        while(wait(NULL) > 0)
+    	    ;
     }
-    while(wait(NULL) > 0)
-    	;
-
 }

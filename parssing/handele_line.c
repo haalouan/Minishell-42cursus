@@ -6,92 +6,52 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 00:46:44 by haalouan          #+#    #+#             */
-/*   Updated: 2024/05/08 18:20:08 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/05/02 00:46:56 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-
-
-void handele_word(char **le, char **tab)
+void continue_handele_word(char *line, int *i)
 {
-    int i;
-    char *line = *le;
-    // (void)tab;
-    i = 0;
-    while (line[i] != '\0')
+    while (line[*i] != '\0')
     {
-        while (is_character(line[i]) == 1 && line[i] != '\0')
-            i++;
-        if (line[i] == '\'')
+        while (is_character(line[*i]) == 1 && line[*i] != '\0')
+            (*i)++;
+        if (line[*i] == '\'')
         {
-            i++;
-            while (line[i] != '\'' && line[i] != '\0')
-                i++;
-            if (line[i] == '\'')
-                i++;
+            while (line[++(*i)] != '\'' && line[*i] != '\0')
+                (*i)++;
+            if (line[*i] == '\'')
+                (*i)++;
             if (is_character(*line) == 0 && *line != '\'' && *line != '\"')
                 break;
         }
-        else if (line[i] == '\"')
+        else if (line[*i] == '\"')
         {
-            i++;
-            while (line[i] != '\"' && line[i] != '\0')
-                i++;
-            if (line[i] == '\"')
-                i++;
-            if (is_character(line[i]) == 0 && *line != '\'' && *line != '\"')
+            while (line[++(*i)] != '\"' && line[*i] != '\0')
+                (*i)++;
+            if (line[*i] == '\"')
+                (*i)++;
+            if (is_character(line[*i]) == 0 && line[*i] != '\'' && line[*i] != '\"')//
                 break;
         }
         else
             break;
     }
-    *le += i;
-    // int j = count_quote(line, i);
-    add_tab(line , tab, i);
 }
 
-// void continue_handele_word(char *line, int *i)
-// {
-//     while (line[*i] != '\0')
-//     {
-//         while (is_character(line[*i]) == 1 && line[*i] != '\0')
-//             (*i)++;
-//         if (line[*i] == '\'')
-//         {
-//             while (line[++(*i)] != '\'' && line[*i] != '\0')
-//                 (*i)++;
-//             if (line[*i] == '\'')
-//                 (*i)++;
-//             if (is_character(*line) == 0 && *line != '\'' && *line != '\"')
-//                 break;
-//         }
-//         else if (line[*i] == '\"')
-//         {
-//             while (line[++(*i)] != '\"' && line[*i] != '\0')
-//                 (*i)++;
-//             if (line[*i] == '\"')
-//                 (*i)++;
-//             if (is_character(line[*i]) == 0 && line[*i] != '\'' && line[*i] != '\"')//
-//                 break;
-//         }
-//         else
-//             break;
-//     }
-// }
+void handele_word(char **le, char **tab)
+{
+    int i;
+    char *line;
 
-// void handele_word(char **le, char **tab)
-// {
-//     int i;
-//     char *line;
-
-//     line = *le;
-//     i = 0;
-//     continue_handele_word(line, &i);
-//     *le += i;
-//     add_tab(line , tab, i);
-// }
+    line = *le;
+    i = 0;
+    continue_handele_word(line, &i);
+    *le += i;
+    add_tab(line , tab, i);
+}
 
 void continue_handele_line(t_check check, char **line, char **tab)
 {

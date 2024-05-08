@@ -6,7 +6,7 @@
 /*   By: achater <achater@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 12:50:01 by achater           #+#    #+#             */
-/*   Updated: 2024/05/01 17:28:21 by achater          ###   ########.fr       */
+/*   Updated: 2024/05/08 14:11:25 by achater          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,13 +60,67 @@ void	sort_and_print_env(t_env *lst, int (*cmp)(char*,char*))
 		lst = lst->next;
 	}
 }
+int	key_exist(t_env *env, char *key)
+{
+	t_env *tmp;
+
+	tmp = env;
+	while (tmp)
+	{
+		if (ft_strcmp(tmp->key, key) == 0)
+			return (1);
+		tmp = tmp->next;
+	}
+	return (0);
+}
+void	split_by_equal(char *str, char **key, char **value)
+{
+	int i = 0;
+	int j = 0;
+
+	if (str[i] == '=')
+	{
+		(*key) = NULL;
+		(*value) = NULL;
+		return;
+	}
+	while (str[i] && str[i] != '=')
+		i++;
+	(*key) = malloc(i + 1);
+	i = 0;
+	while (str[i] && str[i] != '=')
+	{
+		(*key)[i] = str[i];
+		i++;
+	}
+	(*key)[i] = '\0';
+	if(str[i] == '\0')
+	{
+		(*value) = NULL;
+		return;
+	}
+	(*value) = malloc(ft_strlen(str) - i);
+	i++;
+	while (str[i])
+	{
+		(*value)[j] = str[i];
+		i++;
+		j++;
+	}
+	(*value)[j] = '\0';
+}
+
 
 void	ft_export(char **args, t_env **env)
 {
 	t_env *tmp;
+	t_env *tmp1;
 	int i = 0;
+	char *key;
+	char *value;
 
 	tmp = ft_copy_list(*env);
+	tmp1 = tmp;
 	if (args == NULL)
 	{
 		sort_and_print_env(tmp, ft_strcmp);
@@ -76,15 +130,64 @@ void	ft_export(char **args, t_env **env)
 	{
 		while (args[i])
 		{
-			if (check_args(args[i], "export") == 1)
+			split_by_equal(args[i], &key, &value);
+			if (key == NULL)
+			{
+				printf("minishell: export: `=': not a valid identifier\n");
+				i++;
+				continue;
+			}
+			if (check_args(key, "export") == 1 || (key[ft_strlen(key) - 1] == '+' && value == NULL))
 			{
 				printf("minishell: export: `%s': not a valid identifier\n", args[i]);
-				return;
+				i++;
+				continue;
 			}
-			// else
-			// {
+			else
+			{
+				if (key[ft_strlen(key) - 1] != '+')
+				{
+					if (key_exist(*env, key) == 0)
+						ft_lstadd_back(env, ft_lstnew(key, value));
+					else
+					{
+						if (value == NULL)
+						{
+							i++;
+							continue;
+						}
+						else
+						{
+							while(env)
+							{
+								if (ft_strcmp((*env)->key, key) == 0)
+								{
+									(*env)->value = value;
+									break;
+								}
+								*env = (*env)->next;
+							}
+						}
+					}
+				}
+				else
+				{
+					key[ft_strlen(key) - 1] = '\0';
+					if (key_exist(*env, key) == 0)
+						ft_lstadd_back(env, ft_lstnew(key, value));
+					else
+						while(env)
+						{
+							if (ft_strcmp((*env)->key, key) == 0)
+							{
+								(*env)->value = ft_strjoin(get_env_value(key, *env), value);
+								break;
+							}
+							*env = (*env)->next;
+						}
+				}
 
-			// }
+			}
 			i++;
 		}
 	}

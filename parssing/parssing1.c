@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 16:38:45 by haalouan          #+#    #+#             */
-/*   Updated: 2024/05/08 19:08:19 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/05/06 11:45:11 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,14 @@ void add_tab(char *line, char **tab, int len)
 {
     int i = 0;
     if (!tab)
-        exit(EXIT_FAILURE);
+        exit(0);
     while (tab[i] != NULL)
         i++;
     tab[i] = malloc(len + 1);
     if (!tab[i])
-        exit(EXIT_FAILURE);
+        exit(0);
     ft_strncpy(tab[i], line, len);
-} 
+}
 
 
 char **handele_parssing(char *line)
@@ -34,20 +34,18 @@ char **handele_parssing(char *line)
     // printf("|   nbr of cmds -> [%d]    |\n", count);
     // printf("*-------------------------*\n");
     // return NULL;
-    // exit(EXIT_FAILURE);
+    // exit(0);
     t_check check;
     int i = 0;
     char **tab = malloc(sizeof(char *) * (count + 1) + 1);
     if (!tab)
         exit(EXIT_FAILURE);
-    while (i <= count)//
+    while (i <= count)
     {
         tab[i] = NULL;
         i++;
     }
-    if (!line)
-        return tab;
-    while (line && *line != '\0')
+    while (*line != '\0')
     {
         check_init(&check);
         check_check(line, &check);
@@ -63,9 +61,7 @@ t_list **parssing(char *line, t_env *env_list)
 
     tab = NULL;
     list = NULL;
-    if (!line || ft_strlen(line) == 0)
-        return NULL;
-    if (check_line(line) == 1)
+    if (ft_strlen(line) == 0)
         return NULL;
     add_history(line);
     if (count_quote(line) == 1)
@@ -77,6 +73,8 @@ t_list **parssing(char *line, t_env *env_list)
     if (!list)
         exit(EXIT_FAILURE);
     continue_parssing(list, tab, line, env_list);
+    if (check_tab(list) == 1)
+        return NULL;
     remove_quotes(list);
     list[0]->exit = 0;
     print_tab(tab, line, list);
