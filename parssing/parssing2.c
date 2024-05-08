@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 11:05:44 by haalouan          #+#    #+#             */
-/*   Updated: 2024/05/02 01:32:34 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/05/08 22:42:32 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,150 @@
 
 //ba9a mamgadach hh
 
+
+int count_redir(char **tab, int i)
+{
+    int count;
+
+    count = 0;
+    while (tab && tab[i] && tab[i][0] && tab[i][0] != '|')
+    {
+        if (tab[i] && (tab[i][0] == '>' || tab[i][0] == '<'))
+            count++;
+        i++;
+    }
+    return count * 2;
+}
+
+int count_args(char **tab, int i)
+{
+    int count;
+
+    count = 0;
+    if (!tab)
+        return 0;
+    while (tab && tab[i])
+    {
+        if (tab[i][0] == '|')
+            break;
+        if ((tab[i][0] == '>' || tab[i][0] == '<'))
+            i += 2;
+        else
+        {
+            i++;
+            count++;
+        }
+    }
+    return count;
+    
+}
+
+void args(t_list **list, char **tab, int k, int ii)
+{
+    int count;
+    int i;
+
+    i = 0;
+    count = count_args(tab , ii);
+    if (count == 0)
+        return;
+        
+    if (!list[k]->cmd)
+        count--;
+    if (count == 0)
+        return;
+    list[k]->args = (char **)malloc(sizeof(char *) * (count + 1) + 1);
+    if (!list[k]->args)
+        exit(EXIT_FAILURE);
+    while (i++ < count)
+        list[k]->args[i] = NULL;
+    i = 0;
+    while (i < count)
+    {
+        while (tab[ii] && is_character2(tab[ii][0]) == 0)
+        {
+            if (tab[ii] && (tab[ii][0] == '<' || tab[ii][0] == '>'))
+                ii += 2;
+        }
+        if (tab[ii] && is_character2(tab[ii][0]) == 1 && list[k]->cmd == NULL)
+        {
+            list[k]->cmd = malloc(ft_strlen(tab[ii]) + 1);
+            if (!list[k]->cmd)
+                exit(EXIT_FAILURE);
+            ft_strncpy(list[k]->cmd, tab[ii], ft_strlen(tab[ii]));
+            ii++;
+        }
+        if (tab[ii]&& is_character2(tab[ii][0]) == 1)
+        {
+            list[k]->args[i] = malloc(ft_strlen(tab[ii]) + 1);
+            if (!list[k]->args[i])
+                exit(EXIT_FAILURE);
+            ft_strncpy(list[k]->args[i], tab[ii], ft_strlen(tab[ii]));
+            // ii++;
+        }
+        ii++;
+        i++;
+    }
+}
+
+
+void redirection(t_list **list, char **tab, int pipe, int k)
+{
+    int i;
+    int count;
+    int size;
+    int j;
+
+    j = 0;
+    i = 0;
+    size = 0;
+    count = count_redir(tab, pipe);
+    list[k]->redir = (char **)malloc(sizeof(char *) * (count + 1) + 1);
+    if (!list[k]->redir)
+        exit(EXIT_FAILURE);
+    while (i <= count)
+    {
+        list[k]->redir[i] = NULL;
+        i++;
+    }
+    i = 0;
+    while (tab[i] && tab[i][0] != '|')
+    {
+        if (tab[i][0] == '>' || tab[i][0] == '<')
+        {
+            list[k]->redir[j] = malloc(ft_strlen(tab[i]) + 1);
+            if (!list[k]->redir[j])
+                exit(EXIT_FAILURE); 
+            ft_strncpy(list[k]->redir[j], tab[i], ft_strlen(tab[i]));
+            size = 0;
+            i++;
+            if (tab[i][0] == '|')
+                break;
+            j++;
+            list[k]->redir[j] = malloc(ft_strlen(tab[i]) + 1);
+            if (!list[k]->redir[j])
+                exit(EXIT_FAILURE);
+            ft_strncpy(list[k]->redir[j], tab[i], ft_strlen(tab[i]));
+            j++;
+            i++;
+        }
+        else if (tab[i] && is_character2(tab[i][0]) == 1 && list[k]->cmd == NULL)
+        {
+            list[k]->cmd = malloc(ft_strlen(tab[i]) + 1);
+            if (!list[k]->cmd)
+                exit(EXIT_FAILURE);
+            ft_strncpy(list[k]->cmd, tab[i], ft_strlen(tab[i]));
+            i++;
+        }
+        else 
+            i++;
+    }
+}
+
 void continue_parssing(t_list **list, char **tab, char *line, t_env *env_list)
 {
     expend(tab, env_list);
+    // (void)env_list;
     int count = count_cmds(line);
     int size = count_pipe(tab, count);
     int i = 0;
@@ -31,99 +172,26 @@ void continue_parssing(t_list **list, char **tab, char *line, t_env *env_list)
     int next_pipe = 0;
     while (k < size)
     {
+        pipe = 0;
         next_pipe = finnd_pipe(tab, count);
+        // printf("%s\n", tab[next_pipe]);
         list[k] = malloc(sizeof(t_list) + 1);
         if (!list)
             exit(EXIT_FAILURE);
         list[k]->cmd = NULL;
         list[k]->redir = NULL;
         list[k]->args = NULL;
-        if (tab[pipe] && tab[pipe][0] != '>' && tab[pipe][0] != '<')
+        if (tab && tab[pipe] && tab[pipe][0] && tab[pipe][0] != '>' && tab[pipe][0] != '<')
         {
             list[k]->cmd = malloc(ft_strlen(tab[pipe]) + 1);
             if (!list[k]->cmd)
                 exit(EXIT_FAILURE);
             ft_strncpy(list[k]->cmd, tab[pipe], ft_strlen(tab[pipe]));
+            pipe++;
         }
-        else
-            pipe = pipe - 1;
-        int save = pipe + 1;
-        int ct = 0;
-        while (save < count && tab[save])
-        {
-            if (tab[save][0] == '>' || tab[save][0] == '<' || tab[save][0] == '|' || !tab[save])
-                break;
-            ct++;
-            save++;
-        }
-        save = pipe + 1;
-
-        if (ct != 0 && tab[save] != NULL)
-        {
-        //args
-                list[k]->args = (char **)malloc(sizeof(char *) * (ct + 1) + 1);
-                if (!list[k]->args)
-                    exit(EXIT_FAILURE);
-                i = 0;
-                while (i <= ct)
-                {
-                    list[k]->args[i] = NULL;
-                    i++;
-                }
-                i = 0;
-                while (i < ct)
-                {
-                    if (tab[save] == NULL || tab[save][0] == '|')
-                        break;
-                    list[k]->args[i] = malloc(ft_strlen(tab[save]) + 1);
-                    if (!list[k]->args[i])
-                        exit(EXIT_FAILURE);
-                    ft_strncpy(list[k]->args[i], tab[save], ft_strlen(tab[save]));
-                    save++;
-                    i++;
-                }
-        }
-        if (tab[save] && (tab[save][0] == '<' || tab[save][0] == '>'))
-        {
-            int hsseb = 0;
-                    i = save;
-                    hsseb = 0;
-                    ct = 0;
-                    while (i < count)
-                    {
-                        int j = 0;
-                        if (tab[i][0] == '|')
-                            break;
-                        while (tab[i][j++] != '\0')
-                            hsseb++;
-                        i++;
-                        ct++;
-                        if (!tab[i])
-                            break;
-                    }
-                    list[k]->redir = malloc(hsseb + 1);
-                    if (!list[k]->redir)
-                        exit(EXIT_FAILURE);
-                    i = 0;
-                    while (i < hsseb)
-                    {
-                        list[k]->redir[i] = 0;
-                        i++;
-                    }
-                    i = 0;
-                    while (i < ct)
-                    {
-                        if (tab[save][0] == '|')
-                            break;
-                        ft_strcat(list[k]->redir, tab[save]);
-                        i++;
-                        save++;
-                    }
-        }
-        // pipe = next_pipe;
+        args(list, tab, k, pipe);
+        redirection(list, tab, pipe , k);
         tab = tab + next_pipe;
         k++;
-
     }
-    // print_tab(tab, line, list);
 }

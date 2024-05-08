@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: achater <achater@student.42.fr>            +#+  +:+       +#+        */
+/*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 16:59:42 by achater           #+#    #+#             */
-/*   Updated: 2024/04/28 15:46:26 by achater          ###   ########.fr       */
+/*   Updated: 2024/05/08 22:38:31 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static char *ft_strchr(const char *s, int c)
 	return (0);
 }
 
-static char *ft_substr(char const *s, unsigned int start, int len)
+char *ft_substr(char const *s, unsigned int start, int len)
 {
 	char *x;
 	int i;

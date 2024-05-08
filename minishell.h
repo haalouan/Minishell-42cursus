@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: achater <achater@student.42.fr>            +#+  +:+       +#+        */
+/*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:22:31 by haalouan          #+#    #+#             */
-/*   Updated: 2024/05/08 11:00:37 by achater          ###   ########.fr       */
+/*   Updated: 2024/05/08 22:39:12 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,9 @@ typedef struct s_check
 typedef struct s_list
 {
     int nbr;
-    int exit;
     char *cmd;
-    char *redir;
+    char **redir;
+    int exit;
     char **args;
 }t_list;
 
@@ -65,26 +65,24 @@ typedef struct s_env
 } t_env;
 
 int ft_strcmp(char *arg, char *str);
-t_env	*ft_lstnew(char *key , char *content);
+t_env    *ft_lstnew(char *key , char *content);
 t_env *ft_lstlast(t_env *lst);
 void ft_lstadd_back(t_env **lst, t_env *new);
 char **ft_split(char const *s, char c);
 int ft_lstsize(t_env *lst);
-t_env	*ft_lstlast(t_env *lst);
+t_env    *ft_lstlast(t_env *lst);
 void execution(t_list **list, t_env *env_list,char **env);
 void set_env(char **env, t_env **env_list);
-int	ft_is_alpha(char c);
+int    ft_is_alpha(char c);
 int check_args(char *args,char *str);
-void	ft_export(char **args, t_env **env);
-void	handle_cmd(t_list *cmds,char **env);
-char	*ft_strjoin3(char *s1, char *s2, char *s3);
-char	*ft_strnstr(const char *haystack, const char *needle, size_t len);
-void	error(void);
-void	execute(char *argv, char **envp);
-void	change_value(t_env **env_list,char *value);
-char	*ft_strjoin(char *s1,char *s2);
-
-
+void    ft_export(char **args, t_env **env);
+void    handle_cmd(t_list *cmds,char **env);
+char    *ft_strjoin3(char *s1, char *s2, char *s3);
+char    *ft_strnstr(const char *haystack, const char *needle, size_t len);
+void    error(void);
+void    execute(char *argv, char **envp);
+void    change_value(t_env **env_list,char *value);
+char    *ft_strjoin(char *s1,char *s2);
 /*******************************************************parssing*******************************************************/
 
 //expend2
@@ -105,6 +103,7 @@ char	*ft_strdup(const char *s1);
 int	ft_isdigit(int c);
 int is_character(char c);
 void print_tab(char **tab, char *line, t_list **list);//
+int is_character2(char c);
 
 //helpers_function2
 int	ft_isalpha(int c);
@@ -125,6 +124,7 @@ void check_check(char *line, t_check *check);
 void check_init(t_check *check);
 int check(char **tab);
 int check_error(char **tab);
+int check_line(char *line);
 
 //parssing1
 t_list **parssing(char *line, t_env *env_list);
@@ -133,7 +133,7 @@ void add_tab(char *line, char **tab, int len);
 
 //remove_quotes
 void handele_cmd(t_list **list, int *i, int *j, int *k);
-void handele_redir(t_list **list, int *i, int *j, int *k);
+void handele_redir(t_list **list, int *i, int *j, int *k, int *l);
 void continue_handele_args(t_list **list, int *i, int *j, int *k, int *l);
 void handele_args(t_list **list, int *i, int *j, int *k, int *l);
 void remove_quotes(t_list** list);
