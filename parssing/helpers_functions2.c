@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 00:36:16 by haalouan          #+#    #+#             */
-/*   Updated: 2024/05/02 01:29:32 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/05/06 18:35:50 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,9 @@ char    *ft_strncpy(char *dest, const char *src, int len)
 
     i = 0;
 	k = 0;
-	while (src[i] != '\0' && len > 0)
+	if (!src || !dest)
+		return NULL;
+	while (src && src[i] != '\0' && len > 0)
 	{
 		dest[k] = src[i];
 		i++;

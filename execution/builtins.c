@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: achater <achater@student.42.fr>            +#+  +:+       +#+        */
+/*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 11:28:38 by achater           #+#    #+#             */
-/*   Updated: 2024/05/06 10:06:55 by achater          ###   ########.fr       */
+/*   Updated: 2024/05/07 15:53:36 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ void	ft_exit(char **args)
 	printf("exit\n");
 	if(args && args[0])
 		printf("minishell: exit: %s: numeric argument required\n", args[0]);
-	exit(0);
+	exit(EXIT_FAILURE);
 }
 
 void	ft_pwd()

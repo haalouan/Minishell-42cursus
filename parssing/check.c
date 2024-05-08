@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 00:35:06 by haalouan          #+#    #+#             */
-/*   Updated: 2024/05/06 10:23:55 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/05/08 18:26:44 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 
 void check_check(char *line, t_check *check)
 {
-        if (is_character(*line) == 1 || *line == '\"' || *line == '\'')
+        if (line && *line && (is_character(*line) == 1 || *line == '\"' || *line == '\''))
             check->find_word = 1;
-        if (*line == '$')
+        if (line &&*line == '$')
             check->find_$ = 1;
-        if (*line == '|')
+        if (line &&*line == '|')
             check->find_pipe = 1;
-        if (*line == '>')
+        if (line && *line == '>')
         {
 			line++;
             if (*line == '>')
@@ -58,17 +58,25 @@ int check(char **tab)
         return 2;
     if (tab[0][0] == '|')
         return 1;
-    while (tab && tab[i])
+    while (tab && tab[i] != NULL)
     {
         if (tab && tab[i] && tab[i][0] == '|' && tab[i + 1] && tab[i + 1][0] == '|')
+            return 1;
+        if (tab && tab[i] && tab[i][0] == '>' && tab[i + 1] && tab[i + 1][0] == '|')
+            return 1;
+        if (tab && tab[i] && tab[i][0] == '<' && tab[i + 1] && tab[i + 1][0] == '|')
             return 1;
         if (tab && tab[i] && tab[i][0] == '<' && tab[i + 1] && tab[i + 1][0] == '<')
             return 1;
         if (tab && tab[i] && tab[i][0] == '>' && tab[i + 1] && tab[i + 1][0] == '>')
             return 1;
+        if (tab && tab[i] && tab[i][0] == '>' && tab[i + 1] && tab[i + 1][0] == '<')
+            return 1;
+        if (tab && tab[i] && tab[i][0] == '<' && tab[i + 1] && tab[i + 1][0] == '>')
+            return 1;
         i++;
     }
-    if (tab && (tab[i - 1][0] == '|' || tab[i - 1][0] == '<' || tab[i - 1][0] == '>'))
+    if (tab && tab[i - 1] && (tab[i - 1][0] == '|' || tab[i - 1][0] == '<' || tab[i - 1][0] == '>'))
         return 1;
     return 0;
 }
@@ -82,5 +90,16 @@ int check_error(char **tab)
         handele_error();
         return 1;
     }
+    return 0;
+}
+
+
+int check_line(char *line)
+{
+    int i = 0;
+    while (line && line[i] != '\0')
+        i++;
+    if (line[i - 1] == '|' || line[i - 1] == '>' || line[i - 1] == '<')
+        return 1;
     return 0;
 }

@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:22:31 by haalouan          #+#    #+#             */
-/*   Updated: 2024/05/06 11:05:39 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/05/08 19:23:33 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ typedef struct s_list
 {
     int nbr;
     char *cmd;
-    char *redir;
+    char **redir;
     int exit;
     char **args;
 }t_list;
@@ -84,7 +84,7 @@ void	last_command(t_list *list, char **envp);
 void	error(void);
 void	execute(char *argv, char **envp);
 
-
+char *ft_substr(char const *s, unsigned int start, int len);
 /*******************************************************parssing*******************************************************/
 
 //expend2
@@ -105,6 +105,7 @@ char	*ft_strdup(const char *s1);
 int	ft_isdigit(int c);
 int is_character(char c);
 void print_tab(char **tab, char *line, t_list **list);//
+int is_character2(char c);
 
 //helpers_function2
 int	ft_isalpha(int c);
@@ -125,6 +126,7 @@ void check_check(char *line, t_check *check);
 void check_init(t_check *check);
 int check(char **tab);
 int check_error(char **tab);
+int check_line(char *line);
 
 //parssing1
 t_list **parssing(char *line, t_env *env_list);
@@ -133,7 +135,7 @@ void add_tab(char *line, char **tab, int len);
 
 //remove_quotes
 void handele_cmd(t_list **list, int *i, int *j, int *k);
-void handele_redir(t_list **list, int *i, int *j, int *k);
+void handele_redir(t_list **list, int *i, int *j, int *k, int *l);
 void continue_handele_args(t_list **list, int *i, int *j, int *k, int *l);
 void handele_args(t_list **list, int *i, int *j, int *k, int *l);
 void remove_quotes(t_list** list);
