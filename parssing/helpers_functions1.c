@@ -6,11 +6,12 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:27:26 by haalouan          #+#    #+#             */
-/*   Updated: 2024/05/09 12:38:37 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/05/09 14:29:22 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
 
 char *ft_strstr(const char *haystack, const char *needle)
 {

@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 00:47:28 by haalouan          #+#    #+#             */
-/*   Updated: 2024/05/08 18:54:59 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/05/09 14:22:13 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,16 @@ void handele_redir(t_list **list, int *i, int *j, int *k, int *l)
 //     }
 // }
 
+void handele_export(t_list **list, int *i, int *j , int *k, int *l)
+{
+    while (list && list[*i] && list[*i]->args && list[*i]->args[*j] && list[*i]->args[*j][*l] && is_character2(list[*i]->args[*j][*l]) == 1)
+    {
+        list[*i]->args[*j][*k] = list[*i]->args[*j][*l];
+        (*k)++;
+        (*l)++;
+    }
+}
+
 void handele_args(t_list **list, int *i, int *j, int *k, int *l)
 {
     while (list && list[*i] && list[*i]->args && list[*i]->args[*j])
@@ -137,7 +147,9 @@ void handele_args(t_list **list, int *i, int *j, int *k, int *l)
         *k = 0;
         while (list && list[*i] && list[*i]->args && list[*i]->args[*j] && list[*i]->args[*j][*l])
         {
-            if (list && list[*i] && list[*i]->args && list[*i]->args[*j] && list[*i]->args[*j][*l] && list[*i]->args[*j][*l] == '\"')
+            if (list[*i]->args[*j][*l] == '=' && ft_strcmp(list[*i]->cmd, "export") == 0)
+                handele_export(list, i, j, k, l);
+            else if (list && list[*i] && list[*i]->args && list[*i]->args[*j] && list[*i]->args[*j][*l] && list[*i]->args[*j][*l] == '\"')
             {
                 (*l)++;
                 while (list && list[*i] && list[*i]->args && list[*i]->args[*j][*l] && list[*i]->args[*j][*l] != '\"')
@@ -173,6 +185,7 @@ void handele_args(t_list **list, int *i, int *j, int *k, int *l)
         (*j)++;
     }
 }
+
 
 void remove_quotes(t_list** list)
 {
