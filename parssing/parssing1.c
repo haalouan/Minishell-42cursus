@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 16:38:45 by haalouan          #+#    #+#             */
-/*   Updated: 2024/05/09 14:14:55 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/05/09 14:33:56 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,10 @@ t_list **parssing(char *line, t_env *env_list)
     if (ft_strlen(line) == 0)
         return NULL;
     if (check_line(line) == 1)
+    {
+        handele_error();
         return NULL;
+    }
     add_history(line);
     if (count_quote(line) == 1)
         return NULL;
