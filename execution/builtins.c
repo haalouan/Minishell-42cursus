@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: achater <achater@student.42.fr>            +#+  +:+       +#+        */
+/*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 11:28:38 by achater           #+#    #+#             */
-/*   Updated: 2024/05/08 10:40:09 by achater          ###   ########.fr       */
+/*   Updated: 2024/05/09 12:40:49 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -262,7 +262,6 @@ void execution(t_list **list, t_env *env_list, char **env)
     i = 0;
     if ((*list)->nbr == 1)
     	handle_one_cmd(*list, &env_list, env);
-
 	else
 	{
         while (i < (*list)->nbr)

@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 16:35:11 by haalouan          #+#    #+#             */
-/*   Updated: 2024/05/08 22:50:44 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/05/09 12:40:04 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,8 @@ int main(int arc, char **arv, char **env)
             //parssing
             list = parssing(line, env_list);
             if (!list)
-            {
-                printf("continue\n");
                 continue;
-            }
             //execution
-            printf("here\n");
             execution(list, env_list, env);
             dup2(0, 3);
 			dup2(1, 4);

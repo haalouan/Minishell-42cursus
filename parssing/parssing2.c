@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 11:05:44 by haalouan          #+#    #+#             */
-/*   Updated: 2024/05/08 22:42:32 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/05/09 12:39:44 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,7 +174,6 @@ void continue_parssing(t_list **list, char **tab, char *line, t_env *env_list)
     {
         pipe = 0;
         next_pipe = finnd_pipe(tab, count);
-        // printf("%s\n", tab[next_pipe]);
         list[k] = malloc(sizeof(t_list) + 1);
         if (!list)
             exit(EXIT_FAILURE);
@@ -194,4 +193,5 @@ void continue_parssing(t_list **list, char **tab, char *line, t_env *env_list)
         tab = tab + next_pipe;
         k++;
     }
+    (*list)->nbr = k;
 }

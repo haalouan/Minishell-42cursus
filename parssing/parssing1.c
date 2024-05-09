@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 16:38:45 by haalouan          #+#    #+#             */
-/*   Updated: 2024/05/08 19:08:19 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/05/09 12:25:41 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,7 @@ char **handele_parssing(char *line)
         tab[i] = NULL;
         i++;
     }
-    if (!line)
-        return tab;
-    while (line && *line != '\0')
+    while (*line != '\0')
     {
         check_init(&check);
         check_check(line, &check);
@@ -63,7 +61,7 @@ t_list **parssing(char *line, t_env *env_list)
 
     tab = NULL;
     list = NULL;
-    if (!line || ft_strlen(line) == 0)
+    if (ft_strlen(line) == 0)
         return NULL;
     if (check_line(line) == 1)
         return NULL;

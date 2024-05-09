@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:27:26 by haalouan          #+#    #+#             */
-/*   Updated: 2024/05/08 18:59:44 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/05/09 12:38:37 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,5 +134,4 @@ void print_tab(char **tab, char *line, t_list **list)
         }
         i++;
     }
-    // (*list)->nbr = i;
 }
