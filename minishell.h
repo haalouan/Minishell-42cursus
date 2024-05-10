@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:22:31 by haalouan          #+#    #+#             */
-/*   Updated: 2024/05/09 14:29:18 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/05/09 22:23:39 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ typedef struct s_list
     char *cmd;
     char **redir;
     int exit;
+    int check_export;
     char **args;
 }t_list;
 
@@ -111,6 +112,7 @@ int	ft_isalnum(int c);
 size_t	ft_strlen(const char *str);
 char    *ft_strncpy(char *dest, const char *src, int len);
 char *ft_strcat(char *dest, char *src);
+int	ft_strncmp(const char *str1, const char *str2, size_t n);
 
 //syntax_errors
 void handele_error();
@@ -135,8 +137,8 @@ void add_tab(char *line, char **tab, int len);
 void handele_cmd(t_list **list, int *i, int *j, int *k);
 void handele_redir(t_list **list, int *i, int *j, int *k, int *l);
 void continue_handele_args(t_list **list, int *i, int *j, int *k, int *l);
-void handele_args(t_list **list, int *i, int *j, int *k, int *l);
-void remove_quotes(t_list** list);
+void handele_args(t_list **list, int *i, int *j, int *k, int *l, t_env *env_list);
+void remove_quotes(t_list** list, t_env *env_list);
 
 //handele_line
 void continue_handele_word(char *line, int *i);

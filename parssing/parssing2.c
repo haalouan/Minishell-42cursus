@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 11:05:44 by haalouan          #+#    #+#             */
-/*   Updated: 2024/05/09 12:39:44 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/05/09 22:38:57 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,8 +144,7 @@ void redirection(t_list **list, char **tab, int pipe, int k)
         else if (tab[i] && is_character2(tab[i][0]) == 1 && list[k]->cmd == NULL)
         {
             list[k]->cmd = malloc(ft_strlen(tab[i]) + 1);
-            if (!list[k]->cmd)
-                exit(EXIT_FAILURE);
+            (!list[k]->cmd) ? exit(EXIT_FAILURE) : 0;
             ft_strncpy(list[k]->cmd, tab[i], ft_strlen(tab[i]));
             i++;
         }
@@ -180,6 +179,7 @@ void continue_parssing(t_list **list, char **tab, char *line, t_env *env_list)
         list[k]->cmd = NULL;
         list[k]->redir = NULL;
         list[k]->args = NULL;
+        list[k]->check_export = 0;
         if (tab && tab[pipe] && tab[pipe][0] && tab[pipe][0] != '>' && tab[pipe][0] != '<')
         {
             list[k]->cmd = malloc(ft_strlen(tab[pipe]) + 1);

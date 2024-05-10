@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 00:31:58 by haalouan          #+#    #+#             */
-/*   Updated: 2024/05/08 19:24:02 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/05/09 20:06:30 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,13 @@ char *remove_$(char *tab, int check)
             i++;
             chk = 1;
         }
+        if (tab[i]== ' ' || tab[i] == '\t')
+        {
+            tab[k] = ' ';
+            k++;
+        }
+        while (tab[i] == ' ' || tab[i] == '\t')
+            i++;
         tab[k] = tab[i];
         if (tab[i])
         {

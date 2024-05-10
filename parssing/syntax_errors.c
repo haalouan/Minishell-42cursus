@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 21:55:56 by haalouan          #+#    #+#             */
-/*   Updated: 2024/05/08 15:56:04 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/05/09 15:29:12 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void handele_error()
 {
     printf("=> " ANSI_BACKGROUND_RED     "syntax error"     ANSI_RESET_ALL "\n");
+    exit(0);
 }
 // int  check_tab(t_list **list)
 // {

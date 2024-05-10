@@ -6,11 +6,24 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 00:36:16 by haalouan          #+#    #+#             */
-/*   Updated: 2024/05/06 18:35:50 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/05/09 22:21:22 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+int	ft_strncmp(const char *str1, const char *str2, size_t n)
+{
+	while (n > 0)
+	{
+		if (*str1 == '\0' || *str2 == '\0' || *str1 != *str2)
+			return ((unsigned char)(*str1) - (unsigned char)(*str2));
+		str1++;
+		str2++;
+		n--;
+	}
+	return (0);
+}
 
 int	ft_isalpha(int c)
 {
