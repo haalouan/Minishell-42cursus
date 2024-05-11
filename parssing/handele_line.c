@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 00:46:44 by haalouan          #+#    #+#             */
-/*   Updated: 2024/05/08 18:20:08 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/05/11 20:10:52 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void handele_word(char **le, char **tab)
                 i++;
             if (line[i] == '\'')
                 i++;
-            if (is_character(*line) == 0 && *line != '\'' && *line != '\"')
+            if (is_character(*line) == 0 && line[i] != '\'' && line[i] != '\"')
                 break;
         }
         else if (line[i] == '\"')
@@ -41,7 +41,7 @@ void handele_word(char **le, char **tab)
                 i++;
             if (line[i] == '\"')
                 i++;
-            if (is_character(line[i]) == 0 && *line != '\'' && *line != '\"')
+            if (is_character(line[i]) == 0 && line[i] != '\'' && line[i] != '\"')
                 break;
         }
         else

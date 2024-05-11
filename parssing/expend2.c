@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 00:31:58 by haalouan          #+#    #+#             */
-/*   Updated: 2024/05/11 18:20:43 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/05/11 21:56:39 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,8 +152,8 @@ char **expend_in_double_quote(char **tab, int i, int *j, t_env *env_list)
 
     key = 0;
     value = 0;
-    while (tab && tab[i] && tab[i][*j] && tab[i][*j] != '\"')
-    {
+    // while (tab && tab[i] && tab[i][*j])
+    // {
         if (tab && tab[i] && tab[i][*j] == '$' && tab[i][*j + 1] != '\"')
         {
             key = get_env_key(tab[i], *j);
@@ -162,8 +162,13 @@ char **expend_in_double_quote(char **tab, int i, int *j, t_env *env_list)
             {
                 tab[i] = ft_str_replace(tab[i], key, value);
                 tab[i] = remove_$(tab[i], 1, value);
-                tab = change_tab(tab, tab[i]);
-                break;
+                tab = change_tab(tab, tab[i] + *j);
+                int i = 0;
+                while (tab[i])
+                {
+                    printf("%s\n", tab[i]);
+                    i++;
+                }
             }
             else
             {
@@ -171,7 +176,7 @@ char **expend_in_double_quote(char **tab, int i, int *j, t_env *env_list)
                 tab[i] = remove_$(tab[i], 1, value);
             }
         }
-        j++;
-    }
+    //     j++;
+    // }
     return tab;
 }
