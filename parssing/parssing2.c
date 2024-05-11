@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 11:05:44 by haalouan          #+#    #+#             */
-/*   Updated: 2024/05/09 22:38:57 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/05/11 00:09:48 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ void args(t_list **list, char **tab, int k, int ii)
     count = count_args(tab , ii);
     if (count == 0)
         return;
-        
     if (!list[k]->cmd)
         count--;
     if (count == 0)
@@ -74,7 +73,7 @@ void args(t_list **list, char **tab, int k, int ii)
     i = 0;
     while (i < count)
     {
-        while (tab[ii] && is_character2(tab[ii][0]) == 0)
+        while (tab[ii] && tab[ii][0] && is_character2(tab[ii][0]) == 0)
         {
             if (tab[ii] && (tab[ii][0] == '<' || tab[ii][0] == '>'))
                 ii += 2;

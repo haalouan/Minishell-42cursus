@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 00:31:58 by haalouan          #+#    #+#             */
-/*   Updated: 2024/05/09 20:06:30 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/05/10 23:40:59 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,13 +81,12 @@ char *get_env_key(char *str, int i)
     return (key);
 } 
 
-char *remove_$(char *tab, int check)
+char *remove_$(char *tab, int check, char *value)
 {
     int i = 0;
     int k = 0;
     int chk = 0;
-
-    while (tab && tab[i])
+    while (tab && tab[i] != '\0')
     {
         if (tab && tab[i] == '\'' && check == 0)
         {
@@ -101,13 +100,14 @@ char *remove_$(char *tab, int check)
             i++;
             chk = 1;
         }
-        if (tab[i]== ' ' || tab[i] == '\t')
+        if ((tab[i] == ' ' || tab[i] == '\t') && value[0] != ' ')
         {
             tab[k] = ' ';
             k++;
+
+            while (tab[i] == ' ' || tab[i] == '\t')
+                i++;
         }
-        while (tab[i] == ' ' || tab[i] == '\t')
-            i++;
         tab[k] = tab[i];
         if (tab[i])
         {
@@ -116,7 +116,6 @@ char *remove_$(char *tab, int check)
         }
         else
             break;
-
     }
     if (tab[k])
         tab[k] = '\0';
@@ -140,12 +139,12 @@ int expend_in_double_quote(char **tab, int i, int j, t_env *env_list)
             if (key && value)
             {
                 tab[i] = ft_str_replace(tab[i], key, value);
-                tab[i] = remove_$(tab[i], 1);
+                tab[i] = remove_$(tab[i], 1, value);
             }
             else
             {
                 tab[i] = ft_str_replace(tab[i], key, "");
-                tab[i] = remove_$(tab[i], 1);
+                tab[i] = remove_$(tab[i], 1, value);
             }
         }
         j++;

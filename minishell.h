@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:22:31 by haalouan          #+#    #+#             */
-/*   Updated: 2024/05/09 22:23:39 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/05/10 23:36:30 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ char    *ft_strjoin(char *s1,char *s2);
 char *ft_str_replace(const char *source, const char *pattern, const char *replacement);
 char *get_env_value(char *key, t_env *export_i);
 char *get_env_key(char *str, int i);
-char *remove_$(char *tab, int check);
+char *remove_$(char *tab, int check, char *value);
 int expend_in_double_quote(char **tab, int i, int j, t_env *env_list);
 
 //expend1

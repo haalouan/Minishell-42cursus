@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:27:26 by haalouan          #+#    #+#             */
-/*   Updated: 2024/05/09 22:03:00 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/05/10 23:54:10 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,18 +84,18 @@ int is_character(char c)
 void print_tab(char **tab, char *line, t_list **list)
 {
     int i = 0;
-    (void)tab;
-    (void)line;
-    // if (!tab)
-    //     return ;
-    // printf("*-------------*-----------*\n");
-    // while (i < count_cmds(line))
-    // {
-    //     printf(""ANSI_COLOR_GREEN  "      %s\n" ANSI_RESET_ALL "", tab[i]);
-    //     printf("*-------------*-----------*\n");
-    //     i++;
-    // }
-    // i = 0;
+    // (void)tab;
+    // (void)line;
+    if (!tab)
+        return ;
+    printf("*-------------*-----------*\n");
+    while (i < count_cmds(line))
+    {
+        printf(""ANSI_COLOR_GREEN  "      %s\n" ANSI_RESET_ALL "", tab[i]);
+        printf("*-------------*-----------*\n");
+        i++;
+    }
+    i = 0;
     while (list && list[i])
     {
         int n;
