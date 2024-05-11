@@ -6,37 +6,57 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 00:31:58 by haalouan          #+#    #+#             */
-/*   Updated: 2024/05/10 23:40:59 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/05/11 18:20:43 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char *ft_str_replace(const char *source, const char *pattern, const char *replacement)
+char *ft_str_replace(const char *tab, const char *key, const char *value)
 {
-    size_t pattern_len;
-    size_t replacement_len;
+    size_t key_len;
+    size_t value_len;
     char *occurrence;
     size_t new_size;
     
-    if ( !source || !pattern || !replacement)
-        return ft_strdup(source);
-    pattern_len = ft_strlen(pattern);
-    replacement_len = ft_strlen(replacement);
-    occurrence = ft_strstr(source, pattern); 
+    if ( !tab || !key || !value)
+        return ft_strdup(tab);
+    key_len = ft_strlen(key);
+    value_len = ft_strlen(value);
+    occurrence = ft_strstr(tab, key);
     if (!occurrence)
-        return ft_strdup(source);
-    new_size = ft_strlen(source) - pattern_len + replacement_len + 1;
+        return ft_strdup(tab);
+    new_size = ft_strlen(tab) - key_len + value_len + 1;
     char *new_str = (char *)malloc(new_size);
     if (!new_str)
         return NULL;
-    memcpy(new_str, source, occurrence - source);
-    new_str[occurrence - source] = '\0';
-    strcat(new_str, replacement);
-    strcat(new_str, occurrence + pattern_len);
+    memcpy(new_str, tab, occurrence - tab);
+    new_str[occurrence - tab] = '\0';
+    strcat(new_str, value);
+    strcat(new_str, occurrence + key_len);
     return new_str;
 }
 
+char *add_$(char *str)
+{
+    char *value;
+    int i = 0;
+    int j = 0;
+
+    value = malloc(ft_strlen(str) + 2);
+    if (!value)
+        return NULL;
+    value[i] = '$';
+    i++;
+    while (str[j])
+    {
+        value[i] = str[j];
+        i++;
+        j++;
+    }
+    value[i] = '\0';
+    return value;
+}
 
 char *get_env_value(char *key, t_env *export_i)
 {
@@ -46,12 +66,14 @@ char *get_env_value(char *key, t_env *export_i)
 
     if (!key)
         return NULL;
+    
     tmp = export_i;
     while (tmp)
     {
         if (!strcmp(tmp->key, key))
         {
             value = strdup(tmp->value);
+            // value = add_$(value);
             return (value);
         }
         tmp = tmp->next;
@@ -100,7 +122,7 @@ char *remove_$(char *tab, int check, char *value)
             i++;
             chk = 1;
         }
-        if ((tab[i] == ' ' || tab[i] == '\t') && value[0] != ' ')
+        if (tab && (tab[i] == ' ' || tab[i] == '\t') && value && value[0] != ' ')
         {
             tab[k] = ' ';
             k++;
@@ -123,23 +145,25 @@ char *remove_$(char *tab, int check, char *value)
 }
 
 
-int expend_in_double_quote(char **tab, int i, int j, t_env *env_list)
+char **expend_in_double_quote(char **tab, int i, int *j, t_env *env_list)
 {
     char *key;
     char *value;
 
     key = 0;
     value = 0;
-    while (tab && tab[i] && tab[i][j] && tab[i][j] != '\"')
+    while (tab && tab[i] && tab[i][*j] && tab[i][*j] != '\"')
     {
-        if (tab && tab[i] && tab[i][j] == '$')
+        if (tab && tab[i] && tab[i][*j] == '$' && tab[i][*j + 1] != '\"')
         {
-            key = get_env_key(tab[i], j);
+            key = get_env_key(tab[i], *j);
             value = get_env_value(key, env_list);
             if (key && value)
             {
                 tab[i] = ft_str_replace(tab[i], key, value);
                 tab[i] = remove_$(tab[i], 1, value);
+                tab = change_tab(tab, tab[i]);
+                break;
             }
             else
             {
@@ -149,5 +173,5 @@ int expend_in_double_quote(char **tab, int i, int j, t_env *env_list)
         }
         j++;
     }
-    return j;
+    return tab;
 }

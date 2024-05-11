@@ -5,7 +5,8 @@ SRCS =	main.c  ./parssing/parssing3.c ./parssing/remove_quotes.c ./parssing/hand
 		./parssing/parssing2.c ./execution/builtins.c \
 		./execution/ft_lstadd_back_bonus.c ./execution/ft_lstlast_bonus.c \
 		./execution/ft_lstsize_bonus.c ./execution/ft_lstnew_bonus.c \
-		./execution/ft_split.c ./execution/utils.c  ./execution/export.c ./execution/handle_cmd.c
+		./execution/ft_split.c ./execution/utils.c  ./execution/export.c \
+		./execution/handle_cmd.c ./execution/handle_redir.c
 OBJS = ${SRCS:.c=.o}
 NAME = minishell
 CC = cc

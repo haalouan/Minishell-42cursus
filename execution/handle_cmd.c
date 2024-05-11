@@ -6,7 +6,7 @@
 /*   By: achater <achater@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 17:29:29 by achater           #+#    #+#             */
-/*   Updated: 2024/05/05 16:28:21 by achater          ###   ########.fr       */
+/*   Updated: 2024/05/11 12:48:41 by achater          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,10 @@ char	*find_path(char *cmd, char **envp)
 	char		*path;
 	char		**str;
 
-	while (ft_strnstr(envp[i], "PATH", 4) == 0)
+	while (envp[i] && ft_strnstr(envp[i], "PATH", 4) == 0)
 		i++;
+	if (!envp[i])
+		return (NULL);
 	(1 == 1) && (str = ft_split(envp[i] + 5, ':'), i = -1);
 	while (str[++i])
 	{
@@ -48,26 +50,16 @@ char	*find_path(char *cmd, char **envp)
 	return (path);
 }
 
-void	execute(char *argv, char **envp)
+void	execute(char **cmds, char **envp,char *cmd)
 {
-	char	**cmds;
+	// char	**cmds;
 	char	*path;
 	int		i;
 
 	i = 0;
-	cmds = ft_split(argv, ' ');
-	if (access(cmds[0], X_OK) >= 0)
-		execve(cmds[0], cmds, NULL);
-	path = find_path(cmds[0], envp);
-	if (!path)
-	{
-		while (cmds[i])
-		{
-			free(cmds[i]);
-			i++;
-		}
-		free(cmds);
-	}
+	if (access(cmd, X_OK) >= 0)
+		execve(cmd, cmds, NULL);
+	path = find_path(cmd, envp);
 	if (execve(path, cmds, envp) < 0)
 		error();
 }
@@ -102,27 +94,46 @@ char	*ft_strjoin(char *s1,char *s2)
 	return(s3);
 }
 
-char	*arg_to_str(char **args, char *cmd)
+int	count_args0(char **args)
 {
-	char *arg;
 	int i;
 
 	i = 0;
-	arg = ft_strjoin(cmd, NULL);
-	if(args == NULL)
-		return(arg);
+	while(args[i])
+		i++;
+	return (i);
+}
+
+char **cmds_whit_args(char *cmd, char **args)
+{
+	char **cmds;
+	int i;
+
+	i = 0;
+	cmds = malloc(sizeof(char *) * (count_args0(args) + 2));
+	if(cmds == NULL)
+		return (NULL);
+	cmds[0] = cmd;
 	while(args[i])
 	{
-		arg = ft_strjoin(arg, " ");
-		arg = ft_strjoin(arg, args[i]);
+		cmds[i + 1] = args[i];
 		i++;
 	}
-	return(arg);
+	cmds[i + 1] = NULL;
+	return (cmds);
 }
 
 void	handle_cmd(t_list *cmds,char **env)
 {
-	char *arg;
-	arg = arg_to_str(cmds->args,cmds->cmd);
-	execute(arg, env);
+	char **args;
+
+	if(cmds->args == NULL)
+	{
+		args = malloc(sizeof(char *) * 2);
+		args[0] = cmds->cmd;
+		args[1] = NULL;
+	}
+	else
+		args = cmds_whit_args(cmds->cmd, cmds->args);
+	execute(args, env,cmds->cmd);
 }

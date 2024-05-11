@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:22:31 by haalouan          #+#    #+#             */
-/*   Updated: 2024/05/10 23:36:30 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/05/11 18:11:28 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ typedef struct s_list
     int exit;
     int check_export;
     char **args;
+    int file_in;
+    int file_out;
 }t_list;
 
 
@@ -65,6 +67,8 @@ typedef struct s_env
 	struct s_env *next;
 } t_env;
 
+
+//ex
 int ft_strcmp(char *arg, char *str);
 t_env    *ft_lstnew(char *key , char *content);
 t_env *ft_lstlast(t_env *lst);
@@ -81,22 +85,24 @@ void    handle_cmd(t_list *cmds,char **env);
 char    *ft_strjoin3(char *s1, char *s2, char *s3);
 char    *ft_strnstr(const char *haystack, const char *needle, size_t len);
 void    error(void);
-void    execute(char *argv, char **envp);
+void    execute(char **cmds, char **envp, char *cmd);
 void    change_value(t_env **env_list,char *value);
 char    *ft_strjoin(char *s1,char *s2);
+void    handle_redir(t_list *list);
+void    handle_redir_no_command(t_list *list);
 /*******************************************************parssing*******************************************************/
-
+char *ft_substr(char const *s, unsigned int start, int len);
 //expend2
 char *ft_str_replace(const char *source, const char *pattern, const char *replacement);
 char *get_env_value(char *key, t_env *export_i);
 char *get_env_key(char *str, int i);
 char *remove_$(char *tab, int check, char *value);
-int expend_in_double_quote(char **tab, int i, int j, t_env *env_list);
+char **expend_in_double_quote(char **tab, int i, int *j, t_env *env_list);
 
 //expend1
-int continue_expend(char **tab, int i, int j, t_env *env_list);
-void expend(char **tab, t_env *env_list);
-
+char **continue_expend(char **tab, int i, int *j, t_env *env_list);
+char **expend(char **tab, t_env *env_list);
+char **change_tab(char **old_tab, char *str);
 
 //helpers_function1
 char *ft_strstr(const char *haystack, const char *needle);

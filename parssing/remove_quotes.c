@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 00:47:28 by haalouan          #+#    #+#             */
-/*   Updated: 2024/05/10 23:22:16 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/05/11 18:15:58 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,6 @@ int check_expend(char *str, t_env *env_list, char c)
 {
     int i = 0;
     i++;
-    printf("%s\n", str);
     while (str && str[0] && str[i] && str[i] != c)
         i++;
     while (env_list != NULL)
@@ -226,6 +225,7 @@ void handele_args(t_list **list, int *i, int *j, int *k, int *l, t_env *env_list
                 // }
                 // else
                     (*l)++;
+        
                 while (list && list[*i] && list[*i]->args && list[*i]->args[*j][*l] && list[*i]->args[*j][*l] != '\'')
                 {
                     list[*i]->args[*j][*k] = list[*i]->args[*j][*l];
@@ -238,6 +238,7 @@ void handele_args(t_list **list, int *i, int *j, int *k, int *l, t_env *env_list
             else if (list && list[*i] && list[*i]->args && list[*i]->args[*j] && list[*i]->args[*j][*l] && list[*i]->args[*j][*l] != '\"' && list[*i]->args[*j][*l] != '\'')
             {
                 list[*i]->args[*j][*k] = list[*i]->args[*j][*l];
+    
                 (*k)++;
                 (*l)++;
             }

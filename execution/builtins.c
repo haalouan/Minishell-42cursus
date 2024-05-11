@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: achater <achater@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 11:28:38 by achater           #+#    #+#             */
-/*   Updated: 2024/05/09 12:40:49 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/05/11 16:10:24 by achater          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void	ft_echo(char **args, int n, int j, int x)
 		if (cmp(args[j]) != 0 )
 			n = 0;
 		printf("%s", args[j]);
-		if (args[j + 1])
+		if (args[j + 1] && args[j][0] != '\0')
 			printf(" ");
 		j++;
 	}
@@ -179,9 +179,34 @@ t_env	*ft_unset(t_env **env_list, char **args)
 	}
 	return (*env_list);
 }
+char	**struct_to_char(t_env *env_list)
+{
+	int i;
+	char **new_env;
+	t_env *temp;
+
+	i = 0;
+	temp = env_list;
+	new_env = malloc(sizeof(char *) * (ft_lstsize(env_list) + 1));
+	if (new_env == NULL)
+		return (NULL);
+	while (temp)
+	{
+		new_env[i] = ft_strjoin3(temp->key, "=", temp->value);
+		temp = temp->next;
+		i++;
+	}
+	new_env[i] = NULL;
+	return (new_env);
+}
+
 void	handle_one_cmd(t_list *cmds, t_env **env_list,char **env)
 {
 	int pid;
+	char **new_env;
+
+	(void)env;
+	new_env = struct_to_char(*env_list);
 	if (ft_strcmp(cmds->cmd, "echo") == 0)
 		ft_echo(cmds->args, 0, 0, 0);
 	else if (ft_strcmp(cmds->cmd, "cd") == 0)
@@ -202,15 +227,22 @@ void	handle_one_cmd(t_list *cmds, t_env **env_list,char **env)
 		if (pid == -1)
 			error();
 		if (pid == 0)
-			handle_cmd(cmds, env);
+		{
+			dup2(cmds->file_in, STDIN_FILENO);
+			dup2(cmds->file_out, STDOUT_FILENO);
+			handle_cmd(cmds, new_env);
+		}
 		else
 			wait(NULL);
 	}
 }
 
-
 void	ft_builtins(t_list *cmds, t_env **env_list,char **env)
 {
+	char **new_env;
+
+	(void)env;
+	new_env = struct_to_char(*env_list);
 	if (ft_strcmp(cmds->cmd, "echo") == 0)
 		ft_echo(cmds->args, 0, 0, 0);
 	else if (ft_strcmp(cmds->cmd, "cd") == 0)
@@ -226,7 +258,7 @@ void	ft_builtins(t_list *cmds, t_env **env_list,char **env)
 	else if (ft_strcmp(cmds->cmd, "exit") == 0)
 		ft_exit(cmds->args, cmds);
 	else
-		handle_cmd(cmds, env);
+		handle_cmd(cmds, new_env);
 }
 
 void set_env(char **env, t_env **env_list)
@@ -236,7 +268,7 @@ void set_env(char **env, t_env **env_list)
 	char *pdw = NULL;
 
 	pdw = getcwd(NULL, 0);
-	if(env == NULL)
+	if(env[0] == NULL)
 	{
 		ft_lstadd_back(env_list, ft_lstnew("PWD", pdw));
 		ft_lstadd_back(env_list, ft_lstnew("OLDPWD", NULL));
@@ -254,46 +286,58 @@ void set_env(char **env, t_env **env_list)
 
 void execution(t_list **list, t_env *env_list, char **env)
 {
-    int i;
-    int fd[2];
-    pid_t pid;
-    int prev_pipe = -1;
+	int i;
+	int fd[2];
+	pid_t pid;
+	int prev_pipe = -1;
 
-    i = 0;
-    if ((*list)->nbr == 1)
-    	handle_one_cmd(*list, &env_list, env);
+	i = 0;
+	(*list)->file_in = 0;
+	(*list)->file_out = 1;
+	if((*list)->redir[0] != NULL && (*list)->cmd == NULL)
+	{
+		handle_redir_no_command(*list);
+		return;
+	}
+	if ((*list)->nbr == 1)
+	{
+		// handle_redir(*list);
+		handle_one_cmd(*list, &env_list, env);
+		// close((*list)->file_in);
+		// close((*list)->file_out);
+	}
 	else
 	{
-        while (i < (*list)->nbr)
-        {
-            if (pipe(fd) == -1)
-                error();
-            pid = fork();
-            if (pid == -1)
-                error();
-            if (pid == 0)
-	        {
-                if (i != 0)
-	                {
-                    dup2(prev_pipe, STDIN_FILENO);
-                    close(prev_pipe);
-                    }
-                    if (i != (*list)->nbr - 1)
-                        dup2(fd[1], STDOUT_FILENO);
-                    close(fd[0]);
-                    ft_builtins(list[i], &env_list, env);
-                     exit(EXIT_SUCCESS);
-            }
-	        else
-	        {
-                if (i != 0)
-                    close(prev_pipe);
-                prev_pipe = fd[0];
-                close(fd[1]);
-            }
-            i++;
-        }
-        while(wait(NULL) > 0)
-    	    ;
-    }
+        	while (i < (*list)->nbr)
+        	{
+            		if (pipe(fd) == -1)
+            		    error();
+          		pid = fork();
+            		if (pid == -1)
+            		    error();
+            		if (pid == 0)
+	        	{
+               			if (i != 0)
+	                	{
+              				dup2(prev_pipe, STDIN_FILENO);
+                			close(prev_pipe);
+                		}
+                		if (i != (*list)->nbr - 1)
+                		        dup2(fd[1], STDOUT_FILENO);
+                		close(fd[0]);
+                		ft_builtins(list[i], &env_list, env);
+                		exit(EXIT_SUCCESS);
+            		}
+	        	else
+	        	{
+                		if (i != 0)
+                    			close(prev_pipe);
+                		prev_pipe = fd[0];
+                		close(fd[1]);
+            		}
+            		i++;
+        	}
+       		while(wait(NULL) > 0)
+    			;
+    	}
 }
