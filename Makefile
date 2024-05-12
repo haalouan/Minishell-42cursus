@@ -11,10 +11,14 @@ OBJS = ${SRCS:.c=.o}
 NAME = minishell
 CC = cc
 RM = rm -f
-CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g
+READLINE_L = /Users/haalouan/.brew/opt/readline/lib
+READLINE_I = /Users/haalouan/.brew/opt/readline/include
+
+CFLAGS = -Wall -Wextra -g -I $(READLINE_I) -fsanitize=address -g
+LDFLAGS = -L$(READLINE_L) -lreadline -lhistory
 
 $(NAME): $(OBJS)
-	@$(CC) -lreadline $(CFLAGS) $(OBJS) -o $(NAME)
+	@$(CC) -lreadline $(CFLAGS) $(LDFLAGS) $(OBJS) -o $(NAME)
 	@echo "minishell ready!"
 
 all: ${NAME}

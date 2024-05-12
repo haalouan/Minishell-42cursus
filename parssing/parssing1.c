@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 16:38:45 by haalouan          #+#    #+#             */
-/*   Updated: 2024/05/12 15:04:41 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/05/12 16:35:11 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,18 @@ char **handele_parssing(char *line)
         handele_line(&line, tab, check);
     }
     return tab;
+}
+
+void signal_handler(int sig)
+{
+    
+    if (sig == SIGINT)
+    {
+        printf("\n");
+        rl_on_new_line();
+        rl_replace_line("", 1);
+        rl_redisplay();
+    }
 }
 
 t_list **parssing(char *line, t_env *env_list)

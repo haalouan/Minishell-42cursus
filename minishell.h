@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:22:31 by haalouan          #+#    #+#             */
-/*   Updated: 2024/05/12 15:04:53 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/05/12 16:17:01 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <readline/history.h>
 # include <errno.h>
 #include <string.h>
+#include <signal.h>
 # include <fcntl.h>
 
 //
@@ -67,7 +68,7 @@ typedef struct s_env
 	struct s_env *next;
 } t_env;
 
-
+void signal_handler(int sig);
 //ex
 int ft_strcmp(char *arg, char *str);
 t_env    *ft_lstnew(char *key , char *content);
