@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 16:38:45 by haalouan          #+#    #+#             */
-/*   Updated: 2024/05/12 16:35:11 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/05/12 18:47:30 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ t_list **parssing(char *line, t_env *env_list)
     tab = handele_parssing(line);
     if (check_error(tab) == 1)
         return NULL;
-    list = (t_list **)malloc(sizeof(t_list *) * (count_pipe(tab, count_cmds(line)) + 1) + 1);
+    list = (t_list **)malloc(sizeof(t_list *) * (count_pipe(tab) + 1) + 1);
     if (!list)
         exit(EXIT_FAILURE);
     continue_parssing(list, tab, line, env_list);

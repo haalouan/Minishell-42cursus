@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 00:31:12 by haalouan          #+#    #+#             */
-/*   Updated: 2024/05/12 15:27:31 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/05/12 18:44:37 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,27 +113,47 @@ char **change_tab(char **old_tab, char *str)
     }
     new_tab[i] = NULL;
     i = 0;
-    while (new_tab[i] != NULL)
+    // while (new_tab[i] != NULL)
+    // {
+    //     printf("(%s)\n", new_tab[i]);
+    //     i++;
+    // }
+    return new_tab;
+}
+
+char **ft_realloc(char **tab, char *str)
+{
+    int i = 0;
+    int j = 0;
+    int count = 0;
+    while (tab && tab[count])
+        count++;
+    char **new_tab = malloc(sizeof(char *) * (count + 1) + 1);
+    if (!new_tab)
+        return NULL;
+    i = 0;
+    while (i < count)
     {
-        printf("(%s)\n", new_tab[i]);
+        if (ft_strcmp(tab[i], str) == 0)
+            i++; 
+        new_tab[j] = tab[i];
         i++;
+        j++;
     }
+    new_tab[j] = NULL;
     return new_tab;
 }
 
 char **continue_expend(char **tab, int i, int *j, t_env *env_list)
 {
-    printf("--------expend\n");
-    printf("tab[i] = %s\n", tab[i]);
-    printf("*%c\n", tab[i][*j]);
     char *key;
     char *value;
 
     key = 0;
-    value = 0;
-    key = get_env_key(tab[i], *j);
+    value = 0; key = get_env_key(tab[i], *j);
     value = get_env_value(key, env_list);
-    value = protect_env(value);
+    if (value)
+        value = protect_env(value);
     if (key && value)
     {
         tab[i] = ft_str_replace(tab[i], key, value);
@@ -147,6 +167,8 @@ char **continue_expend(char **tab, int i, int *j, t_env *env_list)
     {
         tab[i] = ft_str_replace(tab[i], key, "");
         tab[i] = remove_$(tab[i], 1, value);
+        if (tab[i][0] == '\0')
+            tab = ft_realloc(tab, tab[i]);
     }
     return tab;
 }
@@ -183,6 +205,7 @@ char **expend(char **tab, t_env *env_list)
                     j++;
                 if (tab && tab[i] && tab[i][j] == '\'')
                     j++;
+                // return tab;
             }
             else if (tab && tab[i] && tab[i][j] == '$' && tab[i][j + 1] != '\"' && tab[i][j + 1] != '\'')
             {
@@ -192,11 +215,18 @@ char **expend(char **tab, t_env *env_list)
             else if (tab && tab[i] && tab[i][j] == '$' && (tab[i][j + 1] == '\'' || tab[i][j + 1] == '\"'))
             {
                 tab[i] = remove_$(tab[i], 1, "1337");
+                return tab;
             }
             else if (tab && tab[i] && tab[i][j])
                 j++;
         } 
         i++;
     }
+    // i = 0;
+    // while (tab[i] != NULL)
+    // {
+    //     printf("(%s)\n", tab[i]);
+    //     i++;
+    // }
     return tab;
 }

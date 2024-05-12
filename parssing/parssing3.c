@@ -6,17 +6,17 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 01:20:05 by haalouan          #+#    #+#             */
-/*   Updated: 2024/05/02 01:20:28 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/05/12 18:32:36 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int count_pipe(char **tab, int len)
+int count_pipe(char **tab)
 {
     int i = 0;
     int count = 0;
-    while (i < len)
+    while (tab[i])
     {
         if (tab && tab[i] && tab[i][0] == '|')
             count++;

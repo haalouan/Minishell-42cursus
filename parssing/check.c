@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 00:35:06 by haalouan          #+#    #+#             */
-/*   Updated: 2024/05/11 19:56:11 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/05/12 18:03:48 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,19 +62,20 @@ int check(char **tab)
     {
         if (tab && tab[i] && tab[i][0] == '|' && tab[i + 1] && tab[i + 1][0] == '|')
             return 1;
-        if (tab && tab[i] && tab[i][0] == '>' && tab[i + 1] && tab[i + 1][0] == '|')
+        else if (tab && tab[i] && tab[i][0] == '>' && tab[i + 1] && tab[i + 1][0] == '|')
             return 1;
-        if (tab && tab[i] && tab[i][0] == '<' && tab[i + 1] && tab[i + 1][0] == '|')
+        else if (tab && tab[i] && tab[i][0] == '<' && tab[i + 1] && tab[i + 1][0] == '|')
             return 1;
-        if (tab && tab[i] && tab[i][0] == '<' && tab[i + 1] && tab[i + 1][0] == '<')
+        else if (tab && tab[i] && tab[i][0] == '<' && tab[i + 1] && tab[i + 1][0] == '<')
             return 1;
-        if (tab && tab[i] && tab[i][0] == '>' && tab[i + 1] && tab[i + 1][0] == '>')
+        else if (tab && tab[i] && tab[i][0] == '>' && tab[i + 1] && tab[i + 1][0] == '>')
             return 1;
-        if (tab && tab[i] && tab[i][0] == '>' && tab[i + 1] && tab[i + 1][0] == '<')
+        else if (tab && tab[i] && tab[i][0] == '>' && tab[i + 1] && tab[i + 1][0] == '<')
             return 1;
-        if (tab && tab[i] && tab[i][0] == '<' && tab[i + 1] && tab[i + 1][0] == '>')
+        else if (tab && tab[i] && tab[i][0] == '<' && tab[i + 1] && tab[i + 1][0] == '>')
             return 1;
-        i++;
+        else
+            i++;
     }
     if (tab && tab[i - 1] && (tab[i - 1][0] == '|' || tab[i - 1][0] == '<' || tab[i - 1][0] == '>'))
         return 1;

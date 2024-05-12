@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: achater <achater@student.42.fr>            +#+  +:+       +#+        */
+/*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 11:28:38 by achater           #+#    #+#             */
-/*   Updated: 2024/05/11 16:10:24 by achater          ###   ########.fr       */
+/*   Updated: 2024/05/12 16:53:03 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void	ft_echo(char **args, int n, int j, int x)
 		if (cmp(args[j]) != 0 )
 			n = 0;
 		printf("%s", args[j]);
-		if (args[j + 1] && args[j][0] != '\0')
+		if (args[j + 1])
 			printf(" ");
 		j++;
 	}
