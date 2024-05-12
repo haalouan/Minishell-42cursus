@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 00:31:12 by haalouan          #+#    #+#             */
-/*   Updated: 2024/05/11 22:13:34 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/05/12 15:27:31 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,28 +79,6 @@ int count_str(char **str)
     return i;
 }
 
-// char *ft_copy(char *str, char *str2, char *str3)
-// {
-//     int i=0;
-//     str = malloc(ft_strlen(str2) + 1);
-//     if (!str)
-//         return NULL;
-//     while (str && str[i] && str2 && str2[i] && str3)
-//     {
-//         if (str2 + i && str3 && ft_strcmp(str2 + i, str3) == 0)
-//         {
-//             str[i] = '\0';
-//             break;
-//         }
-//         str[i] = str2[i];
-//         i++;
-//     }
-//     // printf("****%s\n", str);
-//     // printf("****%s\n", str2);
-//     // printf("****%s\n", str3);
-//     return str;
-// }
-
 char **change_tab(char **old_tab, char *str)
 {
     char **new_str = ft_split(str, ' ');
@@ -130,18 +108,24 @@ char **change_tab(char **old_tab, char *str)
             }
             break;
         }
-        // new_tab[i] = ft_copy(new_tab[i], old_tab[i], str);
         new_tab[i] = old_tab[i];
-        printf("+++%s\n", new_tab[i]);
-        printf("+++%s\n", str);
         i++;
     }
     new_tab[i] = NULL;
+    i = 0;
+    while (new_tab[i] != NULL)
+    {
+        printf("(%s)\n", new_tab[i]);
+        i++;
+    }
     return new_tab;
 }
 
 char **continue_expend(char **tab, int i, int *j, t_env *env_list)
 {
+    printf("--------expend\n");
+    printf("tab[i] = %s\n", tab[i]);
+    printf("*%c\n", tab[i][*j]);
     char *key;
     char *value;
 
@@ -154,7 +138,10 @@ char **continue_expend(char **tab, int i, int *j, t_env *env_list)
     {
         tab[i] = ft_str_replace(tab[i], key, value);
         tab[i] = remove_$(tab[i], 1, value);
-        tab = change_tab(tab, tab[i] + *j);
+        if (ft_strcmp(tab[0], "export") == 0)
+            tab = change_tab(tab, tab[i] + *j);
+        else
+            tab = change_tab(tab, tab[i]);
     }
     else
     {

@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:22:31 by haalouan          #+#    #+#             */
-/*   Updated: 2024/05/11 18:11:28 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/05/12 15:04:53 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ char **expend_in_double_quote(char **tab, int i, int *j, t_env *env_list);
 char **continue_expend(char **tab, int i, int *j, t_env *env_list);
 char **expend(char **tab, t_env *env_list);
 char **change_tab(char **old_tab, char *str);
+char *protect_env(char *str);
 
 //helpers_function1
 char *ft_strstr(const char *haystack, const char *needle);

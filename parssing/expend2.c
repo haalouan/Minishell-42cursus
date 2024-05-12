@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 00:31:58 by haalouan          #+#    #+#             */
-/*   Updated: 2024/05/11 21:56:39 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/05/12 15:18:12 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,28 +147,27 @@ char *remove_$(char *tab, int check, char *value)
 
 char **expend_in_double_quote(char **tab, int i, int *j, t_env *env_list)
 {
+    printf("----------expend in double \n");
+    printf("tab[i] = %s\n", tab[i]);
+    printf("*%c\n", tab[i][*j]);
     char *key;
     char *value;
 
     key = 0;
     value = 0;
-    // while (tab && tab[i] && tab[i][*j])
-    // {
+    while (tab && tab[i] && tab[i][*j] && tab[i][*j] != '\"')
+    {
         if (tab && tab[i] && tab[i][*j] == '$' && tab[i][*j + 1] != '\"')
         {
             key = get_env_key(tab[i], *j);
             value = get_env_value(key, env_list);
+            value = protect_env(value);
             if (key && value)
             {
                 tab[i] = ft_str_replace(tab[i], key, value);
                 tab[i] = remove_$(tab[i], 1, value);
-                tab = change_tab(tab, tab[i] + *j);
-                int i = 0;
-                while (tab[i])
-                {
-                    printf("%s\n", tab[i]);
-                    i++;
-                }
+                tab = change_tab(tab, tab[i]);
+                return tab;
             }
             else
             {
@@ -176,7 +175,7 @@ char **expend_in_double_quote(char **tab, int i, int *j, t_env *env_list)
                 tab[i] = remove_$(tab[i], 1, value);
             }
         }
-    //     j++;
-    // }
+        j++;
+    }
     return tab;
 }
