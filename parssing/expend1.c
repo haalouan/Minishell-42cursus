@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 00:31:12 by haalouan          #+#    #+#             */
-/*   Updated: 2024/05/12 18:44:37 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/05/13 08:44:19 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ char **change_tab(char **old_tab, char *str)
     char **new_tab = malloc(sizeof(char *) * (size + size2 + 1) + 1);
     if (!new_tab)
         return NULL;
-    while (i < size + size2)
+    while (i <= size + size2)
     {
         new_tab[i] = NULL;
         i++;
@@ -186,14 +186,17 @@ char **expend(char **tab, t_env *env_list)
             if (tab && tab[i] && tab[i][j] == '\"')
             {
                 j++;
-                while (tab && tab[i] && tab[i][j] != '\"')
-                {
+                while (tab && tab[i] && tab[i][j] && tab[i][j] != '\"') {
+                    printf("{%s}\n", tab[i] + j);
                     if (tab && tab[i] && tab[i][j] == '$')
                     {
                         tab = expend_in_double_quote(tab, i, &j, env_list);
-                        return tab;
+                        // return tab;
+                        // continue;
+                        // break;
                     }
-                    j++;
+                    else
+                        j++;
                 }
                 if (tab && tab[i] && tab[i][j] == '\"')
                     j++;
@@ -210,12 +213,15 @@ char **expend(char **tab, t_env *env_list)
             else if (tab && tab[i] && tab[i][j] == '$' && tab[i][j + 1] != '\"' && tab[i][j + 1] != '\'')
             {
                 tab = continue_expend(tab, i, &j, env_list);
-                return tab;
+                // return tab;
+                continue;
+                // break;
             }
             else if (tab && tab[i] && tab[i][j] == '$' && (tab[i][j + 1] == '\'' || tab[i][j + 1] == '\"'))
             {
                 tab[i] = remove_$(tab[i], 1, "1337");
-                return tab;
+                // return tab;
+                continue;
             }
             else if (tab && tab[i] && tab[i][j])
                 j++;

@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 00:31:58 by haalouan          #+#    #+#             */
-/*   Updated: 2024/05/12 18:02:14 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/05/13 08:47:39 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,26 +158,24 @@ char **expend_in_double_quote(char **tab, int i, int *j, t_env *env_list)
         {
             key = get_env_key(tab[i], *j);
             value = get_env_value(key, env_list);
-            if (value)
+            // if (value)
                 value = protect_env(value);
             if (key && value)
             {
                 tab[i] = ft_str_replace(tab[i], key, value);
                 tab[i] = remove_$(tab[i], 1, value);
-                // tab = change_tab(tab, tab[i]);
+                tab = change_tab(tab, tab[i]);
                 if (ft_strcmp(tab[0], "export") == 0)
                     tab = change_tab(tab, tab[i] + *j);
                 else    
                     tab = change_tab(tab, tab[i]);
                 return tab;
             }
-            else
-            {
-                tab[i] = ft_str_replace(tab[i], key, "");
-                tab[i] = remove_$(tab[i], 1, value);
-                if (tab[i][0] == '\0')
-                    tab = ft_realloc(tab, tab[i]);
-            }
+            // else
+            // {
+            //     tab[i] = ft_str_replace(tab[i], key, "");
+            //     tab[i] = remove_$(tab[i], 1, value);
+            // }
         }
         else if (tab && tab[i] && tab[i][*j] == '$' && tab[i][*j + 1] == '\"')
             break;
