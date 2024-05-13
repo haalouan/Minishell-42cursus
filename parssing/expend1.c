@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 00:31:12 by haalouan          #+#    #+#             */
-/*   Updated: 2024/05/13 08:44:19 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/05/13 09:22:42 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,11 +81,20 @@ int count_str(char **str)
 
 char **change_tab(char **old_tab, char *str)
 {
+    int i = 0;
+    i++;
+    while (str && (str[i] == ' ' || str[i] == '\t'))
+    {
+        i++;
+        str = str + i - 1;
+        str[0] = '\"';
+    }
+    printf("%s\n", str);
     char **new_str = ft_split(str, ' ');
     new_str = add_quotes(new_str);
     int size = ft_size(old_tab);
     int size2 = ft_size(new_str);
-    int i = 0;
+    i = 0;
     int j = 0;
     char **new_tab = malloc(sizeof(char *) * (size + size2 + 1) + 1);
     if (!new_tab)
