@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 00:31:12 by haalouan          #+#    #+#             */
-/*   Updated: 2024/05/13 09:22:42 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/05/13 19:49:51 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ int count_str(char **str)
 char **change_tab(char **old_tab, char *str)
 {
     int i = 0;
+    i  = 0;
     i++;
     while (str && (str[i] == ' ' || str[i] == '\t'))
     {
@@ -89,7 +90,6 @@ char **change_tab(char **old_tab, char *str)
         str = str + i - 1;
         str[0] = '\"';
     }
-    printf("%s\n", str);
     char **new_str = ft_split(str, ' ');
     new_str = add_quotes(new_str);
     int size = ft_size(old_tab);
@@ -105,28 +105,32 @@ char **change_tab(char **old_tab, char *str)
         i++;
     }
     i = 0;
+    int k = 0;
     while (i < size + size2)
     {
-        if (ft_strcmp(old_tab[i], str) == 0 && count_str(new_str) != 1)
+        if (ft_strcmp(old_tab[k], str) == 0)
         {
-            while (i < size + size2)
+            while (i < size + size2 && new_str && new_str[j])
             {
                 new_tab[i] = new_str[j];
                 j++;
                 i++;
             }
-            break;
+            if (old_tab[k] && old_tab[k + 1])
+                k++;
+            else
+                break;
         }
-        new_tab[i] = old_tab[i];
-        i++;
+        if (old_tab[k])
+        {
+            new_tab[i] = old_tab[k];
+            i++;
+            k++;
+        }
+        else
+            break;
     }
     new_tab[i] = NULL;
-    i = 0;
-    // while (new_tab[i] != NULL)
-    // {
-    //     printf("(%s)\n", new_tab[i]);
-    //     i++;
-    // }
     return new_tab;
 }
 
@@ -196,7 +200,7 @@ char **expend(char **tab, t_env *env_list)
             {
                 j++;
                 while (tab && tab[i] && tab[i][j] && tab[i][j] != '\"') {
-                    printf("{%s}\n", tab[i] + j);
+                    // printf("{%s}\n", tab[i] + j);
                     if (tab && tab[i] && tab[i][j] == '$')
                     {
                         tab = expend_in_double_quote(tab, i, &j, env_list);
@@ -223,7 +227,7 @@ char **expend(char **tab, t_env *env_list)
             {
                 tab = continue_expend(tab, i, &j, env_list);
                 // return tab;
-                continue;
+                // continue;
                 // break;
             }
             else if (tab && tab[i] && tab[i][j] == '$' && (tab[i][j + 1] == '\'' || tab[i][j + 1] == '\"'))

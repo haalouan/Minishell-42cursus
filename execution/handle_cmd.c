@@ -6,7 +6,7 @@
 /*   By: achater <achater@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 17:29:29 by achater           #+#    #+#             */
-/*   Updated: 2024/05/11 12:48:41 by achater          ###   ########.fr       */
+/*   Updated: 2024/05/12 16:39:52 by achater          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,12 @@ void	execute(char **cmds, char **envp,char *cmd)
 		execve(cmd, cmds, NULL);
 	path = find_path(cmd, envp);
 	if (execve(path, cmds, envp) < 0)
-		error();
+	{
+		write(2, "minishell:", 10);
+		write(2, cmd, ft_strlen(cmd));
+		write(2, ": command not found\n", 20);
+		exit(127);
+	}
 }
 
 char	*ft_strjoin(char *s1,char *s2)

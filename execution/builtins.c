@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: achater <achater@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 11:28:38 by achater           #+#    #+#             */
-/*   Updated: 2024/05/12 16:53:03 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/05/13 14:04:55 by achater          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,6 +199,25 @@ char	**struct_to_char(t_env *env_list)
 	new_env[i] = NULL;
 	return (new_env);
 }
+int check_builtins(char *cmd)
+{
+	if (ft_strcmp(cmd, "echo") == 0)
+		return (1);
+	if (ft_strcmp(cmd, "cd") == 0)
+		return (1);
+	if (ft_strcmp(cmd,"env") == 0)
+		return (1);
+	if (ft_strcmp(cmd, "export") == 0)
+		return (1);
+	if (ft_strcmp(cmd, "pwd") == 0 || ft_strcmp(cmd, "PWD") == 0)
+		return (1);
+	if (ft_strcmp(cmd, "unset") == 0)
+		return(1);
+	if (ft_strcmp(cmd, "exit") == 0)
+		return (1);
+	return (0);
+}
+
 
 void	handle_one_cmd(t_list *cmds, t_env **env_list,char **env)
 {
@@ -207,34 +226,40 @@ void	handle_one_cmd(t_list *cmds, t_env **env_list,char **env)
 
 	(void)env;
 	new_env = struct_to_char(*env_list);
-	if (ft_strcmp(cmds->cmd, "echo") == 0)
-		ft_echo(cmds->args, 0, 0, 0);
-	else if (ft_strcmp(cmds->cmd, "cd") == 0)
+	handle_redir(cmds);
+	if (cmds->file_in < 0)
+		return;
+	if (ft_strcmp(cmds->cmd, "cd") == 0)
 		ft_cd(cmds->args, env_list);
-	else if (ft_strcmp(cmds->cmd, "env") == 0 && cmds)
-		ft_env(*env_list, cmds->args);
-	else if (ft_strcmp(cmds->cmd, "export") == 0)
-		ft_export(cmds->args, env_list);
-	else if (ft_strcmp(cmds->cmd, "pwd") == 0 || ft_strcmp(cmds->cmd, "PWD") == 0)
-		ft_pwd();
 	else if (ft_strcmp(cmds->cmd, "unset") == 0)
-		*env_list = ft_unset(env_list,cmds->args);
+			*env_list = ft_unset(env_list,cmds->args);
 	else if (ft_strcmp(cmds->cmd, "exit") == 0)
 		ft_exit(cmds->args, cmds);
-	else
+	else if (ft_strcmp(cmds->cmd, "export") == 0 && cmds->args != NULL)
+		ft_export(cmds->args, env_list);
+	pid = fork();
+	if (pid == -1)
+		error();
+	if (pid == 0)
 	{
-		pid = fork();
-		if (pid == -1)
-			error();
-		if (pid == 0)
-		{
-			dup2(cmds->file_in, STDIN_FILENO);
-			dup2(cmds->file_out, STDOUT_FILENO);
-			handle_cmd(cmds, new_env);
-		}
+		dup2(cmds->file_in, STDIN_FILENO);
+		dup2(cmds->file_out, STDOUT_FILENO);
+		if (ft_strcmp(cmds->cmd, "echo") == 0)
+			ft_echo(cmds->args, 0, 0, 0);
+		else if (ft_strcmp(cmds->cmd, "env") == 0 && cmds)
+			ft_env(*env_list, cmds->args);
+		else if (ft_strcmp(cmds->cmd, "export") == 0 && cmds->args == NULL)
+			ft_export(cmds->args, env_list);
+		else if (ft_strcmp(cmds->cmd, "pwd") == 0 || ft_strcmp(cmds->cmd, "PWD") == 0)
+			ft_pwd();
+		if(check_builtins(cmds->cmd) == 1)
+			exit(0);
 		else
-			wait(NULL);
+			handle_cmd(cmds, new_env);
 	}
+	else
+		wait(NULL);
+
 }
 
 void	ft_builtins(t_list *cmds, t_env **env_list,char **env)
@@ -286,58 +311,87 @@ void set_env(char **env, t_env **env_list)
 
 void execution(t_list **list, t_env *env_list, char **env)
 {
-	int i;
-	int fd[2];
-	pid_t pid;
-	int prev_pipe = -1;
+    int i;
+    int fd[2];
+    pid_t pid;
+    int prev_pipe = -1;
 
-	i = 0;
-	(*list)->file_in = 0;
-	(*list)->file_out = 1;
-	if((*list)->redir[0] != NULL && (*list)->cmd == NULL)
-	{
-		handle_redir_no_command(*list);
-		return;
-	}
-	if ((*list)->nbr == 1)
-	{
-		// handle_redir(*list);
-		handle_one_cmd(*list, &env_list, env);
-		// close((*list)->file_in);
-		// close((*list)->file_out);
-	}
-	else
-	{
-        	while (i < (*list)->nbr)
-        	{
-            		if (pipe(fd) == -1)
-            		    error();
-          		pid = fork();
-            		if (pid == -1)
-            		    error();
-            		if (pid == 0)
-	        	{
-               			if (i != 0)
-	                	{
-              				dup2(prev_pipe, STDIN_FILENO);
-                			close(prev_pipe);
-                		}
-                		if (i != (*list)->nbr - 1)
-                		        dup2(fd[1], STDOUT_FILENO);
-                		close(fd[0]);
-                		ft_builtins(list[i], &env_list, env);
-                		exit(EXIT_SUCCESS);
-            		}
-	        	else
-	        	{
-                		if (i != 0)
-                    			close(prev_pipe);
-                		prev_pipe = fd[0];
-                		close(fd[1]);
-            		}
-            		i++;
-        	}
-       		while(wait(NULL) > 0)
-    			;
-    	}
+    i = 0;
+    (*list)->file_in = 0;
+    (*list)->file_out = 1;
+
+    if ((*list)->nbr == 1)
+    {
+        if ((*list)->redir[0] != NULL && (*list)->cmd == NULL)
+            handle_redir_no_command(*list);
+        else
+            handle_one_cmd(*list, &env_list, env);
+    }
+    else
+    {
+        while (i < (*list)->nbr)
+        {
+            if (pipe(fd) == -1)
+                error();
+            pid = fork();
+            if (pid == -1)
+                error();
+            handle_redir(list[i]);
+            if (pid == 0)
+            {
+		if(list[i]->file_in < 0)
+			exit(EXIT_FAILURE);
+                if (i == 0)
+                    dup2(list[i]->file_in, STDIN_FILENO);
+                else
+                {
+		    if (list[i]->file_in == 0)
+			dup2(prev_pipe, STDIN_FILENO);
+		    else
+		    	dup2(list[i]->file_in, STDIN_FILENO);
+			 close(prev_pipe);
+                }
+
+                if (i != (*list)->nbr - 1)
+                {
+			if(list[i]->file_out == 1)
+		    		dup2(fd[1], STDOUT_FILENO);
+			else
+				dup2(list[i]->file_out, STDOUT_FILENO);
+			 close(fd[1]);
+                }
+		else
+		{
+			dup2(list[i]->file_out, STDOUT_FILENO);
+			close(fd[1]);
+		}
+                if (list[i]->redir[0] != NULL && list[i]->cmd == NULL)
+                {
+                    handle_redir_no_command(*list);
+                    exit(EXIT_SUCCESS);
+                }
+                else
+                {
+                    ft_builtins(list[i], &env_list, env);
+                    exit(EXIT_SUCCESS);
+                }
+            }
+            else
+            {
+                if (i != 0)
+                    close(prev_pipe);
+                prev_pipe = fd[0];
+                close(fd[1]);
+            }
+            if (i != (*list)->nbr - 1)
+            {
+		list[i + 1]->file_in = 0;
+		list[i + 1]->file_out = 1;
+            }
+            i++;
+        }
+
+        while (wait(NULL) > 0)
+            ;
+    }
 }

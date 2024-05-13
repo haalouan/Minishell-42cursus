@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 00:31:58 by haalouan          #+#    #+#             */
-/*   Updated: 2024/05/13 08:47:39 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/05/13 16:49:45 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,7 +164,7 @@ char **expend_in_double_quote(char **tab, int i, int *j, t_env *env_list)
             {
                 tab[i] = ft_str_replace(tab[i], key, value);
                 tab[i] = remove_$(tab[i], 1, value);
-                tab = change_tab(tab, tab[i]);
+                // tab = change_tab(tab, tab[i]);
                 if (ft_strcmp(tab[0], "export") == 0)
                     tab = change_tab(tab, tab[i] + *j);
                 else    
