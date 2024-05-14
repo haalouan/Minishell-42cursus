@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 00:47:28 by haalouan          #+#    #+#             */
-/*   Updated: 2024/05/11 18:15:58 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/05/14 16:58:56 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void handele_redir(t_list **list, int *i, int *j, int *k, int *l)
             if (list && list[*i] && list[*i]->redir && list[*i]->redir[*j] && list[*i]->redir[*j][*l] && list[*i]->redir[*j][*l] == '\"')
             {
                 (*l)++;
-                while (list && list[*i] && list[*i]->redir && list[*i]->redir[*j][*l] && list[*i]->redir[*j][*l] != '\"')
+                while (list && list[*i] && list[*i]->redir && list[*i]->redir[*j] && list[*i]->redir[*j][*l] && list[*i]->redir[*j][*l] != '\"')
                 {
                     list[*i]->redir[*j][*k] = list[*i]->redir[*j][*l];
                     (*k)++;
@@ -62,7 +62,7 @@ void handele_redir(t_list **list, int *i, int *j, int *k, int *l)
             else if (list && list[*i] && list[*i]->redir && list[*i]->redir[*j] && list[*i]->redir[*j][*l] && list[*i]->redir[*j][*l] == '\'')
             {
                 (*l)++;
-                while (list && list[*i] && list[*i]->redir && list[*i]->redir[*j][*l] && list[*i]->redir[*j][*l] != '\'')
+                while (list && list[*i] && list[*i]->redir && list[*i]->redir[*j] && list[*i]->redir[*j][*l] && list[*i]->redir[*j][*l] != '\'')
                 {
                     list[*i]->redir[*j][*k] = list[*i]->redir[*j][*l];
                     (*k)++;
@@ -79,8 +79,12 @@ void handele_redir(t_list **list, int *i, int *j, int *k, int *l)
             }
         }
         if (list && list[*i] && list[*i]->redir && list[*i]->redir[*j])
+        {
             list[*i]->redir[*j][*k] = '\0';
-        (*j)++;
+            break;
+        }
+        else
+            (*j)++;
     }
 }
 
@@ -129,33 +133,33 @@ void handele_redir(t_list **list, int *i, int *j, int *k, int *l)
 //     }
 // }
 
-void handele_export(t_list **list, int *i, int *j , int *k, int *l)
-{
-    while (list && list[*i] && list[*i]->args && list[*i]->args[*j] && list[*i]->args[*j][*l])
-    {
-        list[*i]->args[*j][*k] = list[*i]->args[*j][*l];
-        (*k)++;
-        (*l)++;
-    }
-}
+// void handele_export(t_list **list, int *i, int *j , int *k, int *l)
+// {
+//     while (list && list[*i] && list[*i]->args && list[*i]->args[*j] && list[*i]->args[*j][*l])
+//     {
+//         list[*i]->args[*j][*k] = list[*i]->args[*j][*l];
+//         (*k)++;
+//         (*l)++;
+//     }
+// }
 
 
-int check_expend(char *str, t_env *env_list, char c)
-{
-    int i = 0;
-    i++;
-    while (str && str[0] && str[i] && str[i] != c)
-        i++;
-    while (env_list != NULL)
-    {
-        if (str && ft_strncmp(str, env_list->value, i) == 0)
-        {
-            return 1;
-        }
-        env_list = env_list->next;
-    }
-    return 0;
-}
+// int check_expend(char *str, t_env *env_list, char c)
+// {
+//     int i = 0;
+//     i++;
+//     while (str && str[0] && str[i] && str[i] != c)
+//         i++;
+//     while (env_list != NULL)
+//     {
+//         if (str && ft_strncmp(str, env_list->value, i) == 0)
+//         {
+//             return 1;
+//         }
+//         env_list = env_list->next;
+//     }
+//     return 0;
+// }
 
 void handele_args(t_list **list, int *i, int *j, int *k, int *l, t_env *env_list)
 {
@@ -263,15 +267,19 @@ void remove_quotes(t_list** list, t_env *env_list)
         k = 0;
         j = 0;
         //cmd
-        handele_cmd(list, &i, &j, &k);
+        if (list[i]->cmd && *list[i]->cmd)
+            handele_cmd(list, &i, &j, &k);
         //redir
         k = 0;
         j = 0;
         l = 0;
-        handele_redir(list, &i, &j, &k, &l);
+        // printf("%s\n", *list[i]->redir);
+        if (list[i]->redir && *list[i]->redir)
+            handele_redir(list, &i, &j, &k, &l);
         //args
         j = 0;
-        handele_args(list, &i, &j, &k, &l, env_list);
+        if (list[i]->args && *list[i]->args)
+            handele_args(list, &i, &j, &k, &l, env_list);
         i++;
     }
 }

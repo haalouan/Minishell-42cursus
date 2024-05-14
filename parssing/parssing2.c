@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 11:05:44 by haalouan          #+#    #+#             */
-/*   Updated: 2024/05/12 18:40:32 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/05/14 16:57:09 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ void redirection(t_list **list, char **tab, int pipe, int k)
     i = 0;
     size = 0;
     count = count_redir(tab, pipe);
+    list[k]->redir = NULL;
     list[k]->redir = (char **)malloc(sizeof(char *) * (count + 1) + 1);
     if (!list[k]->redir)
         exit(EXIT_FAILURE);
@@ -120,9 +121,9 @@ void redirection(t_list **list, char **tab, int pipe, int k)
         i++;
     }
     i = 0;
-    while (tab[i] && tab[i][0] != '|')
+    while (tab && tab[i] && tab[i][0] != '|' && list[k]->redir)
     {
-        if (tab[i][0] == '>' || tab[i][0] == '<')
+        if (tab && tab[i] && (tab[i][0] == '>' || tab[i][0] == '<'))
         {
             list[k]->redir[j] = malloc(ft_strlen(tab[i]) + 1);
             if (!list[k]->redir[j])
@@ -130,10 +131,10 @@ void redirection(t_list **list, char **tab, int pipe, int k)
             ft_strncpy(list[k]->redir[j], tab[i], ft_strlen(tab[i]));
             size = 0;
             i++;
-            if (tab[i][0] == '|')
+            if (tab && tab[i] && tab[i][0] == '|')
                 break;
-            j++;
-            list[k]->redir[j] = malloc(ft_strlen(tab[i]) + 1);
+            else if (!tab[i])
+                return; j++; list[k]->redir[j] = malloc(ft_strlen(tab[i]) + 1);
             if (!list[k]->redir[j])
                 exit(EXIT_FAILURE);
             ft_strncpy(list[k]->redir[j], tab[i], ft_strlen(tab[i]));
@@ -156,6 +157,12 @@ void continue_parssing(t_list **list, char **tab, char *line, t_env *env_list)
 {
     tab = expend(tab, env_list);
     // (void)env_list;
+    int b = 0;
+    while (tab[b])
+    {
+        printf("(%s)\n", tab[b]);
+        b++;
+    }
     int count = count_cmds(line);
     int size = count_pipe(tab);
     int i = 0;

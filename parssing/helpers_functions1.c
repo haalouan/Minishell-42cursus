@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:27:26 by haalouan          #+#    #+#             */
-/*   Updated: 2024/05/12 15:04:48 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/05/14 16:16:10 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,8 @@ void print_tab(char **tab, char *line, t_list **list)
             printf("|");
             printf(""ANSI_COLOR_GREEN"     FILE    " ANSI_RESET_ALL"");
             printf("|");
-            printf("   %s\n", list[i]->redir[n]);
+            if (list[i]->redir)
+                printf("   %s\n", list[i]->redir[n]);
             printf("*-------------*-----------*\n");
             n++;
         }

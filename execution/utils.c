@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: achater <achater@student.42.fr>            +#+  +:+       +#+        */
+/*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 15:31:52 by achater           #+#    #+#             */
-/*   Updated: 2024/05/08 13:27:41 by achater          ###   ########.fr       */
+/*   Updated: 2024/05/14 14:54:44 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int ft_strcmp(char *arg, char *str)
 	int i;
 
 	i = 0;
+	if (!arg || !str)
+		return 0;
 	while (arg[i] && str[i])
 	{
 		if (arg[i] > str[i])
