@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 16:38:45 by haalouan          #+#    #+#             */
-/*   Updated: 2024/05/14 16:31:28 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/05/15 12:29:19 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ void add_tab(char *line, char **tab, int len)
 char **handele_parssing(char *line)
 {
     int count = count_cmds(line);
-    printf("*-------------------------*\n");
-    printf("|   nbr of cmds -> [%d]    |\n", count);
-    printf("*-------------------------*\n");
+    // printf("*-------------------------*\n");
+    // ("|   nbr of cmds -> [%d]    |\n", count);
+    // printf("*-------------------------*\n");
     // return NULL;
     // exit(EXIT_FAILURE);
     t_check check;

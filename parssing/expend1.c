@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 00:31:12 by haalouan          #+#    #+#             */
-/*   Updated: 2024/05/14 17:35:42 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/05/15 16:56:45 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,19 @@ char *protect_env(char *str)
     value = malloc(ft_strlen(str) + 2 + 1);
     value[j] = '\"';
     j++;
+    while (str[i] == ' ' || str[i] == '\t')
+        i++;
     while (str && str[i])
     {
         value[j] = str[i];
         i++;
+        j++;
+    }
+    if (value[j - 1] == ' ' || value[j - 1] == '\t')
+    {
+        j--;
+        while (value[j] == ' ' || value[j] == '\t')
+            j--;
         j++;
     }
     value[j] = '\"';
@@ -80,17 +89,52 @@ int count_str(char **str)
     return i;
 }
 
+char *protect_new_str(char *str)
+{
+    char *s;
+    int i = 0;
+    int j = 1;
+
+    s = NULL;
+    s = malloc(ft_strlen(str) + 3);
+    if (!s || !str)
+        return str;
+    s[0] = '\"';
+    while (str && str[i])
+    {
+        s[j] = str[i];
+        i++;
+        j++;
+    }
+    s[j] = '\"';
+    s[j + 1] = '\0';
+    return s;
+}
+
+char *protect_new_tab(char *str)
+{
+    int i = 1;
+    int k = 1;
+    char *s = NULL;
+    s = malloc(ft_strlen(str) + 1);
+    if (!s)
+        exit(EXIT_FAILURE);
+    while (str && str[i])
+    {
+        while (str[i] && (str[i] == ' ' || str[i] == '\t'))
+            i++;
+        s[0] = '\"';
+        s[k] = str[i];
+        k++;
+        i++;
+    }
+    s[k] = '\0';
+    return s;
+}
+
 char **change_tab(char **old_tab, char *str)
 {
     int i = 0;
-    i  = 0;
-    i++;
-    while (str && (str[i] == ' ' || str[i] == '\t'))
-    {
-        i++;
-        str = str + i - 1;
-        str[0] = '\"';
-    } 
     char **new_str = NULL;
     new_str = ft_split(str, ' ');
     if (!new_str)
@@ -119,7 +163,10 @@ char **change_tab(char **old_tab, char *str)
         {
             while (i < size + size2 && new_str && new_str[j])
             {
+                if (new_str[j][0] == '>' || new_str[j][0] == '<' || new_str[j][0] == '|')
+                    new_str[j] = protect_new_str(new_str[j]);
                 new_tab[i] = new_str[j];
+                // new_tab[i] = protect_new_tab(new_tab[i]);
                 j++;
                 i++;
             }
@@ -173,15 +220,28 @@ char **ft_realloc(char **tab, char *str)
 int search_for_value(char *str, char *s)
 {
     int i = 0;
-    
+    printf("str : %s\n",str);
+    printf("s : %s\n",s);
+    char *str = 
     while (str && str[i] && str[i] != '=')
         i++;
-    printf("(%s)\n", str);
-    printf("(%s)\n", str + i + 1);
-    printf("(%s)\n", s);
+    if (str[i] != '=')
+        return 1;
     if (ft_strncmp(str, s, i) == 0)
         return 1;
     return 0;
+}
+char *expend_digit(char *str)
+{
+    int i = 1;
+
+    while (str[i])
+    {
+        if (ft_isdigit(str[i]) == 1)
+            i++;
+        break;
+    }
+    return (str + i);
 }
 
 char **continue_expend(char **tab, int i, int *j, t_env *env_list)
@@ -190,7 +250,12 @@ char **continue_expend(char **tab, int i, int *j, t_env *env_list)
     char *value;
 
     key = 0;
-    value = 0; 
+    value = 0;
+    if (ft_isdigit(tab[i][*j + 1]) == 1)
+    {
+        tab[i] = expend_digit(tab[i]);
+        return tab;
+    }
     key = get_env_key(tab[i], *j);
     value = get_env_value(key, env_list);
     if (value)
@@ -203,11 +268,10 @@ char **continue_expend(char **tab, int i, int *j, t_env *env_list)
         //     tab = change_tab(tab, tab[i] + *j);
         // else
         //     tab = change_tab(tab, tab[i]);
-        printf("tab[i] = %s\n", tab[i]);
         // if (ft_strcmp(tab[0], "export") != 0)
         //     tab = change_tab(tab, tab[i] + *j);
         if (search_for_value(tab[i], value) == 1)
-            tab = change_tab(tab, tab[i] + *j);
+            tab = change_tab(tab, tab[i]);
     }
     else
     {
@@ -237,9 +301,9 @@ char **expend(char **tab, t_env *env_list)
                     if (tab && tab[i] && tab[i][j] == '$')
                     {
                         tab = expend_in_double_quote(tab, i, &j, env_list);
-                        return tab;
+                        // return tab;
                         // continue;
-                        // break;
+                        break;
                     }
                     else
                         j++;
@@ -261,7 +325,7 @@ char **expend(char **tab, t_env *env_list)
                 tab = continue_expend(tab, i, &j, env_list);
                 // return tab;
                 // continue;
-                break;
+                // break;
             }
             else if (tab && tab[i] && tab[i][j] == '$' && (tab[i][j + 1] == '\'' || tab[i][j + 1] == '\"'))
             {

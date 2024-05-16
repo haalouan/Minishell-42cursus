@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: achater <achater@student.42.fr>            +#+  +:+       +#+        */
+/*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 11:28:38 by achater           #+#    #+#             */
-/*   Updated: 2024/05/13 14:04:55 by achater          ###   ########.fr       */
+/*   Updated: 2024/05/15 12:04:43 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -324,6 +324,8 @@ void execution(t_list **list, t_env *env_list, char **env)
     {
         if ((*list)->redir[0] != NULL && (*list)->cmd == NULL)
             handle_redir_no_command(*list);
+		else if((*list)->cmd == NULL)
+			return;
         else
             handle_one_cmd(*list, &env_list, env);
     }

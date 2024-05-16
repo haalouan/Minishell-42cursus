@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 00:31:58 by haalouan          #+#    #+#             */
-/*   Updated: 2024/05/14 16:59:40 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/05/15 15:52:03 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,7 +158,7 @@ char **expend_in_double_quote(char **tab, int i, int *j, t_env *env_list)
         {
             key = get_env_key(tab[i], *j);
             value = get_env_value(key, env_list);
-            // if (value)
+            if (value)
                 value = protect_env(value);
             if (key && value)
             {
@@ -170,17 +170,26 @@ char **expend_in_double_quote(char **tab, int i, int *j, t_env *env_list)
                 // else    
                 //     tab = change_tab(tab, tab[i]);
                 // if (ft_strcmp(tab[0], "export") != 0)
-                    tab = change_tab(tab, tab[i]);
+                if (search_for_value(tab[i], value) == 1)
+                    tab = change_tab(tab, tab[i] + *j);
                 return tab;
             }
-            // else
-            // {
-            //     tab[i] = ft_str_replace(tab[i], key, "");
-            //     tab[i] = remove_$(tab[i], 1, value);
-            // }
+            else
+            {
+                tab[i] = ft_str_replace(tab[i], key, "");
+                tab[i] = remove_$(tab[i], 1, value);
+                return tab;
+            }
         }
         else if (tab && tab[i] && tab[i][*j] == '$' && tab[i][*j + 1] == '\"')
             break;
+        else
+        {
+            tab[i] = ft_str_replace(tab[i], key, "");
+            tab[i] = remove_$(tab[i], 1, value);
+            if (tab[i][0] == '\0')
+                tab = ft_realloc(tab, tab[i]);
+        }
         j++;
     }
     return tab;

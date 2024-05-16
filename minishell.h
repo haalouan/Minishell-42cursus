@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:22:31 by haalouan          #+#    #+#             */
-/*   Updated: 2024/05/12 18:32:59 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/05/15 16:47:15 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ char **expend(char **tab, t_env *env_list);
 char **change_tab(char **old_tab, char *str);
 char *protect_env(char *str);
 char **ft_realloc(char **tab, char *str);
+int search_for_value(char *str, char *s);
 
 //helpers_function1
 char *ft_strstr(const char *haystack, const char *needle);
@@ -115,6 +116,7 @@ int	ft_isdigit(int c);
 int is_character(char c);
 void print_tab(char **tab, char *line, t_list **list);//
 int is_character2(char c);
+int	ft_isdigit(int c);
 
 //helpers_function2
 int	ft_isalpha(int c);
