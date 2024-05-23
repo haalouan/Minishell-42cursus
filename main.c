@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: achater <achater@student.42.fr>            +#+  +:+       +#+        */
+/*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 16:35:11 by haalouan          #+#    #+#             */
-/*   Updated: 2024/05/17 17:46:56 by achater          ###   ########.fr       */
+/*   Updated: 2024/05/23 21:16:35 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,11 @@ int main(int arc, char **arv, char **env)
     line = NULL;
     list = NULL;
     env_list = NULL;
+    if (!isatty(0))
+    {
+        printf("isk tcha hhhhhhh\n");
+        exit(EXIT_FAILURE);
+    }
     set_env(env, &env_list);
     dup2(3, 0);
 	dup2(4, 1);
