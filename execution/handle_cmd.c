@@ -6,7 +6,7 @@
 /*   By: achater <achater@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 17:29:29 by achater           #+#    #+#             */
-/*   Updated: 2024/05/12 16:39:52 by achater          ###   ########.fr       */
+/*   Updated: 2024/05/14 17:08:56 by achater          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	execute(char **cmds, char **envp,char *cmd)
 
 	i = 0;
 	if (access(cmd, X_OK) >= 0)
-		execve(cmd, cmds, NULL);
+		execve(cmd, cmds, envp);
 	path = find_path(cmd, envp);
 	if (execve(path, cmds, envp) < 0)
 	{

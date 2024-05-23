@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 16:59:42 by achater           #+#    #+#             */
-/*   Updated: 2024/05/14 17:07:31 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/05/08 22:38:31 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ char *ft_substr(char const *s, unsigned int start, int len)
 	int i;
 
 	i = 0;
-	x = NULL;
 	x = malloc(len + 1);
 	if (x == 0)
 		return (0);
@@ -91,16 +90,9 @@ char	**ft_split(char const *s, char c)
 
 	if (!s)
 		return (0);
-	substrs = NULL;
 	substrs = (char **)malloc((count_word(s, c) + 1) * sizeof(char *));
 	if (!substrs)
 		exit(1);
-	i = 0;
-	while (i <= count_word(s, c))
-	{
-		substrs[i] = NULL;
-		i++;
-	}
 	i = 0;
 	while (*s)
 	{

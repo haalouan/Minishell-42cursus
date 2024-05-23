@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 11:05:44 by haalouan          #+#    #+#             */
-/*   Updated: 2024/05/15 11:54:35 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/05/17 13:12:35 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,9 +153,11 @@ void redirection(t_list **list, char **tab, int pipe, int k)
     }
 }
 
-void continue_parssing(t_list **list, char **tab, char *line, t_env *env_list)
+int  continue_parssing(t_list **list, char **tab, char *line, t_env *env_list)
 {
     tab = expend(tab, env_list);
+    if (check_error2(tab) == 1)
+        return 1;
     // (void)env_list;
     int count = count_cmds(line);
     int size = count_pipe(tab);
@@ -194,4 +196,5 @@ void continue_parssing(t_list **list, char **tab, char *line, t_env *env_list)
         k++;
     }
     (*list)->nbr = k;
+    return 0;
 }

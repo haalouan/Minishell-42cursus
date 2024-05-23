@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 16:38:45 by haalouan          #+#    #+#             */
-/*   Updated: 2024/05/15 12:29:19 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/05/17 12:59:51 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,8 @@ t_list **parssing(char *line, t_env *env_list)
     list = (t_list **)malloc(sizeof(t_list *) * (count_pipe(tab) + 1) + 1);
     if (!list)
         exit(EXIT_FAILURE);
-    continue_parssing(list, tab, line, env_list);
+    if (continue_parssing(list, tab, line, env_list) == 1)
+        return NULL;
     remove_quotes(list, env_list);
     list[0]->exit = 0;
     print_tab(tab, line, list);

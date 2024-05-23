@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: achater <achater@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 11:28:38 by achater           #+#    #+#             */
-/*   Updated: 2024/05/15 12:04:43 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/05/21 17:08:35 by achater          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	change_value(t_env **env_list,char *value)
 	(*env_list)->value = ft_strdup(value);
 }
 
-void ft_cd(char	**args, t_env **env_list)
+void ft_cd(char	**args, t_env *env_list)
 {
 	char *oldpwd;
 	char *newpwd;
@@ -29,13 +29,13 @@ void ft_cd(char	**args, t_env **env_list)
 	else if (chdir(args[0]) == -1)
 		printf("minishell: cd: %s: No such file or directory\n", args[0]);
 	newpwd = getcwd(NULL, 0);
-	while((*env_list)->next)
+	while(env_list->next)
 	{
-		if(ft_strcmp((*env_list)->key, "OLDPWD") == 0)
-			change_value(env_list, oldpwd);
-		if(ft_strcmp((*env_list)->key, "PWD") == 0)
-			change_value(env_list, newpwd);
-		(*env_list) = (*env_list)->next;
+		if(ft_strcmp(env_list->key, "OLDPWD") == 0)
+			change_value(&env_list, oldpwd);
+		else if(ft_strcmp(env_list->key, "PWD") == 0)
+			change_value(&env_list, newpwd);
+		env_list = env_list->next;
 	}
 	return;
 }
@@ -142,7 +142,7 @@ void	ft_remove(t_env **env_list, char *key)
 			prev = temp;
 			temp = temp->next;
 		}
-		else if (prev == NULL && ft_strcmp(temp->key, key) == 0)
+		if (prev == NULL && ft_strcmp(temp->key, key) == 0)
 		{
 			*env_list = temp->next;
 			free(temp);
@@ -164,21 +164,26 @@ void	ft_remove(t_env **env_list, char *key)
 	return;
 }
 
-t_env	*ft_unset(t_env **env_list, char **args)
+void	ft_unset(t_env **env_list, char **args)
 {
 	int i = 0;
 
 	if (args == NULL)
-		return (*env_list);
+		return ;
 	if(env_list == NULL)
-		return (NULL);
+		return ;
 	while (args[i])
 	{
+		if(ft_strcmp(args[i], "_") == 0)
+		{
+			i++;
+			continue;
+		}
 		ft_remove(env_list, args[i]);
 		i++;
 	}
-	return (*env_list);
 }
+
 char	**struct_to_char(t_env *env_list)
 {
 	int i;
@@ -192,7 +197,10 @@ char	**struct_to_char(t_env *env_list)
 		return (NULL);
 	while (temp)
 	{
-		new_env[i] = ft_strjoin3(temp->key, "=", temp->value);
+		if(temp->value == NULL)
+			new_env[i] = ft_strjoin3(temp->key, "", "");
+		else
+			new_env[i] = ft_strjoin3(temp->key, "=", temp->value);
 		temp = temp->next;
 		i++;
 	}
@@ -219,20 +227,20 @@ int check_builtins(char *cmd)
 }
 
 
-void	handle_one_cmd(t_list *cmds, t_env **env_list,char **env)
+void	handle_one_cmd(t_list *cmds, t_env **env_list,char **env, t_here_doc **here_doc)
 {
 	int pid;
 	char **new_env;
 
 	(void)env;
 	new_env = struct_to_char(*env_list);
-	handle_redir(cmds);
+	handle_redir(cmds, here_doc);
 	if (cmds->file_in < 0)
 		return;
 	if (ft_strcmp(cmds->cmd, "cd") == 0)
-		ft_cd(cmds->args, env_list);
+		ft_cd(cmds->args, *env_list);
 	else if (ft_strcmp(cmds->cmd, "unset") == 0)
-			*env_list = ft_unset(env_list,cmds->args);
+		ft_unset(env_list,cmds->args);
 	else if (ft_strcmp(cmds->cmd, "exit") == 0)
 		ft_exit(cmds->args, cmds);
 	else if (ft_strcmp(cmds->cmd, "export") == 0 && cmds->args != NULL)
@@ -259,7 +267,6 @@ void	handle_one_cmd(t_list *cmds, t_env **env_list,char **env)
 	}
 	else
 		wait(NULL);
-
 }
 
 void	ft_builtins(t_list *cmds, t_env **env_list,char **env)
@@ -271,7 +278,7 @@ void	ft_builtins(t_list *cmds, t_env **env_list,char **env)
 	if (ft_strcmp(cmds->cmd, "echo") == 0)
 		ft_echo(cmds->args, 0, 0, 0);
 	else if (ft_strcmp(cmds->cmd, "cd") == 0)
-		ft_cd(cmds->args, env_list);
+		ft_cd(cmds->args, *env_list);
 	else if (ft_strcmp(cmds->cmd, "env") == 0 && cmds)
 		ft_env(*env_list, cmds->args);
 	else if (ft_strcmp(cmds->cmd, "export") == 0)
@@ -279,7 +286,7 @@ void	ft_builtins(t_list *cmds, t_env **env_list,char **env)
 	else if (ft_strcmp(cmds->cmd, "pwd") == 0 || ft_strcmp(cmds->cmd, "PWD") == 0)
 		ft_pwd();
 	else if (ft_strcmp(cmds->cmd, "unset") == 0)
-		*env_list = ft_unset(env_list,cmds->args);
+		ft_unset(env_list,cmds->args);
 	else if (ft_strcmp(cmds->cmd, "exit") == 0)
 		ft_exit(cmds->args, cmds);
 	else
@@ -304,30 +311,39 @@ void set_env(char **env, t_env **env_list)
 	while(env[i])
 	{
 		splited_env = ft_split(env[i], '=');
-		ft_lstadd_back(env_list, ft_lstnew(splited_env[0], splited_env[1]));
+		if(ft_strcmp(splited_env[0],"SHLVL") == 0)
+			splited_env[1] = shlvl_increment(splited_env[1]);
+		else if(ft_strcmp(splited_env[0],"OLDPWD") == 0)
+			ft_lstadd_back(env_list, ft_lstnew("OLDPWD", NULL));
+		else if(ft_strcmp(splited_env[0], "_") == 0)
+			ft_lstadd_back(env_list, ft_lstnew("_", "/usr/bin/env"));
+		else
+			ft_lstadd_back(env_list, ft_lstnew(splited_env[0], splited_env[1]));
 		i++;
 	}
 }
 
-void execution(t_list **list, t_env *env_list, char **env)
+void execution(t_list **list, t_env **env_list, char **env)
 {
     int i;
     int fd[2];
     pid_t pid;
     int prev_pipe = -1;
+    t_here_doc *her_doc;
 
     i = 0;
+    her_doc = NULL;
     (*list)->file_in = 0;
     (*list)->file_out = 1;
-
+    set_here_doc(list, &her_doc);
     if ((*list)->nbr == 1)
     {
+	if((*list)->cmd == NULL && (*list)->redir[0] == NULL)
+		return;
         if ((*list)->redir[0] != NULL && (*list)->cmd == NULL)
-            handle_redir_no_command(*list);
-		else if((*list)->cmd == NULL)
-			return;
-        else
-            handle_one_cmd(*list, &env_list, env);
+		handle_redir_no_command(*list);
+	else
+            handle_one_cmd(*list, env_list, env, &her_doc);
     }
     else
     {
@@ -338,9 +354,9 @@ void execution(t_list **list, t_env *env_list, char **env)
             pid = fork();
             if (pid == -1)
                 error();
-            handle_redir(list[i]);
             if (pid == 0)
             {
+		handle_redir(list[i], &her_doc);
 		if(list[i]->file_in < 0)
 			exit(EXIT_FAILURE);
                 if (i == 0)
@@ -357,7 +373,10 @@ void execution(t_list **list, t_env *env_list, char **env)
                 if (i != (*list)->nbr - 1)
                 {
 			if(list[i]->file_out == 1)
+			{
+				close(fd[0]);
 		    		dup2(fd[1], STDOUT_FILENO);
+			}
 			else
 				dup2(list[i]->file_out, STDOUT_FILENO);
 			 close(fd[1]);
@@ -374,7 +393,7 @@ void execution(t_list **list, t_env *env_list, char **env)
                 }
                 else
                 {
-                    ft_builtins(list[i], &env_list, env);
+                    ft_builtins(list[i], env_list, env);
                     exit(EXIT_SUCCESS);
                 }
             }
@@ -392,7 +411,6 @@ void execution(t_list **list, t_env *env_list, char **env)
             }
             i++;
         }
-
         while (wait(NULL) > 0)
             ;
     }

@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:22:31 by haalouan          #+#    #+#             */
-/*   Updated: 2024/05/15 16:47:15 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/05/23 20:53:56 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,12 @@ typedef struct s_check
     int in_s_cote;
 }t_check;
 
+typedef struct s_here_doc
+{
+    char **lines;
+    struct s_here_doc *next;
+}t_here_doc;
+
 typedef struct s_list
 {
     int nbr;
@@ -59,6 +65,7 @@ typedef struct s_list
 
 
 
+
 //execution
 
 typedef struct s_env
@@ -67,7 +74,6 @@ typedef struct s_env
 	char *value;
 	struct s_env *next;
 } t_env;
-
 //ex
 int ft_strcmp(char *arg, char *str);
 t_env    *ft_lstnew(char *key , char *content);
@@ -76,7 +82,7 @@ void ft_lstadd_back(t_env **lst, t_env *new);
 char **ft_split(char const *s, char c);
 int ft_lstsize(t_env *lst);
 t_env    *ft_lstlast(t_env *lst);
-void execution(t_list **list, t_env *env_list,char **env);
+void execution(t_list **list, t_env **env_list,char **env);
 void set_env(char **env, t_env **env_list);
 int    ft_is_alpha(char c);
 int check_args(char *args,char *str);
@@ -88,8 +94,11 @@ void    error(void);
 void    execute(char **cmds, char **envp, char *cmd);
 void    change_value(t_env **env_list,char *value);
 char    *ft_strjoin(char *s1,char *s2);
-void    handle_redir(t_list *list);
+void    handle_redir(t_list *list, t_here_doc **here_doc);
 void    handle_redir_no_command(t_list *list);
+char *shlvl_increment(char *str);
+void	set_here_doc(t_list **list, t_here_doc **here_doc);
+void	ft_env(t_env *env_list, char **args);
 
 
 /*******************************************************parssing*******************************************************/
@@ -105,9 +114,8 @@ char **expend_in_double_quote(char **tab, int i, int *j, t_env *env_list);
 char **continue_expend(char **tab, int i, int *j, t_env *env_list);
 char **expend(char **tab, t_env *env_list);
 char **change_tab(char **old_tab, char *str);
-char *protect_env(char *str);
+char *protect_env(char *str, int key);
 char **ft_realloc(char **tab, char *str);
-int search_for_value(char *str, char *s);
 
 //helpers_function1
 char *ft_strstr(const char *haystack, const char *needle);
@@ -116,7 +124,6 @@ int	ft_isdigit(int c);
 int is_character(char c);
 void print_tab(char **tab, char *line, t_list **list);//
 int is_character2(char c);
-int	ft_isdigit(int c);
 
 //helpers_function2
 int	ft_isalpha(int c);
@@ -138,6 +145,7 @@ void check_check(char *line, t_check *check);
 void check_init(t_check *check);
 int check(char **tab);
 int check_error(char **tab);
+int check_error2(char **tab);
 int check_line(char *line);
 
 //parssing1
@@ -169,7 +177,7 @@ char **handele_parssing(char *line);
 void add_tab(char *line, char **tab, int len);
 
 //parssing2
-void continue_parssing(t_list **list, char **tab, char *line, t_env *env_list);
+int  continue_parssing(t_list **list, char **tab, char *line, t_env *env_list);
 
 //parssing3
 int count_pipe(char **tab);

@@ -6,14 +6,14 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 00:31:12 by haalouan          #+#    #+#             */
-/*   Updated: 2024/05/15 16:56:45 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/05/17 15:15:51 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 
-char *protect_env(char *str)
+char *protect_env(char *str, int key)
 {
     char *value;
     int i = 0;
@@ -22,15 +22,18 @@ char *protect_env(char *str)
     value = malloc(ft_strlen(str) + 2 + 1);
     value[j] = '\"';
     j++;
-    while (str[i] == ' ' || str[i] == '\t')
+    if (key == 1)
+    {
+        while (str[i] == ' ' || str[i] == '\t')
         i++;
+    }
     while (str && str[i])
     {
         value[j] = str[i];
         i++;
         j++;
     }
-    if (value[j - 1] == ' ' || value[j - 1] == '\t')
+    if (key == 1 && (value[j - 1] == ' ' || value[j - 1] == '\t'))
     {
         j--;
         while (value[j] == ' ' || value[j] == '\t')
@@ -222,7 +225,6 @@ int search_for_value(char *str, char *s)
     int i = 0;
     printf("str : %s\n",str);
     printf("s : %s\n",s);
-    char *str = 
     while (str && str[i] && str[i] != '=')
         i++;
     if (str[i] != '=')
@@ -248,7 +250,6 @@ char **continue_expend(char **tab, int i, int *j, t_env *env_list)
 {
     char *key;
     char *value;
-
     key = 0;
     value = 0;
     if (ft_isdigit(tab[i][*j + 1]) == 1)
@@ -259,19 +260,14 @@ char **continue_expend(char **tab, int i, int *j, t_env *env_list)
     key = get_env_key(tab[i], *j);
     value = get_env_value(key, env_list);
     if (value)
-        value = protect_env(value);
+        value = protect_env(value, 1);
     if (key && value)
     {
         tab[i] = ft_str_replace(tab[i], key, value);
         tab[i] = remove_$(tab[i], 1, value);
-        // if (ft_strcmp(tab[0], "export") == 0)
-        //     tab = change_tab(tab, tab[i] + *j);
-        // else
-        //     tab = change_tab(tab, tab[i]);
-        // if (ft_strcmp(tab[0], "export") != 0)
-        //     tab = change_tab(tab, tab[i] + *j);
         if (search_for_value(tab[i], value) == 1)
             tab = change_tab(tab, tab[i]);
+        return tab;
     }
     else
     {
@@ -298,7 +294,7 @@ char **expend(char **tab, t_env *env_list)
                 j++;
                 while (tab && tab[i] && tab[i][j] && tab[i][j] != '\"') {
                     // printf("{%s}\n", tab[i] + j);
-                    if (tab && tab[i] && tab[i][j] == '$')
+                    if (tab && tab[i] && tab[i][j] == '$' && tab[i][j + 1] != '\0' && tab[i][j + 1] != '\"')
                     {
                         tab = expend_in_double_quote(tab, i, &j, env_list);
                         // return tab;
@@ -320,7 +316,7 @@ char **expend(char **tab, t_env *env_list)
                     j++;
                 // return tab;
             }
-            else if (tab && tab[i] && tab[i][j] == '$' && tab[i][j + 1] != '\"' && tab[i][j + 1] != '\'')
+            else if (tab && tab[i] && tab[i][j] == '$' && tab[i][j + 1] != '\"' && tab[i][j + 1] != '\'' && tab[i][j + 1] != '\0')
             {
                 tab = continue_expend(tab, i, &j, env_list);
                 // return tab;

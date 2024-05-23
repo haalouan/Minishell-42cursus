@@ -6,7 +6,7 @@
 /*   By: achater <achater@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 12:50:01 by achater           #+#    #+#             */
-/*   Updated: 2024/05/11 20:45:34 by achater          ###   ########.fr       */
+/*   Updated: 2024/05/21 12:29:10 by achater          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ void	sort_and_print_env(t_env *lst, int (*cmp)(char*,char*))
 	t_env	*tmp;
 
 	tmp = lst;
+	if(lst == NULL)
+		return;
 	while(lst->next != NULL)
 	{
 		if (((*cmp)(lst->key, lst->next->key)) > 0)
@@ -120,7 +122,7 @@ void	ft_export(char **args, t_env **env)
 	char *value;
 
 	tmp = ft_copy_list(*env);
-	tmp1 = tmp;
+	tmp1 = *env;
 	if (args == NULL)
 	{
 		sort_and_print_env(tmp, ft_strcmp);
@@ -130,6 +132,12 @@ void	ft_export(char **args, t_env **env)
 	{
 		while (args[i])
 		{
+			if(args[i][0] == '\0')
+			{
+				printf("minishell: export: `': not a valid identifier\n");
+				i++;
+				continue;
+			}
 			split_by_equal(args[i], &key, &value);
 			if (key == NULL)
 			{
@@ -158,14 +166,14 @@ void	ft_export(char **args, t_env **env)
 						}
 						else
 						{
-							while(env)
+							while(tmp1)
 							{
-								if (ft_strcmp((*env)->key, key) == 0)
+								if (ft_strcmp(tmp1->key, key) == 0)
 								{
-									(*env)->value = value;
+									tmp1->value = value;
 									break;
 								}
-								*env = (*env)->next;
+								tmp1 = tmp1->next;
 							}
 						}
 					}
@@ -176,14 +184,14 @@ void	ft_export(char **args, t_env **env)
 					if (key_exist(*env, key) == 0)
 						ft_lstadd_back(env, ft_lstnew(key, value));
 					else
-						while(env)
+						while(tmp1)
 						{
-							if (ft_strcmp((*env)->key, key) == 0)
+							if (ft_strcmp(tmp1->key, key) == 0)
 							{
-								(*env)->value = ft_strjoin(get_env_value(key, *env), value);
+								tmp1->value = ft_strjoin(get_env_value(key, tmp1), value);
 								break;
 							}
-							*env = (*env)->next;
+							tmp1 = tmp1->next;
 						}
 				}
 

@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 00:31:58 by haalouan          #+#    #+#             */
-/*   Updated: 2024/05/15 15:52:03 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/05/17 15:27:04 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,20 +159,14 @@ char **expend_in_double_quote(char **tab, int i, int *j, t_env *env_list)
             key = get_env_key(tab[i], *j);
             value = get_env_value(key, env_list);
             if (value)
-                value = protect_env(value);
+                value = protect_env(value, 0);
             if (key && value)
             {
                 tab[i] = ft_str_replace(tab[i], key, value);
                 tab[i] = remove_$(tab[i], 1, value);
-                // tab = change_tab(tab, tab[i]);
-                // if (ft_strcmp(tab[0], "export") == 0)
-                //     tab = change_tab(tab, tab[i] + *j);
-                // else    
-                //     tab = change_tab(tab, tab[i]);
-                // if (ft_strcmp(tab[0], "export") != 0)
-                if (search_for_value(tab[i], value) == 1)
-                    tab = change_tab(tab, tab[i] + *j);
-                return tab;
+                // if (search_for_value(tab[i], value) == 1 && ft_strcmp(tab[0], "echo") != 0)
+                    // tab = change_tab(tab, tab[i]);
+                return tab;//
             }
             else
             {
@@ -187,8 +181,8 @@ char **expend_in_double_quote(char **tab, int i, int *j, t_env *env_list)
         {
             tab[i] = ft_str_replace(tab[i], key, "");
             tab[i] = remove_$(tab[i], 1, value);
-            if (tab[i][0] == '\0')
-                tab = ft_realloc(tab, tab[i]);
+            // if (tab[i][0] == '\0')
+            //     tab = ft_realloc(tab, tab[i]);
         }
         j++;
     }
