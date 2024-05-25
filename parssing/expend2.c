@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 00:31:58 by haalouan          #+#    #+#             */
-/*   Updated: 2024/05/17 15:27:04 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/05/25 16:02:39 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ char *get_env_key(char *str, int i)
         int key_start = i;
         while (str && str[i] && ((str[i] >= 'a' && str[i] <= 'z') || (str[i] >= 'A' && str[i] <= 'Z') || (str[i] >= '0' && str[i] <= '9') || str[i] == '_'))
             i++;
-        key = (char *)malloc((i - key_start + 1) * sizeof(char)); // Exclude the last '$' from the key length
+        key = (char *)malloc((i - key_start + 1) * sizeof(char)); 
         if (!key)
             exit(EXIT_FAILURE);
         strncpy(key, &str[key_start], i - key_start);
@@ -106,6 +106,7 @@ char *get_env_key(char *str, int i)
 char *remove_$(char *tab, int check, char *value)
 {
     int i = 0;
+    (void)value;
     int k = 0;
     int chk = 0;
     while (tab && tab[i] != '\0')
@@ -122,14 +123,13 @@ char *remove_$(char *tab, int check, char *value)
             i++;
             chk = 1;
         }
-        if (tab && (tab[i] == ' ' || tab[i] == '\t') && value && value[0] != ' ')
-        {
-            tab[k] = ' ';
-            k++;
-
-            while (tab[i] == ' ' || tab[i] == '\t')
-                i++;
-        }
+        // if (tab && (tab[i] == ' ' || tab[i] == '\t') && value && value[0] != ' ')
+        // {
+        //     tab[k] = ' ';
+        //     k++;
+        //     while (tab[i] == ' ' || tab[i] == '\t')
+        //         i++;
+        // }
         tab[k] = tab[i];
         if (tab[i])
         {
@@ -164,27 +164,26 @@ char **expend_in_double_quote(char **tab, int i, int *j, t_env *env_list)
             {
                 tab[i] = ft_str_replace(tab[i], key, value);
                 tab[i] = remove_$(tab[i], 1, value);
-                // if (search_for_value(tab[i], value) == 1 && ft_strcmp(tab[0], "echo") != 0)
-                    // tab = change_tab(tab, tab[i]);
-                return tab;//
+                // return tab;
+                continue;
             }
             else
             {
                 tab[i] = ft_str_replace(tab[i], key, "");
                 tab[i] = remove_$(tab[i], 1, value);
-                return tab;
+                // return tab;
+                // continue;
             }
         }
         else if (tab && tab[i] && tab[i][*j] == '$' && tab[i][*j + 1] == '\"')
             break;
+        // else
+        // {
+        //     tab[i] = ft_str_replace(tab[i], key, "");
+        //     tab[i] = remove_$(tab[i], 1, value);
+        // }
         else
-        {
-            tab[i] = ft_str_replace(tab[i], key, "");
-            tab[i] = remove_$(tab[i], 1, value);
-            // if (tab[i][0] == '\0')
-            //     tab = ft_realloc(tab, tab[i]);
-        }
-        j++;
+            (*j)++;
     }
     return tab;
 }

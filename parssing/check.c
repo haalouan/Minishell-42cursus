@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 00:35:06 by haalouan          #+#    #+#             */
-/*   Updated: 2024/05/23 21:44:25 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/05/23 22:17:01 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,7 @@ int check(char **tab)
         else
             i++;
     }
-    if (tab && tab[i] && tab[i][0] == '\0' && tab[i - 1] && (tab[i - 1][0] == '|' || tab[i - 1][0] == '<' || tab[i - 1][0] == '>'))
-        return 1;
+    if (tab && tab[i] && tab[i][0] == '\0' && tab[i - 1] && (tab[i - 1][0] == '|' || tab[i - 1][0] == '<' || tab[i - 1][0] == '>')) return 1;
     return 0;
 }
 

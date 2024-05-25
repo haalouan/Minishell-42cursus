@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 00:47:28 by haalouan          #+#    #+#             */
-/*   Updated: 2024/05/15 16:22:52 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/05/25 16:48:41 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,34 +93,12 @@ void handele_args(t_list **list, int *i, int *j, int *k, int *l, t_env *env_list
     while (list && list[*i] && list[*i]->args && list[*i]->args[*j])
     {
         *l = 0;
-        *k = 0;                                                                                                                                                                                                                      
+        *k = 0;                                                                                                                                                                                                             
         while (list && list[*i] && list[*i]->args && list[*i]->args[*j] && list[*i]->args[*j][*l])
         {
             if (list && list[*i] && list[*i]->args && list[*i]->args[*j] && list[*i]->args[*j][*l] && list[*i]->args[*j][*l] == '\"')
             {
-                // if (check_expend(list[*i]->args[*j] + *l, env_list, '\"') == 1)
-                // {
-                //     list[*i]->args[*j][*k] = list[*i]->args[*j][*l];
-                //     (*k)++;
-                //     (*l)++;
-                //     while (list && list[*i] && list[*i]->args && list[*i]->args[*j][*l] && list[*i]->args[*j][*l] != '\"')
-                //     {
-                //         printf("%c\n", list[*i]->args[*j][*l]);
-                //         list[*i]->args[*j][*k] = list[*i]->args[*j][*l];
-                //         (*k)++;
-                //         (*l)++;
-                //     }
-                //     if (list[*i] && list[*i]->args && list[*i]->args[*j][*l] && list[*i]->args[*j][*l] == '\"')
-                //     {
-                //         // (*k)++;
-                //         // (*l)++;
-                //         printf("%c\n", list[*i]->args[*j][*l]);
-                //         list[*i]->args[*j][*k] = list[*i]->args[*j][*l];
-                //         (*k)++;
-                //     }
-                // }
-                // else
-                    (*l)++;
+                (*l)++;
                 while (list && list[*i] && list[*i]->args && list[*i]->args[*j][*l] && list[*i]->args[*j][*l] != '\"')
                 {
                     list[*i]->args[*j][*k] = list[*i]->args[*j][*l];
@@ -132,30 +110,7 @@ void handele_args(t_list **list, int *i, int *j, int *k, int *l, t_env *env_list
             }
             else if (list && list[*i] && list[*i]->args && list[*i]->args[*j] && list[*i]->args[*j][*l] && list[*i]->args[*j][*l] == '\'')
             {
-                // if (check_expend(list[*i]->args[*j] + *l, env_list, '\'') == 1)
-                // {
-                //     list[*i]->args[*j][*k] = list[*i]->args[*j][*l];
-                //     (*k)++;
-                //     (*l)++;
-                //     while (list && list[*i] && list[*i]->args && list[*i]->args[*j][*l] && list[*i]->args[*j][*l] != '\'')
-                //     {
-                //         printf("%c\n", list[*i]->args[*j][*l]);
-                //         list[*i]->args[*j][*k] = list[*i]->args[*j][*l];
-                //         (*k)++;
-                //         (*l)++;
-                //     }
-                //     if (list[*i] && list[*i]->args && list[*i]->args[*j][*l] && list[*i]->args[*j][*l] == '\'')
-                //     {
-                //         // (*k)++;
-                //         // (*l)++;
-                //         printf("%c\n", list[*i]->args[*j][*l]);
-                //         list[*i]->args[*j][*k] = list[*i]->args[*j][*l];
-                //         (*k)++;
-                //     }
-                // }
-                // else
-                    (*l)++;
-        
+                (*l)++;
                 while (list && list[*i] && list[*i]->args && list[*i]->args[*j][*l] && list[*i]->args[*j][*l] != '\'')
                 {
                     list[*i]->args[*j][*k] = list[*i]->args[*j][*l];

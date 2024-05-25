@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: achater <achater@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 17:29:29 by achater           #+#    #+#             */
-/*   Updated: 2024/05/23 21:35:53 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/05/25 14:09:53 by achater          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,21 @@ char	*find_path(char *cmd, char **envp)
 	return (path);
 }
 
+int	ft_strchr(char *str, char caractere)
+{
+	int i;
+
+	i = 0;
+	while(str[i])
+	{
+		if(str[i] == caractere)
+			return (1);
+		i++;
+	}
+	return (0);
+
+}
+
 void	execute(char **cmds, char **envp,char *cmd)
 {
 	// char	**cmds;
@@ -59,6 +74,13 @@ void	execute(char **cmds, char **envp,char *cmd)
 	i = 0;
 	if (access(cmd, X_OK) >= 0)
 		execve(cmd, cmds, envp);
+	if (ft_strchr(cmd, '/') != 0)
+	{
+		write(2, "minishell:", 10);
+		write(2, cmd, ft_strlen(cmd));
+		write(2, ": No such file or directory\n", 28);
+		exit(127);
+	}
 	path = find_path(cmd, envp);
 	if (execve(path, cmds, envp) < 0)
 	{
@@ -67,7 +89,6 @@ void	execute(char **cmds, char **envp,char *cmd)
 		write(2, ": command not found\n", 20);
 		exit(127);
 	}
-
 }
 
 char	*ft_strjoin(char *s1,char *s2)

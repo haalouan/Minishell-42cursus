@@ -6,7 +6,7 @@
 /*   By: achater <achater@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 11:49:08 by achater           #+#    #+#             */
-/*   Updated: 2024/05/19 16:20:29 by achater          ###   ########.fr       */
+/*   Updated: 2024/05/22 18:03:58 by achater          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ void	set_here_doc(t_list **list, t_here_doc **here_doc)
 	t_here_doc *node;
 	t_here_doc *last_node = NULL;
 	char *line;
-	int pid;
 
 	while(i < (*list)->nbr)
 	{
@@ -29,9 +28,6 @@ void	set_here_doc(t_list **list, t_here_doc **here_doc)
 		{
 			if(ft_strcmp(list[i]->redir[j], "<<") == 0)
 			{
-				pid = fork();
-				if( pid == 0)
-				{
 					node = malloc(sizeof(t_here_doc));
 					node->lines = malloc(sizeof(char *) * 100);
 					k = 0;
@@ -53,11 +49,6 @@ void	set_here_doc(t_list **list, t_here_doc **here_doc)
 						last_node->next = node;
 					last_node = node;
 					// exit(0);
-				}
-				else
-				{
-					waitpid(pid, NULL, 0);
-				}
 			}
 			j += 2;
 		}

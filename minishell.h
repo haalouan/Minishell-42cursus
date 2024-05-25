@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:22:31 by haalouan          #+#    #+#             */
-/*   Updated: 2024/05/23 20:53:56 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/05/25 15:16:28 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,11 +111,15 @@ char *remove_$(char *tab, int check, char *value);
 char **expend_in_double_quote(char **tab, int i, int *j, t_env *env_list);
 
 //expend1
-char **continue_expend(char **tab, int i, int *j, t_env *env_list);
-char **expend(char **tab, t_env *env_list);
+char **continue_expend(char **tab, int i, int *j, t_env *env_list, int in_her_doc);
+char **expend(char **tab, t_env *env_list, int in_her_doc);
 char **change_tab(char **old_tab, char *str);
 char *protect_env(char *str, int key);
 char **ft_realloc(char **tab, char *str);
+
+//parssing_here_doc
+void handle_her_doc(t_here_doc *her_doc, t_env *env_list);
+char **remove_quotes_tab(char **tab);
 
 //helpers_function1
 char *ft_strstr(const char *haystack, const char *needle);

@@ -6,7 +6,7 @@
 /*   By: achater <achater@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 11:28:38 by achater           #+#    #+#             */
-/*   Updated: 2024/05/21 17:08:35 by achater          ###   ########.fr       */
+/*   Updated: 2024/05/25 14:57:01 by achater          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ void ft_cd(char	**args, t_env *env_list)
 	char *newpwd;
 
 	oldpwd = getcwd(NULL, 0);
-	if (args == NULL )
-		chdir(getenv("HOME"));
+	if (args == NULL)
+		write(2, "no path given\n", 14);
 	else if (chdir(args[0]) == -1)
 		printf("minishell: cd: %s: No such file or directory\n", args[0]);
 	newpwd = getcwd(NULL, 0);
@@ -237,6 +237,8 @@ void	handle_one_cmd(t_list *cmds, t_env **env_list,char **env, t_here_doc **here
 	handle_redir(cmds, here_doc);
 	if (cmds->file_in < 0)
 		return;
+	if (cmds->file_out < 0)
+		return;
 	if (ft_strcmp(cmds->cmd, "cd") == 0)
 		ft_cd(cmds->args, *env_list);
 	else if (ft_strcmp(cmds->cmd, "unset") == 0)
@@ -313,7 +315,7 @@ void set_env(char **env, t_env **env_list)
 		splited_env = ft_split(env[i], '=');
 		if(ft_strcmp(splited_env[0],"SHLVL") == 0)
 			splited_env[1] = shlvl_increment(splited_env[1]);
-		else if(ft_strcmp(splited_env[0],"OLDPWD") == 0)
+		if(ft_strcmp(splited_env[0],"OLDPWD") == 0)
 			ft_lstadd_back(env_list, ft_lstnew("OLDPWD", NULL));
 		else if(ft_strcmp(splited_env[0], "_") == 0)
 			ft_lstadd_back(env_list, ft_lstnew("_", "/usr/bin/env"));
@@ -358,6 +360,8 @@ void execution(t_list **list, t_env **env_list, char **env)
             {
 		handle_redir(list[i], &her_doc);
 		if(list[i]->file_in < 0)
+			exit(EXIT_FAILURE);
+		if(list[i]->file_out < 0)
 			exit(EXIT_FAILURE);
                 if (i == 0)
                     dup2(list[i]->file_in, STDIN_FILENO);

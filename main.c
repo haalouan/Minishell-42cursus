@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 16:35:11 by haalouan          #+#    #+#             */
-/*   Updated: 2024/05/23 21:16:35 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/05/23 22:17:57 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int main(int arc, char **arv, char **env)
     env_list = NULL;
     if (!isatty(0))
     {
-        printf("isk tcha hhhhhhh\n");
+        printf("try again\n");
         exit(EXIT_FAILURE);
     }
     set_env(env, &env_list);
