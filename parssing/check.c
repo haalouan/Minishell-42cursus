@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 00:35:06 by haalouan          #+#    #+#             */
-/*   Updated: 2024/05/23 22:17:01 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/05/25 19:27:21 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@ void check_check(char *line, t_check *check)
 {
         if (line && *line && (is_character(*line) == 1 || *line == '\"' || *line == '\''))
             check->find_word = 1;
-        if (line &&*line == '$')
-            check->find_$ = 1;
         if (line &&*line == '|')
             check->find_pipe = 1;
         if (line && *line == '>')

@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:22:31 by haalouan          #+#    #+#             */
-/*   Updated: 2024/05/25 15:16:28 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/05/25 19:00:02 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ typedef struct s_list
 {
     int nbr;
     char *cmd;
+    int flag_here_doc;
     char **redir;
     int exit;
     int check_export;
@@ -118,7 +119,7 @@ char *protect_env(char *str, int key);
 char **ft_realloc(char **tab, char *str);
 
 //parssing_here_doc
-void handle_her_doc(t_here_doc *her_doc, t_env *env_list);
+void handle_her_doc(int k, t_here_doc *her_doc, t_env *env_list);
 char **remove_quotes_tab(char **tab);
 
 //helpers_function1

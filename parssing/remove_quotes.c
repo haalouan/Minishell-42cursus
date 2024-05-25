@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 00:47:28 by haalouan          #+#    #+#             */
-/*   Updated: 2024/05/25 16:48:41 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/05/25 18:58:54 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,10 @@ void handele_redir(t_list **list, int *i, int *j, int *k, int *l)
     {
         *l = 0;
         *k = 0;
+        if (list[*i]->redir[*j][0] == '\"')
+            list[*i]->flag_here_doc = 1;
+        else
+            list[*i]->flag_here_doc = 0;
         while (list && list[*i] && list[*i]->redir && list[*i]->redir[*j] && list[*i]->redir[*j][*l])
         {
             if (list && list[*i] && list[*i]->redir && list[*i]->redir[*j] && list[*i]->redir[*j][*l] && list[*i]->redir[*j][*l] == '\"')
@@ -82,8 +86,8 @@ void handele_redir(t_list **list, int *i, int *j, int *k, int *l)
         {
             list[*i]->redir[*j][*k] = '\0';
             // break;
+            (*j)++;
         }
-        (*j)++;
     }
 }
 

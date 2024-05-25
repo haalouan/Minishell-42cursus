@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 00:46:44 by haalouan          #+#    #+#             */
-/*   Updated: 2024/05/12 18:26:36 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/05/25 19:35:12 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,12 +98,12 @@ void continue_handele_line(t_check check, char **line, char **tab)
     if (check.find_here_doc == 1)
     {
         add_tab(*line, tab, 2);
-        *line += 2;
+        *line += 1;
     }
     else if (check.find_append_op == 1)
     {
         add_tab(*line, tab, 2);
-        *line += 2;
+        *line += 1;
     }
 }
 

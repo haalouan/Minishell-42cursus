@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: achater <achater@student.42.fr>            +#+  +:+       +#+        */
+/*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 11:49:08 by achater           #+#    #+#             */
-/*   Updated: 2024/05/22 18:03:58 by achater          ###   ########.fr       */
+/*   Updated: 2024/05/25 18:54:41 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	set_here_doc(t_list **list, t_here_doc **here_doc)
 	t_here_doc *node;
 	t_here_doc *last_node = NULL;
 	char *line;
-
+	
 	while(i < (*list)->nbr)
 	{
 		j = 0;

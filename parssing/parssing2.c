@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 11:05:44 by haalouan          #+#    #+#             */
-/*   Updated: 2024/05/25 16:00:21 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/05/25 19:25:06 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,6 +155,12 @@ void redirection(t_list **list, char **tab, int pipe, int k)
 
 int  continue_parssing(t_list **list, char **tab, char *line, t_env *env_list)
 {
+    int r=0;
+    while (tab[r])
+    {
+        printf("->>>%s\n", tab[r]);
+        r++;
+    }
     tab = expend(tab, env_list, 0);
     if (check_error2(tab) == 1)
         return 1;

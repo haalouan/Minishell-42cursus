@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 00:31:12 by haalouan          #+#    #+#             */
-/*   Updated: 2024/05/25 16:24:45 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/05/25 19:21:43 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -294,6 +294,8 @@ char **expend(char **tab, t_env *env_list, int in_here_doc)
                 {
                     if (tab && tab[i] && tab[i][j] == '$' && tab[i][j + 1] != '\0' && tab[i][j + 1] != '\"')
                     {
+                        if (i != 0 && ft_strcmp(tab[i - 1], "<<") == 0)
+                            break;
                         tab = expend_in_double_quote(tab, i, &j, env_list);
                         // j++;
                         // return tab;
@@ -316,8 +318,11 @@ char **expend(char **tab, t_env *env_list, int in_here_doc)
             }
             else if (tab && tab[i] && tab[i][j] == '$' && tab[i][j + 1] != '\"' && tab[i][j + 1] != '\'' && tab[i][j + 1] != '\0')
             {
-                if (ft_strcmp(tab[i - 1], "<<") == 0)
+                if (i != 0 && ft_strcmp(tab[i - 1], "<<") == 0)
+                {
+                    printf("%s\n", tab[i]);
                     break;
+                }
                 tab = continue_expend(tab, i, &j, env_list, in_here_doc);
                 // return tab;
                 // continue;

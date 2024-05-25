@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: achater <achater@student.42.fr>            +#+  +:+       +#+        */
+/*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 11:28:38 by achater           #+#    #+#             */
-/*   Updated: 2024/05/25 14:57:01 by achater          ###   ########.fr       */
+/*   Updated: 2024/05/25 19:37:23 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -332,20 +332,29 @@ void execution(t_list **list, t_env **env_list, char **env)
     pid_t pid;
     int prev_pipe = -1;
     t_here_doc *her_doc;
+	int j;
+	j = 0;
 
     i = 0;
     her_doc = NULL;
     (*list)->file_in = 0;
     (*list)->file_out = 1;
     set_here_doc(list, &her_doc);
+	//
+	while (list[i])
+	{
+		handle_her_doc(list[i]->flag_here_doc, her_doc, *env_list);
+		i++;
+	}
+	//
     if ((*list)->nbr == 1)
     {
-	if((*list)->cmd == NULL && (*list)->redir[0] == NULL)
-		return;
-        if ((*list)->redir[0] != NULL && (*list)->cmd == NULL)
-		handle_redir_no_command(*list);
-	else
-            handle_one_cmd(*list, env_list, env, &her_doc);
+		if((*list)->cmd == NULL && (*list)->redir[0] == NULL)
+			return;
+			if ((*list)->redir[0] != NULL && (*list)->cmd == NULL)
+			handle_redir_no_command(*list);
+		else
+				handle_one_cmd(*list, env_list, env, &her_doc);
     }
     else
     {
