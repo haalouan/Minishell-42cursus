@@ -6,127 +6,88 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 00:35:06 by haalouan          #+#    #+#             */
-/*   Updated: 2024/05/25 19:27:21 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/06/23 15:01:11 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void check_check(char *line, t_check *check)
+void	check_check(char *line, t_check *check)
 {
-        if (line && *line && (is_character(*line) == 1 || *line == '\"' || *line == '\''))
-            check->find_word = 1;
-        if (line &&*line == '|')
-            check->find_pipe = 1;
-        if (line && *line == '>')
-        {
-			line++;
-            if (*line == '>')
-                check->find_append_op = 1;
-            else if (check->find_append_op == -1)
-                check->find_in_re = 1;
-        }
-        if (*line == '<')
-        {
-			line++;
-            if (*line == '<')
-                check->find_here_doc = 1;
-            else if (check->find_here_doc == -1)
-                check->find_out_re = 1;
-        }
+	if (line && *line && (is_character(*line) == 1
+			|| *line == '\"' || *line == '\''))
+		check->find_word = 1;
+	if (line && *line == '|')
+		check->find_pipe = 1;
+	if (line && *line == '>')
+	{
+		line++;
+		if (*line == '>')
+			check->find_append_op = 1;
+		else if (check->find_append_op == -1)
+			check->find_in_re = 1;
+	}
+	if (*line == '<')
+	{
+		line++;
+		if (*line == '<')
+			check->find_here_doc = 1;
+		else if (check->find_here_doc == -1)
+			check->find_out_re = 1;
+	}
 }
 
-void check_init(t_check *check)
+void	check_init(t_check *check)
 {
-    check->find_word = -1;
-    check->find_pipe = -1;
-    check->find_in_re = -1;
-    check->find_out_re = -1;
-    check->find_append_op = -1;
-    check->find_here_doc = -1;
-    check->find_$ = -1;
+	check->find_word = -1;
+	check->find_pipe = -1;
+	check->find_in_re = -1;
+	check->find_out_re = -1;
+	check->find_append_op = -1;
+	check->find_here_doc = -1;
 }
 
-
-int check(char **tab)
+static int	continue_check(char *tab, char *tab2)
 {
-    int i = 0;
-    
-    if (!tab || !*tab)
-        return 2;
-    if (tab[0][0] == '|')
-        return 1;
-    while (tab && tab[i])
-    {
-        if (tab && tab[i] && tab[i][0] == '|' && tab[i + 1] && tab[i + 1][0] == '|')
-            return 1;
-        else if (tab && tab[i] && tab[i][0] == '>' && tab[i + 1] && tab[i + 1][0] == '|')
-            return 1;
-        else if (tab && tab[i] && tab[i][0] == '<' && tab[i + 1] && tab[i + 1][0] == '|')
-            return 1;
-        else if (tab && tab[i] && tab[i][0] == '<' && tab[i + 1] && tab[i + 1][0] == '<')
-            return 1;
-        else if (tab && tab[i] && tab[i][0] == '>' && tab[i + 1] && tab[i + 1][0] == '>')
-            return 1;
-        else if (tab && tab[i] && tab[i][0] == '>' && tab[i + 1] && tab[i + 1][0] == '<')
-            return 1;
-        else if (tab && tab[i] && tab[i][0] == '<' && tab[i + 1] && tab[i + 1][0] == '>')
-            return 1;
-        else
-            i++;
-    }
-    if (tab && tab[i] && tab[i][0] == '\0' && tab[i - 1] && (tab[i - 1][0] == '|' || tab[i - 1][0] == '<' || tab[i - 1][0] == '>')) return 1;
-    return 0;
+	if (!tab || !tab2)
+		return (0);
+	if (tab[0] == '|' && tab2[0] == '|')
+		return (1);
+	else if (tab[0] == '>' && tab2[0] == '|')
+		return (1);
+	else if (tab[0] == '<' && tab2[0] == '|')
+		return (1);
+	else if (tab[0] == '<' && tab2[0] == '<')
+		return (1);
+	else if (tab[0] == '>' && tab2[0] == '>')
+		return (1);
+	else if (tab[0] == '>' && tab2[0] == '<')
+		return (1);
+	else if (tab[0] == '<' && tab2[0] == '>')
+		return (1);
+	else
+		return (0);
 }
 
-int check_error(char **tab)
+int	check(char **tab)
 {
-    if (check(tab) == 2)
-        return 1;
-    if (check(tab) == 1)
-    {
-        handele_error();
-        return 1;
-    }
-    return 0;
-}
+	int	i;
 
-int check_ambiguous_redir(char **tab)
-{
-    int i = 0;
-    while (tab && tab[i])
-    {
-        if (tab[i][0] == '>' || tab[i][0] == '<')
-        {
-            i++;
-            if (tab[i] == NULL)
-                return 1;
-        }
-        i++;
-    }
-    return 0;
-}
-
-int check_error2(char **tab)
-{
-    if (check(tab) == 2)
-        return 1;
-    if (check(tab) == 1 && check_ambiguous_redir(tab) == 0)
-        return 1;
-    if (check(tab) == 1 && check_ambiguous_redir(tab) == 1)
-    {
-        printf("minishell: ambiguous redirect\n");
-        return 1;
-    }
-    return 0;
-}
-
-int check_line(char *line)
-{
-    int i = 0;
-    while (line && line[i] != '\0')
-        i++;
-    if (line[i - 1] == '|' || line[i - 1] == '>' || line[i - 1] == '<')
-        return 1;
-    return 0;
+	i = 0;
+	if (!tab || !*tab)
+		return (2);
+	if (tab[0][0] == '|')
+		return (1);
+	while (tab && tab[i])
+	{
+		if (continue_check(tab[i], tab[i + 1]) == 1)
+			return (1);
+		else
+			i++;
+	}
+	if (tab && tab[i] && tab[i][0] == '\0' && tab[i - 1]
+		&& (tab[i - 1][0] == '|' || tab[i - 1][0] == '<'
+		|| tab[i - 1][0] == '>'))
+		return (1);
+	return (0);
 }

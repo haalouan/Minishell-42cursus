@@ -6,21 +6,20 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 11:49:08 by achater           #+#    #+#             */
-/*   Updated: 2024/05/25 18:54:41 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/06/09 20:05:28 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	set_here_doc(t_list **list, t_here_doc **here_doc)
+void	set_here_doc(t_list **list, t_env *env_list)
 {
-	int i = 0;
-	int j = 0;
-	int k = 0;
-	t_here_doc *node;
-	t_here_doc *last_node = NULL;
+	int i;
+	int j;
+	int fd[2];
 	char *line;
-	
+
+	i = 0;
 	while(i < (*list)->nbr)
 	{
 		j = 0;
@@ -28,41 +27,30 @@ void	set_here_doc(t_list **list, t_here_doc **here_doc)
 		{
 			if(ft_strcmp(list[i]->redir[j], "<<") == 0)
 			{
-					node = malloc(sizeof(t_here_doc));
-					node->lines = malloc(sizeof(char *) * 100);
-					k = 0;
-					while(1)
+				if(pipe(fd) == -1)
+				{
+					perror("pipe");
+					exit(1);
+				}
+				while(1)
+				{
+					line = readline("> ");
+					if (ft_strcmp(line, list[i]->redir[j + 1]) == 0)
 					{
-						line = readline("> ");
-						if (ft_strcmp(line, list[i]->redir[j + 1]) == 0)
-						{
-							node->lines[k] = NULL;
-							break;
-						}
-						node->lines[k] = ft_strdup(line);
-						k++;
+						free(line);
+						break;
 					}
-					node->next = NULL;
-					if (*here_doc == NULL)
-						*here_doc = node;
-					else
-						last_node->next = node;
-					last_node = node;
-					// exit(0);
+					line = expend_in_here_doc(line, env_list, list[i]->flag_here_doc);
+					write(fd[1], line, ft_strlen(line));
+					write(fd[1], "\n", 1);
+					free(line);
+				}
+				close(fd[1]);
+				list[i]->here_doc = fd[0];
 			}
 			j += 2;
 		}
 		i++;
 	}
-	// i = 0;
-	// while(*here_doc)
-	// {
-	// 	j = 0;
-	// 	while((*here_doc)->lines[j])
-	// 	{
-	// 		printf("%s\n", (*here_doc)->lines[j]);
-	// 		j++;
-	// 	}
-	// 	*here_doc = (*here_doc)->next;
-	// }
 }
+

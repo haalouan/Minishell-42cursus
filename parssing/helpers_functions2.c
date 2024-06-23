@@ -6,24 +6,11 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 00:36:16 by haalouan          #+#    #+#             */
-/*   Updated: 2024/05/15 16:47:21 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/06/10 01:58:52 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-int	ft_strncmp(const char *str1, const char *str2, size_t n)
-{
-	while (n > 0)
-	{
-		if (*str1 == '\0' || *str2 == '\0' || *str1 != *str2)
-			return ((unsigned char)(*str1) - (unsigned char)(*str2));
-		str1++;
-		str2++;
-		n--;
-	}
-	return (0);
-}
 
 int	ft_isalpha(int c)
 {
@@ -46,22 +33,22 @@ size_t	ft_strlen(const char *str)
 	size_t	i;
 
 	if (str == NULL)
-		return 0;
+		return (0);
 	i = 0;
-	while (str[i] != '\0')
+	while (str && str[i] != '\0')
 		i++;
 	return (i);
 }
 
-char    *ft_strncpy(char *dest, const char *src, int len)
+char	*ft_strncpy(char *dest, const char *src, int len)
 {
-	int i;
-	int k;
+	int	i;
+	int	k;
 
-    i = 0;
+	i = 0;
 	k = 0;
 	if (!src || !dest)
-		return NULL;
+		return (NULL);
 	while (src && src[i] != '\0' && len > 0)
 	{
 		dest[k] = src[i];
@@ -73,10 +60,10 @@ char    *ft_strncpy(char *dest, const char *src, int len)
 	return (dest);
 }
 
-char *ft_strcat(char *dest, char *src)
+char	*ft_strcat(char *dest, char *src)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 0;
 	while (dest[i] != '\0')

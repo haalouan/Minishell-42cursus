@@ -6,7 +6,7 @@
 /*   By: achater <achater@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 14:34:20 by achater           #+#    #+#             */
-/*   Updated: 2024/05/21 17:01:21 by achater          ###   ########.fr       */
+/*   Updated: 2024/05/26 14:17:12 by achater          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,18 +55,15 @@ void	handle_redir_no_command(t_list *list)
 		i += 2;
 	}
 }
-void	handle_redir(t_list *list, t_here_doc **here_doc)
+void	handle_redir(t_list *list)
 {
 	int i;
-	int j;
-	int fd[2];
 
 	i = 0;
 	if (list->redir == NULL)
 		return;
 	while(list->redir[i])
 	{
-		j = 0;
 		if(ft_strcmp(list->redir[i], ">") == 0)
 		{
 			list->file_out = open(list->redir[i + 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
@@ -96,17 +93,7 @@ void	handle_redir(t_list *list, t_here_doc **here_doc)
 		}
 		else if(ft_strcmp(list->redir[i], "<<") == 0)
 		{
-			if (pipe(fd) == -1)
-				return ;
-			while((*here_doc)->lines[j])
-			{
-				write(fd[1], (*here_doc)->lines[j], ft_strlen((*here_doc)->lines[j]));
-				write(fd[1], "\n", 1);
-				j++;
-			}
-			close(fd[1]);
-			list->file_in = fd[0];
-			(*here_doc) = (*here_doc)->next;
+			list->file_in = list->here_doc;
 		}
 		i += 2;
 	}
