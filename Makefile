@@ -1,4 +1,4 @@
-SRCS =	main.c  ./parssing/parssing3.c ./parssing/remove_quotes.c ./parssing/handele_line.c \
+SRCS =	main.c  ./parssing/parssing3.c ./parssing/remove_quotes.c ./parssing/handle_line.c \
 		./parssing/check.c ./parssing/helpers_functions2.c \
 		 ./parssing/helpers_functions1.c \
 		./parssing/syntax_errors.c ./parssing/count_cmds.c ./parssing/parssing1.c \
@@ -7,9 +7,10 @@ SRCS =	main.c  ./parssing/parssing3.c ./parssing/remove_quotes.c ./parssing/hand
 		./execution/ft_lstsize_bonus.c ./execution/ft_lstnew_bonus.c \
 		./execution/ft_split.c ./execution/utils.c  ./execution/export.c \
 		./execution/handle_cmd.c ./execution/handle_redir.c ./execution/here_doc.c \
-		./parssing/expend_in_here_doc.c ./parssing/parssing4.c ./parssing/remove_quotes2.c \
-		./parssing/helpers_functions3.c ./parssing/expend1.c ./parssing/expend2.c \
-		./parssing/free.c ./parssing/check2.c  ./parssing/expend3.c
+		./parssing/expand_in_here_doc.c ./parssing/parssing4.c ./parssing/remove_quotes2.c \
+		./parssing/helpers_functions3.c ./parssing/expand1.c ./parssing/expand2.c \
+		./parssing/free.c ./parssing/check2.c  ./parssing/expand3.c ./parssing/expand4.c \
+		./parssing/expand5.c ./parssing/expand6.c
 		
 OBJS = ${SRCS:.c=.o}
 NAME = minishell

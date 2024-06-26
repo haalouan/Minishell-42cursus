@@ -1,35 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handele_line.c                                     :+:      :+:    :+:   */
+/*   handle_line.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 00:46:44 by haalouan          #+#    #+#             */
-/*   Updated: 2024/06/10 03:11:23 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/06/24 12:30:49 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	continue_handele_word(char *line, int *i)
+static void charact(char *line, int *i)
+{
+	while (is_character(line[*i]) == 1 && line[*i] != '\0')
+		(*i)++;
+}
+
+void	continue_handle_word(char *line, int *i)
 {
 	while (line[*i] != '\0')
 	{
-		while (is_character(line[*i]) == 1 && line[*i] != '\0')
-			(*i)++;
+		charact(line, i);
 		if (line[*i] == '\'')
 		{
-			while (line && line[*i] && line[++(*i)] != '\'' && line[*i] != '\0')
+			(*i)++;
+			while (line && line[*i] && line[(*i)] != '\'' && line[*i] != '\0')
 				(*i)++;
 			if (line[*i] == '\'')
 				(*i)++;
-			if (is_character(*line) == 0 && *line != '\'' && *line != '\"')
+			if (is_ch(line[*i]) == 0  && line[*i] != '\'' && line[*i] != '\"')
 				break ;
 		}
 		else if (line[*i] == '\"')
 		{
-			while (line && line[*i] && line[++(*i)] != '\"' && line[*i] != '\0')
+			(*i)++;
+			while (line && line[*i] && line[(*i)] != '\"' && line[*i] != '\0')
 				(*i)++;
 			if (line[*i] == '\"')
 				(*i)++;
@@ -37,23 +44,23 @@ void	continue_handele_word(char *line, int *i)
 				break ;
 		}
 		else
-			break ;
+			break;
 	}
 }
 
-void	handele_word(char **le, char **tab)
+void	handle_word(char **le, char **tab)
 {
 	int		i;
 	char	*line;
 
 	line = *le;
 	i = 0;
-	continue_handele_word(line, &i);
+	continue_handle_word(line, &i);
 	*le += i;
 	add_tab(line, tab, i);
 }
 
-void	continue_handele_line(t_check check, char **line, char **tab)
+void	continue_handle_line(t_check check, char **line, char **tab)
 {
 	if (check.find_here_doc == 1)
 	{
@@ -67,9 +74,9 @@ void	continue_handele_line(t_check check, char **line, char **tab)
 	}
 }
 
-void	handele_line(char **line, char **tab, t_check check)
+void	handle_line(char **line, char **tab, t_check check)
 {
-	continue_handele_line(check, line, tab);
+	continue_handle_line(check, line, tab);
 	if (check.find_pipe == 1)
 	{
 		add_tab(*line, tab, 1);
@@ -86,7 +93,7 @@ void	handele_line(char **line, char **tab, t_check check)
 		*line += 1;
 	}
 	else if (check.find_word == 1)
-		handele_word(line, tab);
+		handle_word(line, tab);
 	else if (*line)
 		*line += 1;
 }

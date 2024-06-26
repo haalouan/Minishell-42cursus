@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expend_in_here_doc.c                               :+:      :+:    :+:   */
+/*   expand_in_here_doc.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 17:53:18 by haalouan          #+#    #+#             */
-/*   Updated: 2024/06/23 22:52:14 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/06/24 14:46:07 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static void	continue_expend_in_here_doc(char **l, t_env *env_list,
+static void	continue_expand_in_here_doc(char **l, t_env *env_list,
 	int i, char *v)
 {
 	char	*k;
@@ -21,9 +21,9 @@ static void	continue_expend_in_here_doc(char **l, t_env *env_list,
 	if ((*l)[i] == '$' && ft_isdigit((*l)[i + 1]) == 1)
 	{
 		k = get_env_key((*l), i);
-		v = expend_digit((*l) + i);
+		v = expand_digit((*l) + i);
 		(*l) = ft_str_replace((*l), k, v);
-		(*l) = remove_dolar((*l), 1);
+		(*l) = remove_dollar((*l), 1);
 	}
 	else if ((*l)[i] == '$' && (*l)[i + 1] != '\'' && (*l)[i + 1] != '\"')
 	{
@@ -33,16 +33,16 @@ static void	continue_expend_in_here_doc(char **l, t_env *env_list,
 	if (k && v && (*l)[i] == '$' && (*l)[i + 1] != '\'' && (*l)[i + 1] != '\'')
 	{
 		(*l) = ft_str_replace((*l), k, v);
-		(*l) = remove_dolar((*l), 1);
+		(*l) = remove_dollar((*l), 1);
 	}
 	else if ((*l)[i] == '$' && (*l)[i + 1] != '\'' && (*l)[i + 1] != '\"')
 	{
 		(*l) = ft_str_replace((*l), k, "");
-		(*l) = remove_dolar((*l), 1);
+		(*l) = remove_dollar((*l), 1);
 	}
 }
 
-char	*expend_in_here_doc(char *line, t_env *env_list, int ex)
+char	*expand_in_here_doc(char *line, t_env *env_list, int ex)
 {
 	int		i;
 	char	*value;
@@ -61,7 +61,7 @@ char	*expend_in_here_doc(char *line, t_env *env_list, int ex)
 				while (line[i] && line[i] != '\'')
 					i++;
 			}
-			continue_expend_in_here_doc(&line, env_list, i, value);
+			continue_expand_in_here_doc(&line, env_list, i, value);
 		}
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 15:01:15 by haalouan          #+#    #+#             */
-/*   Updated: 2024/06/23 15:01:30 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/06/24 14:49:12 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	check_error(char **tab)
 		return (1);
 	if (check(tab) == 1)
 	{
-		handele_error();
+		handle_error();
 		return (1);
 	}
 	return (0);

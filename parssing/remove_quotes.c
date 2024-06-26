@@ -6,13 +6,13 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 00:47:28 by haalouan          #+#    #+#             */
-/*   Updated: 2024/06/23 13:36:12 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/06/24 14:55:52 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	handele_cmd(t_list **list, int *i, int *j, int *k)
+void	handle_cmds(t_list **list, int *i, int *j, int *k)
 {
 	while (list[*i] && list[*i]->cmd && list[*i]->cmd[*j] != '\0')
 	{
@@ -78,7 +78,7 @@ static void	re(t_list *list, int *j, int *l, int *k)
 	}
 }
 
-void	handele_redir(t_list **list, int *i, int *j, int *l)
+void	handle_redi(t_list **list, int *i, int *j, int *l)
 {
 	int	k;
 
@@ -113,15 +113,15 @@ void	remove_quotes(t_list **list)
 		j = 0;
 		k = 0;
 		if (list[i]->cmd && *list[i]->cmd)
-			handele_cmd(list, &i, &j, &k);
+			handle_cmds(list, &i, &j, &k);
 		j = 0;
 		l = 0;
 		if (list[i]->redir && *list[i]->redir)
-			handele_redir(list, &i, &j, &l);
+			handle_redi(list, &i, &j, &l);
 		j = 0;
 		l = 0;
 		if (list[i]->args && *list[i]->args)
-			handele_args(list, &i, &j, &l);
+			handle_args(list, &i, &j, &l);
 		i++;
 	}
 }

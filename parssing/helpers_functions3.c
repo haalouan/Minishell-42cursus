@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 01:59:14 by haalouan          #+#    #+#             */
-/*   Updated: 2024/06/23 16:23:53 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/06/24 12:18:23 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ int	ft_strncmp(const char *str1, const char *str2, size_t n)
 
 int	is_ch(char c)
 {
-	if (c != '<' && c != '>' && c != '\'' && c != '\"'
-		&& c != '|' && c != ' ' && c != '\t')
-		return (1);
-	return (0);
+	if (c == '<' || c == '>' || c == '\'' || c == '\"'
+		|| c == '|' || c == ' ' || c == '\t')
+		return (0);
+	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 11:49:08 by achater           #+#    #+#             */
-/*   Updated: 2024/06/09 20:05:28 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/06/24 14:35:09 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	set_here_doc(t_list **list, t_env *env_list)
 						free(line);
 						break;
 					}
-					line = expend_in_here_doc(line, env_list, list[i]->flag_here_doc);
+					line = expand_in_here_doc(line, env_list, list[i]->flag_here_doc);
 					write(fd[1], line, ft_strlen(line));
 					write(fd[1], "\n", 1);
 					free(line);

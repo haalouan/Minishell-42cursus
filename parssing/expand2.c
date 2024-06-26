@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expend2.c                                          :+:      :+:    :+:   */
+/*   expand2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 00:31:58 by haalouan          #+#    #+#             */
-/*   Updated: 2024/06/23 23:09:10 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/06/24 15:51:55 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ char	*ft_str_replace(char *tab, const char *key, const char *value)
 	return (new_str);
 }
 
-char	*add_dolar(char *str)
+char	*add_dollar(char *str)
 {
 	char	*value;
 	int		i;
@@ -107,4 +107,33 @@ char	*get_env_key(char *str, int i)
 		key[i - key_start] = '\0';
 	}
 	return (key);
+}
+
+char	*protect_env(char *str, int key)
+{
+	char	*value;
+	int		i;
+	int		j;
+
+	i = 0;
+	j = 0;
+	value = malloc(ft_strlen(str) + 2 + 1);
+	value[j++] = '\"';
+	if (key == 1)
+	{
+		while (str[i] == ' ' || str[i] == '\t')
+			i++;
+	}
+	while (str && str[i])
+		value[j++] = str[i++];
+	if (key == 1 && (value[j - 1] == ' ' || value[j - 1] == '\t'))
+	{
+		j--;
+		while (value[j] == ' ' || value[j] == '\t')
+			j--;
+		j++;
+	}
+	value[j++] = '\"';
+	value[j] = '\0';
+	return (value);
 }

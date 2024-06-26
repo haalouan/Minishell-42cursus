@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 16:38:45 by haalouan          #+#    #+#             */
-/*   Updated: 2024/06/23 16:23:14 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/06/24 15:58:33 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	add_tab(char *line, char **tab, int len)
 	ft_strncpy(tab[i], line, len);
 }
 
-char	**handele_parssing(char *line)
+char	**handle_parssing(char *line)
 {
 	int		count;
 	t_check	check;
@@ -36,6 +36,7 @@ char	**handele_parssing(char *line)
 
 	i = 0;
 	count = count_cmds(line);
+	printf("cmds = %d\n", count);
 	tab = malloc(sizeof(char *) * (count + 1) + 1);
 	if (!tab)
 		exit(EXIT_FAILURE);
@@ -48,7 +49,7 @@ char	**handele_parssing(char *line)
 	{
 		check_init(&check);
 		check_check(line, &check);
-		handele_line(&line, tab, check);
+		handle_line(&line, tab, check);
 	}
 	return (tab);
 }
@@ -70,6 +71,17 @@ void	signal_handler(int sig)
 	}
 }
 
+static t_list	**allocation_list(char **tab)
+{
+	t_list	**list;
+
+	list = NULL;
+	list = (t_list **)malloc(sizeof(t_list *) * (count_pipe(tab) + 1) + 1);
+	if (!list)
+		exit(EXIT_FAILURE);
+	return (list);
+}
+
 t_list	**parssing(char *line, t_env *env_list)
 {
 	char	**tab;
@@ -81,17 +93,15 @@ t_list	**parssing(char *line, t_env *env_list)
 		return (NULL);
 	if (check_line(line) == 1)
 	{
-		handele_error();
+		handle_error();
 		return (NULL);
 	}
 	if (count_quote(line) == 1)
 		return (NULL);
-	tab = handele_parssing(line);
+	tab = handle_parssing(line);
 	if (check_error(tab) == 1)
 		return (NULL);
-	list = (t_list **)malloc(sizeof(t_list *) * (count_pipe(tab) + 1) + 1);
-	if (!list)
-		exit(EXIT_FAILURE);
+	list = allocation_list(tab);
 	if (continue_parssing(list, tab, line, env_list) == 1)
 		return (NULL);
 	// free_tab(tab);

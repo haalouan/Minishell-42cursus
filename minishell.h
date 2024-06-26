@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:22:31 by haalouan          #+#    #+#             */
-/*   Updated: 2024/06/23 22:51:51 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/06/24 15:49:00 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,16 @@ typedef struct s_env
 	char *value;
 	struct s_env *next;
 } t_env;
+
+typedef struct s_int
+{
+    int i;
+    int j;
+    int k;
+    int size;
+    int size2;
+    int in_here_doc;
+} t_int;
 //ex
 int ft_strcmp(char *arg, char *str);
 t_env    *ft_lstnew(char *key , char *content);
@@ -110,23 +120,23 @@ void	redirection(t_list **list, char **tab, int pipe, int k);
 void free_tab(char **tab);
 void free_list(t_list **list);
 
-//expend_in_here_doc
-char *expend_in_here_doc(char *line, t_env *env_list, int ex);
-
-//expend2
+//expand_in_here_doc
+char *expand_in_here_doc(char *line, t_env *env_list, int ex);
+int	ft_size(char **tab);
+//expand2
 char *ft_str_replace(char *source, const char *pattern, const char *replacement);
 char *get_env_value(char *key, t_env *export_i);
 char *get_env_key(char *str, int i);
-char *remove_dolar(char *tab, int check);
-char **expend_in_double_quote(char **tab, int i, int *j, t_env *env_list);
-char *expend_digit(char *str);
-//expend1
-char **continue_expend(char **tab, int i, int *j, t_env *env_list, int d);
-char **expend(char **tab, t_env *env_list, int i);
+char *remove_dollar(char *tab, int check);
+char **expand_in_double_quote(char **tab, int i, int *j, t_env *env_list);
+char *expand_digit(char *str);
+//expand1
+char **continue_expand(char **tab, t_int *f, t_env *env_list);
+char **expand(char **tab, t_env *env_list, int i);
 char **change_tab(char **old_tab, char *str);
 char *protect_env(char *str, int i);
 char **ft_realloc(char **tab, char *str);
-
+char	*protect_new_str(char *str);
 //helpers_function1
 char *ft_strstr(const char *haystack, const char *needle);
 char	*ft_strdup(char *s1);
@@ -144,7 +154,7 @@ char *ft_strcat(char *dest, char *src);
 int	ft_strncmp(const char *str1, const char *str2, size_t n);
 
 //syntax_errors
-void handele_error();
+void handle_error();
 int count_single_quote(char *line, int *i);
 int count_double_quote(char *line, int *i);
 int count_quote(char *line);
@@ -159,21 +169,20 @@ int check_line(char *line);
 
 //parssing1
 t_list **parssing(char *line, t_env *env_list);
-char **handele_parssing(char *line);
+char **handle_parssing(char *line);
 void add_tab(char *line, char **tab, int len);
 int	count_args(char **tab, int i);
 //remove_quotes
-void handele_cmd(t_list **list, int *i, int *j, int *k);
-void handele_redir(t_list **list, int *i, int *j, int *l);
-void continue_handele_args(t_list **list, int *i, int *j, int *l);
-void handele_args(t_list **list, int *i, int *j, int *l);
+void handle_cmds(t_list **list, int *i, int *j, int *k);
+void handle_redi(t_list **list, int *i, int *j, int *l);
+void continue_handle_args(t_list **list, int *i, int *j, int *l);
+void handle_args(t_list **list, int *i, int *j, int *l);
 void remove_quotes(t_list** list);
 
-//handele_line
-void continue_handele_word(char *line, int *i);
-void handele_word(char **le, char **tab);
-void continue_handele_line(t_check check, char **line, char **tab);
-void handele_line(char **line, char **tab, t_check check);
+//handle_line
+void handle_word(char **le, char **tab);
+void continue_handle_line(t_check check, char **line, char **tab);
+void handle_line(char **line, char **tab, t_check check);
 
 //count_cmds
 int is_quote(char c);
@@ -182,7 +191,7 @@ int count_cmds(char *line);
 
 //parssing1
 t_list **parssing(char *line, t_env *env_list);
-char **handele_parssing(char *line);
+char **handle_parssing(char *line);
 void add_tab(char *line, char **tab, int len);
 
 //parssing2
