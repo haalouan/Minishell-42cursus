@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 04:04:33 by haalouan          #+#    #+#             */
-/*   Updated: 2024/06/24 14:46:07 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/07/07 13:59:13 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,12 +75,16 @@ char	**expand_in_double_quote(char **tab, int i, int *j, t_env *env_list)
 	value = NULL;
 	while (tab && tab[i] && tab[i][*j] && tab[i][*j] != '\"')
 	{
-		if (tab && tab[i] && tab[i][*j] == '$' && tab[i][*j + 1] != '\"')
+		if (ft_isdigit(tab[i][*j + 1]) == 1)
+			tab[i] = expand_digit(tab[i]);
+		// if (tab[i][*j + 1] == '\0')
+		// 	return (tab);
+		else if (tab && tab[i] && tab[i][*j] == '$' && tab[i][*j + 1] != '\"')
 		{
 			key = get_env_key(tab[i], *j);
 			value = get_env_value(key, env_list);
-			if (value)
-				value = protect_env(value, 0);
+			// if (value)
+			// 	value = protect_env(value, 0);
 			if (key && value)
 				tab[i] = replace_and_remove_dollar(tab[i], key, value);
 			else

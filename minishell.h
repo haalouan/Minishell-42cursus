@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:22:31 by haalouan          #+#    #+#             */
-/*   Updated: 2024/06/24 15:49:00 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/07/08 10:22:39 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ char **ft_split(char const *s, char c);
 int ft_lstsize(t_env *lst);
 t_env    *ft_lstlast(t_env *lst);
 void execution(t_list **list, t_env **env_list,char **env);
-void set_env(char **env, t_env **env_list);
+void set_env(char **env, t_env **env_list, int i);
 int    ft_is_alpha(char c);
 int check_args(char *args,char *str);
 void    ft_export(char **args, t_env **env);
@@ -99,14 +99,25 @@ void    error(void);
 void    execute(char **cmds, char **envp, char *cmd);
 void    change_value(t_env **env_list,char *value);
 char    *ft_strjoin(char *s1,char *s2);
-void    handle_redir(t_list *list);
-void    handle_redir_no_command(t_list *list);
+void    handle_redir(t_list *list, int i);
+void    handle_redir_no_command(t_list *list, int i);
 char *shlvl_increment(char *str);
-void	set_here_doc(t_list **list, t_env *env_list);
+void	set_here_doc(t_list **list, int i, int j, t_env *env_list);
 void	ft_env(t_env *env_list, char **args);
 int ft_is_number(char *str);
 int	ft_atoi(const char *str);
-
+void	ft_echo(char **args, int n, int j, int x);
+void	change_env_last_cmd(t_list *cmds, t_env **env_list);
+void	ft_cd(char **args, t_env *env_list);
+void	ft_env(t_env *env_list, char **args);
+void	ft_exit(char **args, t_list *cmds);
+void	ft_pwd(t_env *env_list);
+void	ft_unset(t_env **env_list, char **args);
+void	ft_free(char **str);
+char	**struct_to_char(t_env *env_list);
+int	count_args0(char **args);
+void	handle_one_cmd(t_list *cmds, t_env **env_list, int status);
+void	close_here_doc(t_list **list, int i);
 
 /*******************************************************parssing*******************************************************/
 char *ft_substr(char const *s, unsigned int start, int len);
@@ -137,6 +148,7 @@ char **change_tab(char **old_tab, char *str);
 char *protect_env(char *str, int i);
 char **ft_realloc(char **tab, char *str);
 char	*protect_new_str(char *str);
+int	search_for_value(char *str, char *s);
 //helpers_function1
 char *ft_strstr(const char *haystack, const char *needle);
 char	*ft_strdup(char *s1);
@@ -196,12 +208,12 @@ void add_tab(char *line, char **tab, int len);
 
 //parssing2
 int continue_parssing(t_list **list, char **tab, char *line, t_env *env_list);
-
+int exit_status(int status);
 //parssing3
 int count_pipe(char **tab);
 int finnd_pipe(char **tab, int count);
 int find_redir(char **tab, int count);
-
+char	*int_to_str(int num);
 //signal
 void signal_handler(int sig);
 #endif

@@ -5,135 +5,72 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/02 00:31:58 by haalouan          #+#    #+#             */
-/*   Updated: 2024/06/24 15:51:55 by haalouan         ###   ########.fr       */
+/*   Created: 2024/06/24 15:45:59 by haalouan          #+#    #+#             */
+/*   Updated: 2024/07/08 10:11:44 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*ft_str_replace(char *tab, const char *key, const char *value)
+static int	exp(char *tab, int j)
 {
-	size_t	key_len;
-	size_t	value_len;
-	char	*occurrence;
-	size_t	new_size;
-	char	*new_str;
-
-	if (!tab || !key || !value)
-		return (ft_strdup(tab));
-	key_len = ft_strlen(key);
-	value_len = ft_strlen(value);
-	occurrence = ft_strstr(tab, key);
-	if (!occurrence)
-		return (ft_strdup(tab));
-	new_size = ft_strlen(tab) - key_len + value_len + 1;
-	new_str = (char *)malloc(new_size);
-	if (!new_str)
-		return (NULL);
-	memcpy(new_str, tab, occurrence - tab);
-	new_str[occurrence - tab] = '\0';
-	strcat(new_str, value);
-	strcat(new_str, occurrence + key_len);
-	free(tab);
-	return (new_str);
+	if (tab[j + 1] == '?')
+		return (11);
+	return (0);
 }
 
-char	*add_dollar(char *str)
+static char	*handle_value(char *key, t_env *env_list)
 {
 	char	*value;
-	int		i;
-	int		j;
 
-	i = 0;
-	j = 0;
-	value = malloc(ft_strlen(str) + 2);
-	if (!value)
-		return (NULL);
-	value[i] = '$';
-	i++;
-	while (str[j])
-	{
-		value[i] = str[j];
-		i++;
-		j++;
-	}
-	value[i] = '\0';
+	value = NULL;
+	value = get_env_value(key, env_list);
+	if (value)
+		value = protect_env(value, 1);
 	return (value);
 }
 
-char	*get_env_value(char *key, t_env *export_i)
+static void	cont_exp(char **key, char **value)
 {
-	t_env	*tmp;
-	char	*value;
-
-	if (!key)
-		return (NULL);
-	tmp = export_i;
-	while (tmp)
-	{
-		if (!strcmp(tmp->key, key))
-		{
-			value = strdup(tmp->value);
-			return (value);
-		}
-		tmp = tmp->next;
-	}
-	return (NULL);
+	*key = "?";
+	if (exit_status(-1) == 0)
+		*value = "0";
+	else
+		*value = int_to_str(exit_status(-1));
 }
 
-char	*get_env_key(char *str, int i)
+static char	*cont_exp2(char **value, int j, t_env *env_list, char *tab)
 {
 	char	*key;
-	int		key_start;
 
-	key = NULL;
-	if (!str)
-		return (NULL);
-	while (str && str[i] && str[i] != '$')
-		i++;
-	if (str && str[i] == '$')
-	{
-		i++;
-		key_start = i;
-		while (str && str[i] && ((str[i] >= 'a' && str[i] <= 'z')
-				|| (str[i] >= 'A' && str[i] <= 'Z')
-				|| (str[i] >= '0' && str[i] <= '9') || str[i] == '_'))
-			i++;
-		key = (char *)malloc((i - key_start + 1) * sizeof(char));
-		if (!key)
-			exit(EXIT_FAILURE);
-		strncpy(key, &str[key_start], i - key_start);
-		key[i - key_start] = '\0';
-	}
+	key = get_env_key(tab, j);
+	*value = handle_value(key, env_list);
 	return (key);
 }
 
-char	*protect_env(char *str, int key)
+char	**continue_expand(char **tab, t_int *f, t_env *env_list)
 {
+	char	*key;
 	char	*value;
-	int		i;
-	int		j;
 
-	i = 0;
-	j = 0;
-	value = malloc(ft_strlen(str) + 2 + 1);
-	value[j++] = '\"';
-	if (key == 1)
+	if (exp(tab[f->i], f->j) == 11)
+		cont_exp(&key, &value);
+	else
+		key = cont_exp2(&value, f->j, env_list, tab[f->i]);
+	if (key && value)
 	{
-		while (str[i] == ' ' || str[i] == '\t')
-			i++;
+		tab[f->i] = ft_str_replace(tab[f->i], key, value);
+		tab[f->i] = remove_dollar(tab[f->i], 1);
+		if (search_for_value(tab[f->i], value) == 1 && f->in_here_doc == 0)
+			tab = change_tab(tab, tab[f->i]);
+		return (tab);
 	}
-	while (str && str[i])
-		value[j++] = str[i++];
-	if (key == 1 && (value[j - 1] == ' ' || value[j - 1] == '\t'))
+	else
 	{
-		j--;
-		while (value[j] == ' ' || value[j] == '\t')
-			j--;
-		j++;
+		tab[f->i] = ft_str_replace(tab[f->i], key, "");
+		tab[f->i] = remove_dollar(tab[f->i], 1);
+		if (tab[f->i][0] == '\0')
+			tab = ft_realloc(tab, tab[f->i]);
 	}
-	value[j++] = '\"';
-	value[j] = '\0';
-	return (value);
+	return (tab);
 }

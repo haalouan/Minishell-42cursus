@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 15:01:15 by haalouan          #+#    #+#             */
-/*   Updated: 2024/06/24 14:49:12 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/07/07 12:18:17 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,9 @@ int	check_line(char *line)
 	while (line && (line[i] == ' ' || line[i] == '\t'))
 		i--;
 	if (line[i] && (line[i] == '|' || line[i] == '>' || line[i] == '<'))
+	{
+		exit_status(258);
 		return (1);
+	}
 	return (0);
 }

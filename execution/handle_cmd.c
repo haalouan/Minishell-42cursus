@@ -3,20 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   handle_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: achater <achater@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 17:29:29 by achater           #+#    #+#             */
-/*   Updated: 2024/06/10 02:05:14 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/07/03 11:01:11 by achater          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-void	error(void)
-{
-	perror("Error");
-	exit(EXIT_FAILURE);
-}
 
 
 char	*find_path(char *cmd, char **envp)
@@ -42,9 +36,7 @@ char	*find_path(char *cmd, char **envp)
 		free(path);
 	}
 	i = -1;
-	while (str[++i])
-		free(str[i]);
-	free(str);
+	ft_free(str);
 	if (x < 0)
 		return (NULL);
 	return (path);
@@ -89,46 +81,6 @@ void	execute(char **cmds, char **envp,char *cmd)
 		write(2, ": command not found\n", 20);
 		exit(127);
 	}
-}
-
-char	*ft_strjoin(char *s1,char *s2)
-{
-	char *s3;
-	int i;
-	int j;
-
-	i = 0;
-	j = 0;
-	s3 = malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
-	if(s3 == NULL)
-		return(NULL);
-	if(s1 == NULL)
-		return(s2);
-	if(s2 == NULL)
-		return(s1);
-	while(s1[i])
-	{
-		s3[i] = s1[i];
-		i++;
-	}
-	while(s2[j])
-	{
-		s3[i] = s2[j];
-		i++;
-		j++;
-	}
-	s3[i] = '\0';
-	return(s3);
-}
-
-int	count_args0(char **args)
-{
-	int i;
-
-	i = 0;
-	while(args[i])
-		i++;
-	return (i);
 }
 
 char **cmds_whit_args(char *cmd, char **args)

@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 16:38:45 by haalouan          #+#    #+#             */
-/*   Updated: 2024/06/24 15:58:33 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/07/06 21:23:53 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ char	**handle_parssing(char *line)
 
 	i = 0;
 	count = count_cmds(line);
-	printf("cmds = %d\n", count);
 	tab = malloc(sizeof(char *) * (count + 1) + 1);
 	if (!tab)
 		exit(EXIT_FAILURE);
@@ -104,7 +103,7 @@ t_list	**parssing(char *line, t_env *env_list)
 	list = allocation_list(tab);
 	if (continue_parssing(list, tab, line, env_list) == 1)
 		return (NULL);
-	// free_tab(tab);
+	free_tab(tab);
 	remove_quotes(list);
 	list[0]->exit = 0;
 	print_tab(list);//

@@ -6,16 +6,16 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 16:35:11 by haalouan          #+#    #+#             */
-/*   Updated: 2024/06/24 14:26:50 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/07/07 12:00:09 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// void f()
-// {
-//     system("leaks minishell");
-// }
+void f()
+{
+    system("leaks minishell");
+}
 
 int main(int arc, char **arv, char **env)
 {
@@ -30,7 +30,7 @@ int main(int arc, char **arv, char **env)
     list = NULL;
     env_list = NULL;
     g_status = 0;
-    set_env(env, &env_list);
+    set_env(env, &env_list, 0);
     signal(SIGINT, signal_handler);
     signal(SIGQUIT, signal_handler);
     rl_catch_signals = 0;

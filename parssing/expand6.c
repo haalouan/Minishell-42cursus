@@ -5,106 +5,136 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/24 15:46:15 by haalouan          #+#    #+#             */
-/*   Updated: 2024/06/24 15:55:22 by haalouan         ###   ########.fr       */
+/*   Created: 2024/05/02 00:31:58 by haalouan          #+#    #+#             */
+/*   Updated: 2024/07/08 10:08:19 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*protect_new_tab(char *str)
+char	*ft_str_replace(char *tab, const char *key, const char *value)
 {
-	int		i;
-	int		k;
-	char	*s;
+	size_t	key_len;
+	size_t	value_len;
+	char	*occurrence;
+	size_t	new_size;
+	char	*new_str;
 
-	i = 1;
-	k = 1;
-	s = malloc(ft_strlen(str) + 1);
-	if (!s)
-		exit(EXIT_FAILURE);
-	while (str && str[i])
-	{
-		while (str[i] && (str[i] == ' ' || str[i] == '\t'))
-			i++;
-		s[0] = '\"';
-		s[k] = str[i];
-		k++;
-		i++;
-	}
-	s[k] = '\0';
-	return (s);
+	if (!tab || !key || !value)
+		return (ft_strdup(tab));
+	key_len = ft_strlen(key);
+	value_len = ft_strlen(value);
+	occurrence = ft_strstr(tab, key);
+	if (!occurrence)
+		return (ft_strdup(tab));
+	new_size = ft_strlen(tab) - key_len + value_len + 1;
+	new_str = (char *)malloc(new_size);
+	if (!new_str)
+		return (NULL);
+	memcpy(new_str, tab, occurrence - tab);
+	new_str[occurrence - tab] = '\0';
+	strcat(new_str, value);
+	strcat(new_str, occurrence + key_len);
+	free(tab);
+	return (new_str);
 }
 
-static void	init(t_int *f, char **old_tab, char **new_str, char **new_tab)
+char	*add_dollar(char *str)
 {
-	f->i = 0;
-	f->j = 0;
-	f->k = 0;
-	f->size = ft_size(old_tab);
-	f->size2 = ft_size(new_str);
-	new_tab = safe_alloc(f->size + f->size2);
-}
-
-static void	change_tab2(char **new_str, char **new_tab, t_int *f)
-{
-	if (new_str[f->j][0] == '>' || new_str[f->j][0] == '<'
-		|| new_str[f->j][0] == '|')
-		new_str[f->j] = protect_new_str(new_str[f->j]);
-	new_tab[f->i++] = new_str[f->j++];
-}
-
-char	**change_tab(char **old_tab, char *str)
-{
-	t_int	f;
-	char	**new_str;
-	char	**new_tab;
-
-	new_str = ft_split(str, ' ');
-	new_tab = NULL;
-	init(&f, old_tab, new_str, new_tab);
-	if (!new_str || f.size2 <= 1)
-		return (old_tab);
-	while (f.i < f.size + f.size2)
-	{
-		if (ft_strcmp(old_tab[f.k], str) == 0)
-		{
-			while (f.i < f.size + f.size2 && new_str && new_str[f.j])
-				change_tab2(new_str, new_tab, &f);
-			if (old_tab[f.k] && old_tab[f.k + 1])
-				f.k++;
-		}
-		if (old_tab[f.k])
-			new_tab[f.i++] = old_tab[f.k++];
-	}
-	new_tab[f.i] = NULL;
-	// free_tab(old_tab);
-	return (new_tab);
-}
-
-char	**ft_realloc(char **tab, char *str)
-{
+	char	*value;
 	int		i;
 	int		j;
-	int		count;
-	char	**new_tab;
 
-	count = 0;
 	i = 0;
 	j = 0;
-	while (tab && tab[count])
-		count++;
-	new_tab = safe_alloc(count);
-	i = 0;
-	while (i < count)
+	value = malloc(ft_strlen(str) + 2);
+	if (!value)
+		return (NULL);
+	value[i] = '$';
+	i++;
+	while (str[j])
 	{
-		if (ft_strcmp(tab[i], str) == 0)
-			i++;
-		new_tab[j] = tab[i];
+		value[i] = str[j];
 		i++;
 		j++;
 	}
-	new_tab[j] = NULL;
-	// free_tab(tab);
-	return (new_tab);
+	value[i] = '\0';
+	return (value);
+}
+
+char	*get_env_value(char *key, t_env *export_i)
+{
+	t_env	*tmp;
+	char	*value;
+
+	if (!key)
+		return (NULL);
+	tmp = export_i;
+	while (tmp)
+	{
+		if (!strcmp(tmp->key, key))
+		{
+			value = ft_strdup(tmp->value);
+			return (value);
+		}
+		tmp = tmp->next;
+	}
+	return (NULL);
+}
+
+char	*get_env_key(char *str, int i)
+{
+	char	*key;
+	int		key_start;
+
+	key = NULL;
+	if (!str)
+		return (NULL);
+	while (str && str[i] && str[i] != '$')
+		i++;
+	if (str && str[i] == '$')
+	{
+		i++;
+		key_start = i;
+		while (str && str[i] && ((str[i] >= 'a' && str[i] <= 'z')
+				|| (str[i] >= 'A' && str[i] <= 'Z')
+				|| (str[i] >= '0' && str[i] <= '9') || str[i] == '_'))
+			i++;
+		key = (char *)malloc((i - key_start + 1) * sizeof(char));
+		if (!key)
+			exit(EXIT_FAILURE);
+		strncpy(key, &str[key_start], i - key_start);
+		key[i - key_start] = '\0';
+	}
+	return (key);
+}
+
+char	*protect_env(char *str, int key)
+{
+	char	*value;
+	int		i;
+	int		j;
+
+	i = 0;
+	j = 0;
+	value = malloc(ft_strlen(str) + 2 + 1);
+	value[j++] = '\"';
+	if (key == 1)
+	{
+		while (str[i] == ' ' || str[i] == '\t')
+			i++;
+	}
+	while (str && str[i])
+		value[j++] = str[i++];
+	if (key == 1 && (value[j - 1] == ' ' || value[j - 1] == '\t'))
+	{
+		j--;
+		while (value[j] == ' ' || value[j] == '\t')
+			j--;
+		j++;
+	}
+	value[j++] = '\"';
+	value[j] = '\0';
+	free(str);
+	return (value);
 }
