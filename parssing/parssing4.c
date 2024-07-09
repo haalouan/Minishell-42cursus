@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 01:51:31 by haalouan          #+#    #+#             */
-/*   Updated: 2024/06/10 01:52:42 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/07/09 11:44:51 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@ static int	redir(char **tab, t_list *list, int *i, int *j)
 		(*j)++;
 		(*i)++;
 	}
-	else if (tab[*i] && is_character2(tab[*i][0]) == 1 && list->cmd == NULL)
+	else if (tab[*i] && is_character2(tab[*i][0]) == 1 && list->cmd == NULL
+		&& ft_strcmp(tab[*i], "") != 0)
 	{
 		list->cmd = safe_init(ft_strlen(tab[*i]));
 		ft_strncpy(list->cmd, tab[*i], ft_strlen(tab[*i]));
@@ -92,5 +93,15 @@ void	redirection(t_list **list, char **tab, int pipe, int k)
 	{
 		if (redir(tab, list[k], &i, &j) == 1)
 			break ;
+	}
+}
+
+void	continue_arg(char **tab, int *ii)
+{
+	while (tab[*ii] && tab[*ii][0] && is_character2(tab[*ii][0]) == 0)
+	{
+		if (tab[*ii] && (tab[*ii][0] == '<'
+			|| tab[*ii][0] == '>') && tab[(*ii) + 1])
+			(*ii) += 2;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:22:31 by haalouan          #+#    #+#             */
-/*   Updated: 2024/07/08 10:22:39 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/07/09 12:47:19 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,7 @@ void free_list(t_list **list);
 char *expand_in_here_doc(char *line, t_env *env_list, int ex);
 int	ft_size(char **tab);
 //expand2
-char *ft_str_replace(char *source, const char *pattern, const char *replacement);
+char *ft_str_replace(char *source, const char *pattern, char *replacement);
 char *get_env_value(char *key, t_env *export_i);
 char *get_env_key(char *str, int i);
 char *remove_dollar(char *tab, int check);
@@ -146,7 +146,7 @@ char **continue_expand(char **tab, t_int *f, t_env *env_list);
 char **expand(char **tab, t_env *env_list, int i);
 char **change_tab(char **old_tab, char *str);
 char *protect_env(char *str, int i);
-char **ft_realloc(char **tab, char *str);
+char **ft_realloc(char **tab);
 char	*protect_new_str(char *str);
 int	search_for_value(char *str, char *s);
 //helpers_function1
@@ -156,7 +156,12 @@ int	ft_isdigit(int c);
 int is_character(char c);
 void print_tab(t_list **list);//
 int is_character2(char c);
-
+char	*cont_exp2(char **value, int j, t_env *env_list, char *tab);
+char	*cont_exp(char **value);
+void	continue_arg(char **tab, int *ii);
+int	c_str(char **tab);
+int	exppp(char *tab, int j);
+void	hndl_line(char *line, int *i);
 //helpers_function2
 int	ft_isalpha(int c);
 int	ft_isalnum(int c);
@@ -164,7 +169,7 @@ size_t	ft_strlen(const char *str);
 char    *ft_strncpy(char *dest, const char *src, int len);
 char *ft_strcat(char *dest, char *src);
 int	ft_strncmp(const char *str1, const char *str2, size_t n);
-
+char	*protect_new_tab(char *str);
 //syntax_errors
 void handle_error();
 int count_single_quote(char *line, int *i);

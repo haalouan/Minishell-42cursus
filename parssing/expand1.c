@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 15:44:43 by haalouan          #+#    #+#             */
-/*   Updated: 2024/07/07 13:51:23 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/07/09 11:46:07 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static void	exp_s(char **tab, t_int *f)
 
 static void	expp(char **tab, t_int *f, t_env *env_list)
 {
-	while (tab[f->i] && tab[f->i][f->j])
+	while (tab && tab[f->i] && tab[f->i][f->j])
 	{
 		if (tab[f->i] && tab[f->i][f->j] == '\"')
 			exp2(tab, f, env_list);

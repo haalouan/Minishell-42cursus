@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 16:38:45 by haalouan          #+#    #+#             */
-/*   Updated: 2024/07/06 21:23:53 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/07/09 11:45:35 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,6 @@ t_list	**parssing(char *line, t_env *env_list)
 	free_tab(tab);
 	remove_quotes(list);
 	list[0]->exit = 0;
-	print_tab(list);//
+	print_tab(list);
 	return (list);
 }

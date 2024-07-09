@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand1.c                                          :+:      :+:    :+:   */
+/*   expand4.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 00:31:12 by haalouan          #+#    #+#             */
-/*   Updated: 2024/06/24 15:51:13 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/07/09 11:58:44 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ char	**add_quotes(char **str)
 	new[k] = '\"';
 	new[k + 1] = '\0';
 	str[i] = ft_substr(new, 0, ft_strlen(new));
+	free(new);
 	return (str);
 }
 
@@ -65,9 +66,11 @@ char	*protect_new_str(char *str)
 
 	i = 0;
 	j = 1;
+	if (!str)
+		return (NULL);
 	s = malloc(ft_strlen(str) + 3);
-	if (!s || !str)
-		return (str);
+	if (!s)
+		exit(EXIT_FAILURE);
 	s[0] = '\"';
 	while (str && str[i])
 	{
@@ -77,5 +80,6 @@ char	*protect_new_str(char *str)
 	}
 	s[j] = '\"';
 	s[j + 1] = '\0';
+	free(str);
 	return (s);
 }

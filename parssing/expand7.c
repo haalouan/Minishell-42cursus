@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 14:10:35 by haalouan          #+#    #+#             */
-/*   Updated: 2024/07/07 14:11:13 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/07/09 12:48:43 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ char	*expand_digit(char *str)
 		break ;
 	}
 	new = ft_strncpy(new, str + i, ft_strlen(str) -2);
+	free(str);
 	return (new);
 }
 
@@ -60,8 +61,8 @@ char	*int_to_str(int num)
 		temp /= 10;
 	}
 	str = (char *)malloc((len + 1));
-	if (str == NULL)
-		return (NULL);
+	if (!str)
+		exit(EXIT_FAILURE);
 	str[len] = '\0';
 	i = len - 1;
 	while (i >= 0)
@@ -71,4 +72,29 @@ char	*int_to_str(int num)
 		i--;
 	}
 	return (str);
+}
+
+char	*protect_new_tab(char *str)
+{
+	int		i;
+	int		k;
+	char	*s;
+
+	i = 1;
+	k = 1;
+	s = malloc(ft_strlen(str) + 1);
+	if (!s)
+		exit(EXIT_FAILURE);
+	while (str && str[i])
+	{
+		while (str[i] && (str[i] == ' ' || str[i] == '\t'))
+			i++;
+		s[0] = '\"';
+		s[k] = str[i];
+		k++;
+		i++;
+	}
+	s[k] = '\0';
+	free(str);
+	return (s);
 }

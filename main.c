@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 16:35:11 by haalouan          #+#    #+#             */
-/*   Updated: 2024/07/07 12:00:09 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/07/09 10:46:27 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,7 @@ int main(int arc, char **arv, char **env)
         }
         if (!line)
             exit(1);
-        // free_list(list);
-        // free(env_list);
-        // free(line);
     }
+    free_list(list);
+    free(line);
 }

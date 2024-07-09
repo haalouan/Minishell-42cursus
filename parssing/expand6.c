@@ -6,13 +6,13 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 00:31:58 by haalouan          #+#    #+#             */
-/*   Updated: 2024/07/08 10:08:19 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/07/09 12:24:50 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*ft_str_replace(char *tab, const char *key, const char *value)
+char	*ft_str_replace(char *tab, const char *key, char *value)
 {
 	size_t	key_len;
 	size_t	value_len;
@@ -30,36 +30,13 @@ char	*ft_str_replace(char *tab, const char *key, const char *value)
 	new_size = ft_strlen(tab) - key_len + value_len + 1;
 	new_str = (char *)malloc(new_size);
 	if (!new_str)
-		return (NULL);
+		exit(EXIT_FAILURE);
 	memcpy(new_str, tab, occurrence - tab);
 	new_str[occurrence - tab] = '\0';
-	strcat(new_str, value);
-	strcat(new_str, occurrence + key_len);
+	ft_strcat(new_str, value);
+	ft_strcat(new_str, occurrence + key_len);
 	free(tab);
 	return (new_str);
-}
-
-char	*add_dollar(char *str)
-{
-	char	*value;
-	int		i;
-	int		j;
-
-	i = 0;
-	j = 0;
-	value = malloc(ft_strlen(str) + 2);
-	if (!value)
-		return (NULL);
-	value[i] = '$';
-	i++;
-	while (str[j])
-	{
-		value[i] = str[j];
-		i++;
-		j++;
-	}
-	value[i] = '\0';
-	return (value);
 }
 
 char	*get_env_value(char *key, t_env *export_i)
@@ -103,7 +80,7 @@ char	*get_env_key(char *str, int i)
 		key = (char *)malloc((i - key_start + 1) * sizeof(char));
 		if (!key)
 			exit(EXIT_FAILURE);
-		strncpy(key, &str[key_start], i - key_start);
+		ft_strncpy(key, &str[key_start], i - key_start);
 		key[i - key_start] = '\0';
 	}
 	return (key);
@@ -118,12 +95,11 @@ char	*protect_env(char *str, int key)
 	i = 0;
 	j = 0;
 	value = malloc(ft_strlen(str) + 2 + 1);
+	if (!value)
+		exit(EXIT_FAILURE);
 	value[j++] = '\"';
-	if (key == 1)
-	{
-		while (str[i] == ' ' || str[i] == '\t')
-			i++;
-	}
+	while ((key == 1 && str[i] == ' ') || str[i] == '\t')
+		i++;
 	while (str && str[i])
 		value[j++] = str[i++];
 	if (key == 1 && (value[j - 1] == ' ' || value[j - 1] == '\t'))
@@ -137,4 +113,29 @@ char	*protect_env(char *str, int key)
 	value[j] = '\0';
 	free(str);
 	return (value);
+}
+
+char	**ft_realloc(char **tab)
+{
+	int		i;
+	int		j;
+	int		count;
+	char	**new_tab;
+
+	count = 0;
+	i = 0;
+	j = 0;
+	count = c_str(tab);
+	new_tab = safe_alloc(count);
+	while (j < count)
+	{
+		if (ft_strcmp(tab[i], "") != 0)
+		{
+			new_tab[j] = ft_strdup(tab[i]);
+			j++;
+		}
+		i++;
+	}
+	free_tab(tab);
+	return (new_tab);
 }

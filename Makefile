@@ -10,7 +10,8 @@ SRCS =	main.c  ./parssing/parssing3.c ./parssing/remove_quotes.c ./parssing/hand
 		./parssing/free.c ./parssing/check2.c  ./parssing/expand3.c ./parssing/expand4.c \
 		./parssing/expand5.c ./parssing/expand6.c ./execution/echo.c ./execution/cd.c ./execution/env_exit_pwd.c \
 		./execution/lst_utils.c ./execution/utils2.c ./execution/utils3.c \
-		./execution/unset.c ./execution/set_env.c ./execution/handl_one_cmd.c ./parssing/expand7.c
+		./execution/unset.c ./execution/set_env.c ./execution/handl_one_cmd.c ./parssing/expand7.c \
+		./parssing/remove_dollar.c ./parssing/parssing5.c
 
 OBJS = ${SRCS:.c=.o}
 NAME = minishell

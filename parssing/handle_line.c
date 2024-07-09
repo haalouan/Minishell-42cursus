@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-static void charact(char *line, int *i)
+static void	charact(char *line, int *i)
 {
 	while (is_character(line[*i]) == 1 && line[*i] != '\0')
 		(*i)++;
@@ -26,11 +26,10 @@ void	continue_handle_word(char *line, int *i)
 		if (line[*i] == '\'')
 		{
 			(*i)++;
-			while (line && line[*i] && line[(*i)] != '\'' && line[*i] != '\0')
-				(*i)++;
+			hndl_line(line, i);
 			if (line[*i] == '\'')
 				(*i)++;
-			if (is_ch(line[*i]) == 0  && line[*i] != '\'' && line[*i] != '\"')
+			if (is_ch(line[*i]) == 0 && line[*i] != '\'' && line[*i] != '\"')
 				break ;
 		}
 		else if (line[*i] == '\"')
@@ -44,7 +43,7 @@ void	continue_handle_word(char *line, int *i)
 				break ;
 		}
 		else
-			break;
+			break ;
 	}
 }
 

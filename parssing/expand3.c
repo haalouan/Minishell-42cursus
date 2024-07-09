@@ -6,64 +6,38 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 04:04:33 by haalouan          #+#    #+#             */
-/*   Updated: 2024/07/07 13:59:13 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/07/09 12:22:39 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-static void	remove_dollar2(char *tab, int *i, int *k, int check)
-{
-	if (tab && tab[(*i)] == '\'' && check == 0)
-	{
-		(*i)++;
-		while (tab && tab[(*i)] && tab[(*i)] != '\'')
-			(*i)++;
-		(*k) = (*i);
-	}
-}
-
-static void	remove_dollar3(char *tab, int *i, int *chk)
-{
-	if (tab && tab[(*i)] == '$' && (*chk) == 0)
-	{
-		(*i)++;
-		(*chk) = 1;
-	}
-}
-
-char	*remove_dollar(char *tab, int check)
-{
-	int	i;
-	int	k;
-	int	chk;
-
-	i = 0;
-	k = 0;
-	chk = 0;
-	while (tab && tab[i] != '\0')
-	{
-		remove_dollar2(tab, &i, &k, check);
-		remove_dollar3(tab, &i, &chk);
-		tab[k] = tab[i];
-		if (tab[i])
-		{
-			i++;
-			k++;
-		}
-		else
-			break ;
-	}
-	if (tab[k])
-		tab[k] = '\0';
-	return (tab);
-}
 
 static char	*replace_and_remove_dollar(char *tab, char *key, char *value)
 {
 	tab = ft_str_replace(tab, key, value);
 	tab = remove_dollar(tab, 1);
 	return (tab);
+}
+
+static char	*exp_d_q(char *key, char *value, char *tab)
+{
+	if (key && value)
+		tab = replace_and_remove_dollar(tab, key, value);
+	else
+		tab = replace_and_remove_dollar(tab, key, "");
+	return (tab);
+}
+
+static char	*exp_d(char *tab, char **value, int j, t_env *env_list)
+{
+	char	*key;
+
+	key = NULL;
+	if (exppp(tab, j) == 11)
+		key = cont_exp(value);
+	else
+		key = cont_exp2(value, j, env_list, tab);
+	return (key);
 }
 
 char	**expand_in_double_quote(char **tab, int i, int *j, t_env *env_list)
@@ -77,23 +51,20 @@ char	**expand_in_double_quote(char **tab, int i, int *j, t_env *env_list)
 	{
 		if (ft_isdigit(tab[i][*j + 1]) == 1)
 			tab[i] = expand_digit(tab[i]);
-		// if (tab[i][*j + 1] == '\0')
-		// 	return (tab);
 		else if (tab && tab[i] && tab[i][*j] == '$' && tab[i][*j + 1] != '\"')
 		{
-			key = get_env_key(tab[i], *j);
-			value = get_env_value(key, env_list);
-			// if (value)
-			// 	value = protect_env(value, 0);
-			if (key && value)
-				tab[i] = replace_and_remove_dollar(tab[i], key, value);
-			else
-				tab[i] = replace_and_remove_dollar(tab[i], key, "");
+			key = exp_d(tab[i], &value, *j, env_list);
+			tab[i] = exp_d_q(key, value, tab[i]);
 		}
 		else if (tab && tab[i] && tab[i][*j] == '$' && tab[i][*j + 1] == '\"')
 			break ;
 		else
 			(*j)++;
+	}
+	if (ft_strcmp(key, "?") != 0)
+	{
+		free(key);
+		free(value);
 	}
 	return (tab);
 }

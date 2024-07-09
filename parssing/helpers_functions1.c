@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:27:26 by haalouan          #+#    #+#             */
-/*   Updated: 2024/06/23 14:12:43 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/07/09 12:48:58 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,49 +83,49 @@ int	is_character(char c)
 	return (0);
 }
 
-void print_tab(t_list **list)
-{
-	int i = 0;
-	while (list && list[i])
-	{
-		int n;
-		printf("*-------------------------*\n");
-		printf("|            (%d)          |\n", i + 1);
-		printf("*-------------*-----------*\n");
-		printf("|");
-		printf(""ANSI_COLOR_GREEN"    COMOND   " ANSI_RESET_ALL"");
-		printf("|");
-		printf("   %s\n", list[i]->cmd);
-		printf("*-------------*-----------*\n");
-		n = 0;
-		while (list && list[i] && list[i]->args && list[i]->args[n])
-		{
-			printf("|");
-			printf(""ANSI_COLOR_GREEN"  ARGUMENTS  " ANSI_RESET_ALL"");
-			printf("|");
-			printf("   %s\n", list[i]->args[n]);
-			printf("*-------------*-----------*\n");
-			n++;
-		}
-		n = 0;
-		while (list && list[i] && list[i]->redir && list[i]->redir[n])
-		{
-			printf("|");
-			printf(""ANSI_COLOR_GREEN" REDIRECTION " ANSI_RESET_ALL"");
-			printf("|");
-			printf("   %s\n", list[i]->redir[n]);
-			printf("*-------------*-----------*\n");
-			n++;
-			printf("|");
-			printf(""ANSI_COLOR_GREEN"     FILE    " ANSI_RESET_ALL"");
-			printf("|");
-			if (list[i]->redir)
-				printf("   %s\n", list[i]->redir[n]);
-			printf("*-------------*-----------*\n");
-			n++;
-		}
-		i++;
-		if (list[i])
-			printf("            <PIPE>\n");
-	}
-}
+// void print_tab(t_list **list)
+// {
+// 	int i = 0;
+// 	while (list && list[i])
+// 	{
+// 		int n;
+// 		printf("*-------------------------*\n");
+// 		printf("|            (%d)          |\n", i + 1);
+// 		printf("*-------------*-----------*\n");
+// 		printf("|");
+// 		printf(""ANSI_COLOR_GREEN"    COMOND   " ANSI_RESET_ALL"");
+// 		printf("|");
+// 		printf("   %s\n", list[i]->cmd);
+// 		printf("*-------------*-----------*\n");
+// 		n = 0;
+// 		while (list && list[i] && list[i]->args && list[i]->args[n])
+// 		{
+// 			printf("|");
+// 			printf(""ANSI_COLOR_GREEN"  ARGUMENTS  " ANSI_RESET_ALL"");
+// 			printf("|");
+// 			printf("   %s\n", list[i]->args[n]);
+// 			printf("*-------------*-----------*\n");
+// 			n++;
+// 		}
+// 		n = 0;
+// 		while (list && list[i] && list[i]->redir && list[i]->redir[n])
+// 		{
+// 			printf("|");
+// 			printf(""ANSI_COLOR_GREEN" REDIRECTION " ANSI_RESET_ALL"");
+// 			printf("|");
+// 			printf("   %s\n", list[i]->redir[n]);
+// 			printf("*-------------*-----------*\n");
+// 			n++;
+// 			printf("|");
+// 			printf(""ANSI_COLOR_GREEN"     FILE    " ANSI_RESET_ALL"");
+// 			printf("|");
+// 			if (list[i]->redir)
+// 				printf("   %s\n", list[i]->redir[n]);
+// 			printf("*-------------*-----------*\n");
+// 			n++;
+// 		}
+// 		i++;
+// 		if (list[i])
+// 			printf("            <PIPE>\n");
+// 	}
+// }
