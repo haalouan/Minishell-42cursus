@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:22:31 by haalouan          #+#    #+#             */
-/*   Updated: 2024/07/09 12:47:19 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/07/09 13:45:11 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void ft_lstadd_back(t_env **lst, t_env *new);
 char **ft_split(char const *s, char c);
 int ft_lstsize(t_env *lst);
 t_env    *ft_lstlast(t_env *lst);
-void execution(t_list **list, t_env **env_list,char **env);
+void execution(t_list **list, t_env **env_list);
 void set_env(char **env, t_env **env_list, int i);
 int    ft_is_alpha(char c);
 int check_args(char *args,char *str);
@@ -118,7 +118,8 @@ char	**struct_to_char(t_env *env_list);
 int	count_args0(char **args);
 void	handle_one_cmd(t_list *cmds, t_env **env_list, int status);
 void	close_here_doc(t_list **list, int i);
-
+void	handle_mult_cmd(t_list **list, t_env **env_list, int i, int prev_pipe);;
+void	ft_builtins(t_list *cmds, t_env **env_list);;
 /*******************************************************parssing*******************************************************/
 char *ft_substr(char const *s, unsigned int start, int len);
 char **safe_alloc(int count);

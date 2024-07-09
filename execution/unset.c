@@ -6,7 +6,7 @@
 /*   By: achater <achater@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 11:24:13 by achater           #+#    #+#             */
-/*   Updated: 2024/07/07 12:40:36 by achater          ###   ########.fr       */
+/*   Updated: 2024/07/09 12:26:21 by achater          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ void	ft_unset(t_env **env_list, char **args)
 	{
 		if (check_args(args[i], "unset") == 1)
 		{
-			printf("minishell: unset: `%s': not a valid identifier\n", args[i]);
+			write(2, "minishell: unset: `': not a valid identifier\n", 46);
 			exit_status(1);
 			i++;
 			continue ;
