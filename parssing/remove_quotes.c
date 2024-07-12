@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 00:47:28 by haalouan          #+#    #+#             */
-/*   Updated: 2024/06/24 14:55:52 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/07/12 14:32:01 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,15 +81,21 @@ static void	re(t_list *list, int *j, int *l, int *k)
 void	handle_redi(t_list **list, int *i, int *j, int *l)
 {
 	int	k;
+	int	r;
 
 	while (list && list[*i] && list[*i]->redir && list[*i]->redir[*j])
 	{
 		*l = 0;
 		k = 0;
-		if (list[*i]->redir[*j][0] == '\"' || list[*i]->redir[*j][0] == '\'')
-			list[*i]->flag_here_doc = 1;
-		else
-			list[*i]->flag_here_doc = 0;
+		r = 0;
+		list[*i]->flag_here_doc = 0;
+		while (list[*i]->redir[*j] && list[*i]->redir[*j][r])
+		{
+			if (list[*i]->redir[*j][r] == '\"'
+				|| list[*i]->redir[*j][r] == '\'')
+				list[*i]->flag_here_doc = 1;
+			r++;
+		}
 		while (list[*i]->redir[*j][*l])
 			re(list[*i], j, l, &k);
 		if (list && list[*i] && list[*i]->redir && list[*i]->redir[*j])

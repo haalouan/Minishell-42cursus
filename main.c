@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 16:35:11 by haalouan          #+#    #+#             */
-/*   Updated: 2024/07/12 08:46:47 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/07/12 14:18:14 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void f()
 
 int main(int arc, char **arv, char **env)
 {
-    atexit(f);
+    // atexit(f);
     (void)arc;
     (void)arv;
     char *line;
@@ -44,7 +44,7 @@ int main(int arc, char **arv, char **env)
             add_history(line);
             if (!list)
                 continue;
-            // execution(list, &env_list);
+            execution(list, &env_list);
         }
         if (!line)
         {
