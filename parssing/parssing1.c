@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 16:38:45 by haalouan          #+#    #+#             */
-/*   Updated: 2024/07/09 13:45:42 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/07/10 10:57:47 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ char	**handle_parssing(char *line)
 	char	**tab;
 
 	i = 0;
+	tab = NULL;
 	count = count_cmds(line);
 	tab = malloc(sizeof(char *) * (count + 1) + 1);
 	if (!tab)

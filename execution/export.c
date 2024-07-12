@@ -6,7 +6,7 @@
 /*   By: achater <achater@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 12:50:01 by achater           #+#    #+#             */
-/*   Updated: 2024/07/09 12:25:55 by achater          ###   ########.fr       */
+/*   Updated: 2024/07/11 11:25:16 by achater          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,22 +110,22 @@ void	split_by_equal(char *str, char **key, char **value, int i)
 	(*value) = ft_strdup(str + i + 1);
 }
 
-// void	free_list(t_env **env)
-// {
-// 	t_env *tmp;
-// 	t_env *tmp1;
+void	freee_list(t_env **env)
+{
+	t_env *tmp;
+	t_env *tmp1;
 
-// 	tmp = *env;
-// 	while (tmp)
-// 	{
-// 		tmp1 = tmp->next;
-// 		free(tmp->key);
-// 		free(tmp->value);
-// 		free(tmp);
-// 		tmp = tmp1;
-// 	}
-// 	*env = NULL;
-// }
+	tmp = *env;
+	while (tmp)
+	{
+		tmp1 = tmp->next;
+		// free(tmp->key);
+		// free(tmp->value);
+		free(tmp);
+		tmp = tmp1;
+	}
+	*env = NULL;
+}
 void	export_no_plus(char *key, char *value, t_env **env, t_env **tmp1)
 {
 	if (key_exist(*env, key) == 0)
@@ -151,6 +151,9 @@ void	export_no_plus(char *key, char *value, t_env **env, t_env **tmp1)
 
 void	export_helper(char *key, char *value, t_env **env, t_env **tmp1)
 {
+	char *tmp;
+
+	tmp = NULL;
 	if (key[ft_strlen(key) - 1] != '+')
 		export_no_plus(key, value, env, tmp1);
 	else
@@ -163,7 +166,11 @@ void	export_helper(char *key, char *value, t_env **env, t_env **tmp1)
 			{
 				if (ft_strcmp((*tmp1)->key, key) == 0)
 				{
-					(*tmp1)->value = ft_strjoin(get_env_value(key, *tmp1), value);
+					tmp = ft_strjoin((*tmp1)->value, value);
+					free((*tmp1)->value);
+					(*tmp1)->value = tmp;
+					free(key);
+					free(value);
 					break;
 				}
 				*tmp1 = (*tmp1)->next;
@@ -219,5 +226,5 @@ void	ft_export(char **args, t_env **env)
 		// free_list(&tmp)
 	else
 		export_whith_args(args, &tmp1, i, env);
+	freee_list(&tmp);
 }
-

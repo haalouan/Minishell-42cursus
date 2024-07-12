@@ -6,7 +6,7 @@
 /*   By: achater <achater@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 11:28:38 by achater           #+#    #+#             */
-/*   Updated: 2024/07/09 12:29:05 by achater          ###   ########.fr       */
+/*   Updated: 2024/07/10 10:57:09 by achater          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,16 @@ int exit_status(int status)
 	return (var);
 }
 
-void	close_here_doc(t_list **list, int i)
+void	close_here_doc(t_list **list)
 {
-	while (++i < (*list)->nbr)
+	int	i;
+
+	i = 0;
+	while (i < (*list)->nbr - 1)
 	{
-		close(list[i]->here_doc);
+		 if (list[i]->here_doc > 2)
+			close(list[i]->here_doc);
+		i++;
 	}
 }
 
@@ -70,5 +75,5 @@ void	execution(t_list **list, t_env **env_list)
     }
     else
 	handle_mult_cmd(list, env_list, -1,-1);
-    close_here_doc(list, -1);
+    close_here_doc(list);
 }

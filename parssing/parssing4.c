@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 01:51:31 by haalouan          #+#    #+#             */
-/*   Updated: 2024/07/09 11:44:51 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/07/11 11:07:00 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ char	**safe_alloc(int count)
 	i = 0;
 	str = NULL;
 	str = (char **)malloc(sizeof(char *) * (count + 1) + 1);
+	// printf("count : %d\n", count);
 	if (!str)
 		exit(EXIT_FAILURE);
 	while (i <= count)

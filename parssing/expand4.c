@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 00:31:12 by haalouan          #+#    #+#             */
-/*   Updated: 2024/07/09 11:58:44 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/07/10 10:26:11 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ char	**add_quotes(char **str)
 	i = 0;
 	j = 0;
 	k = 0;
+	new = NULL;
 	while (str && str[i])
 		i++;
 	i--;
@@ -65,6 +66,7 @@ char	*protect_new_str(char *str)
 	int		j;
 
 	i = 0;
+	s = NULL;
 	j = 1;
 	if (!str)
 		return (NULL);

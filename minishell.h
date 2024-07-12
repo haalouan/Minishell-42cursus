@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:22:31 by haalouan          #+#    #+#             */
-/*   Updated: 2024/07/09 13:45:11 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/07/12 08:45:05 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,9 +117,10 @@ void	ft_free(char **str);
 char	**struct_to_char(t_env *env_list);
 int	count_args0(char **args);
 void	handle_one_cmd(t_list *cmds, t_env **env_list, int status);
-void	close_here_doc(t_list **list, int i);
+void	close_here_doc(t_list **list);
 void	handle_mult_cmd(t_list **list, t_env **env_list, int i, int prev_pipe);;
-void	ft_builtins(t_list *cmds, t_env **env_list);;
+void	ft_builtins(t_list *cmds, t_env **env_list);
+void	freee_list(t_env **env);
 /*******************************************************parssing*******************************************************/
 char *ft_substr(char const *s, unsigned int start, int len);
 char **safe_alloc(int count);

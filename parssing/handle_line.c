@@ -52,6 +52,7 @@ void	handle_word(char **le, char **tab)
 	int		i;
 	char	*line;
 
+	line = NULL;
 	line = *le;
 	i = 0;
 	continue_handle_word(line, &i);

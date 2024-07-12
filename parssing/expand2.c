@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 15:45:59 by haalouan          #+#    #+#             */
-/*   Updated: 2024/07/09 12:16:50 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/07/11 12:03:34 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ char	*cont_exp(char **value)
 {
 	char	*key;
 
+	key = NULL;
 	key = malloc(2);
 	if (!key)
 		exit(EXIT_FAILURE);
@@ -54,6 +55,7 @@ char	*cont_exp2(char **value, int j, t_env *env_list, char *tab)
 {
 	char	*key;
 
+	key = NULL;
 	key = get_env_key(tab, j);
 	*value = handle_value(key, env_list);
 	return (key);
@@ -64,6 +66,8 @@ char	**continue_expand(char **tab, t_int *f, t_env *env_list)
 	char	*key;
 	char	*value;
 
+	key = NULL;
+	value = NULL;
 	if (exppp(tab[f->i], f->j) == 11)
 		key = cont_exp(&value);
 	else
@@ -74,6 +78,7 @@ char	**continue_expand(char **tab, t_int *f, t_env *env_list)
 		tab[f->i] = remove_dollar(tab[f->i], 1);
 		if (search_for_value(tab[f->i], value) == 1 && f->in_here_doc == 0)
 			tab = change_tab(tab, tab[f->i]);
+		return tab;
 	}
 	else
 	{

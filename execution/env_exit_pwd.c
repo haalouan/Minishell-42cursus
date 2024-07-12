@@ -6,11 +6,32 @@
 /*   By: achater <achater@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 16:43:38 by achater           #+#    #+#             */
-/*   Updated: 2024/07/07 12:41:19 by achater          ###   ########.fr       */
+/*   Updated: 2024/07/11 11:00:33 by achater          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+int	ft_is_too_long(char *str)
+{
+	long long	nb;
+	int			i;
+	long long	nb2;
+
+	nb = 0;
+	i = 0;
+	while(str[i])
+	{
+		nb2 = nb;
+		if (str[i] < '0' || str[i] > '9')
+			return (-1);
+		nb = nb2 * 10 + str[i] - '0';
+		if (nb < nb2)
+			return (-1);
+		i++;
+	}
+	return (0);
+}
 
 void	ft_env(t_env *env_list, char **args)
 {
@@ -30,7 +51,7 @@ void	ft_env(t_env *env_list, char **args)
 
 void	ft_exit(char **args, t_list *cmds)
 {
-	unsigned char	i ;
+	unsigned char	i;
 	int	x;
 
 	x = 0;
@@ -39,7 +60,7 @@ void	ft_exit(char **args, t_list *cmds)
 		printf("exit\n");
 	while (args && args[x])
 		x++;
-	if (args && x > 1 && ft_is_number(args[0]) == 1)
+	if (args && x > 1 && ft_is_too_long(args[0]) == 0)
 	{
 		printf("minishell: exit: too many arguments\n");
 		exit_status(1);
@@ -48,7 +69,7 @@ void	ft_exit(char **args, t_list *cmds)
 	if (args && x == 1 && ft_is_number(args[0]) == 1)
 		i = ft_atoi(args[0]);
 	if (args)
-		if (ft_is_number(args[0]) == 0)
+		if (ft_is_too_long(args[0]) == -1 || args[0][0] == '\0')
 		{
 			printf("minishell: exit: %s: numeric argument required\n", args[0]);
 			exit(255);
