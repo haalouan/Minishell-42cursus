@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 16:38:45 by haalouan          #+#    #+#             */
-/*   Updated: 2024/07/10 10:57:47 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/07/13 02:58:30 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	add_tab(char *line, char **tab, int len)
 	ft_strncpy(tab[i], line, len);
 }
 
-char	**handle_parssing(char *line)
+char	**handle_parssing(char *line, t_env *env_list)
 {
 	int		count;
 	t_check	check;
@@ -51,6 +51,7 @@ char	**handle_parssing(char *line)
 		check_check(line, &check);
 		handle_line(&line, tab, check);
 	}
+	tab = expand(tab, env_list, 0);
 	return (tab);
 }
 
@@ -98,7 +99,7 @@ t_list	**parssing(char *line, t_env *env_list)
 	}
 	if (count_quote(line) == 1)
 		return (NULL);
-	tab = handle_parssing(line);
+	tab = handle_parssing(line, env_list);
 	if (check_error(tab) == 1)
 		return (NULL);
 	list = allocation_list(tab);

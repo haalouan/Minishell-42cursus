@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 15:46:15 by haalouan          #+#    #+#             */
-/*   Updated: 2024/07/11 13:02:00 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/07/13 02:55:00 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,6 +148,6 @@ char	**change_tab(char **old_tab, char *str)
 			break ;
 	}
 	new_tab[f.i] = NULL;
-	// free_tab(old_tab);
+	free_tab(old_tab);
 	return (new_tab);
 }

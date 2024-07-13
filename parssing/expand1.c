@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 15:44:43 by haalouan          #+#    #+#             */
-/*   Updated: 2024/07/11 12:40:06 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/07/13 02:54:45 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ static char	**expp(char **tab, t_int *f, t_env *env_list)
 				break ;
 			else
 				tab = continue_expand(tab, f, env_list);
-				
 		}
 		else if (tab[f->i] && tab[f->i][f->j] == '$'
 			&& (tab[f->i][f->j + 1] == '\'' || tab[f->i][f->j + 1] == '\"'))

@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:22:31 by haalouan          #+#    #+#             */
-/*   Updated: 2024/07/12 08:45:05 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/07/13 02:58:53 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,7 +188,7 @@ int check_line(char *line);
 
 //parssing1
 t_list **parssing(char *line, t_env *env_list);
-char **handle_parssing(char *line);
+char	**handle_parssing(char *line, t_env *env_list);
 void add_tab(char *line, char **tab, int len);
 int	count_args(char **tab, int i);
 //remove_quotes
@@ -210,7 +210,7 @@ int count_cmds(char *line);
 
 //parssing1
 t_list **parssing(char *line, t_env *env_list);
-char **handle_parssing(char *line);
+char	**handle_parssing(char *line, t_env *env_list);
 void add_tab(char *line, char **tab, int len);
 
 //parssing2

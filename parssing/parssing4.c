@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 01:51:31 by haalouan          #+#    #+#             */
-/*   Updated: 2024/07/11 11:07:00 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/07/13 03:21:14 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ static int	redir(char **tab, t_list *list, int *i, int *j)
 		else if (!tab[*i])
 			return (1);
 		(*j)++;
+		printf("|%d|\n", *j);
+		printf("|%d|\n", *i);
 		list->redir[*j] = safe_init(ft_strlen(tab[*i]));
 		ft_strncpy(list->redir[*j], tab[*i], ft_strlen(tab[*i]));
 		(*j)++;
@@ -88,6 +90,7 @@ void	redirection(t_list **list, char **tab, int pipe, int k)
 	i = 0;
 	size = 0;
 	count = count_redir(tab, pipe);
+	printf("count = %d\n", count);
 	list[k]->redir = safe_alloc(count);
 	i = 0;
 	while (tab && tab[i] && tab[i][0] != '|' && list[k]->redir)

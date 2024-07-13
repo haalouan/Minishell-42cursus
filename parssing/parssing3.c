@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 01:20:05 by haalouan          #+#    #+#             */
-/*   Updated: 2024/07/09 11:45:20 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/07/13 03:25:34 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,9 +92,11 @@ int	count_redir(char **tab, int i)
 	int	count;
 
 	count = 0;
-	while (tab && tab[i] && tab[i][0] && tab[i][0] != '|')
+	while (tab && tab[i])
 	{
-		if (tab[i] && (tab[i][0] == '>' || tab[i][0] == '<'))
+		if (tab[i][0] == '|')
+			break ;
+		if (tab[i][0] == '>' || tab[i][0] == '<')
 			count++;
 		i++;
 	}

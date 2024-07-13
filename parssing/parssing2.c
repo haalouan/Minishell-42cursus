@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 11:05:44 by haalouan          #+#    #+#             */
-/*   Updated: 2024/07/11 12:03:09 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/07/13 03:09:56 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,18 +101,19 @@ int	continue_parssing(t_list **list, char **tab, char *line, t_env *env_list)
 {
 	int	count;
 	int	size;
+	(void)env_list;
 	int	i;
 
 	i = 0;
 	count = count_cmds(line);
 	size = count_pipe(tab);
-	tab = expand(tab, env_list, 0);
-	int r = 0;
-			while (tab && tab[r])
-			{
-				printf("after : %s\n", tab[r]);
-				r++;
-			}
+	// tab = expand(tab, env_list, 0);
+	// int r = 0;
+	// 		while (tab && tab[r])
+	// 		{
+	// 			printf("after : %s\n", tab[r]);
+	// 			r++;
+	// 		}
 	if (check_error2(tab) == 1)
 		return (1);
 	while (i <= size)

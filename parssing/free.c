@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 13:52:36 by haalouan          #+#    #+#             */
-/*   Updated: 2024/07/09 10:58:56 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/07/12 21:05:02 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,9 @@ void	free_list(t_list **list)
 		free_tab(list[i]->redir);
 		free_tab(list[i]->args);
 		free(list[i]);
+		list[i] = NULL;
 		i++;
 	}
 	free(list);
+	list = NULL;
 }
