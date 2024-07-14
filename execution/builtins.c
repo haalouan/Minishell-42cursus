@@ -6,7 +6,7 @@
 /*   By: achater <achater@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 11:28:38 by achater           #+#    #+#             */
-/*   Updated: 2024/07/10 10:57:09 by achater          ###   ########.fr       */
+/*   Updated: 2024/07/13 09:43:16 by achater          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	close_here_doc(t_list **list)
 	int	i;
 
 	i = 0;
-	while (i < (*list)->nbr - 1)
+	while (i < (*list)->nbr)
 	{
 		 if (list[i]->here_doc > 2)
 			close(list[i]->here_doc);
@@ -47,7 +47,8 @@ void	ft_builtins(t_list *cmds, t_env **env_list)
 		ft_env(*env_list, cmds->args);
 	else if (ft_strcmp(cmds->cmd, "export") == 0)
 		ft_export(cmds->args, env_list);
-	else if (ft_strcmp(cmds->cmd, "pwd") == 0 || ft_strcmp(cmds->cmd, "PWD") == 0)
+	else if (ft_strcmp(cmds->cmd, "pwd") == 0
+		|| ft_strcmp(cmds->cmd, "PWD") == 0)
 		ft_pwd(*env_list);
 	else if (ft_strcmp(cmds->cmd, "unset") == 0)
 		ft_unset(env_list,cmds->args);
@@ -55,7 +56,7 @@ void	ft_builtins(t_list *cmds, t_env **env_list)
 		ft_exit(cmds->args, cmds);
 	else
 		handle_cmd(cmds, new_env);
-	free(new_env);
+	free_struct(new_env);
 }
 
 void	execution(t_list **list, t_env **env_list)

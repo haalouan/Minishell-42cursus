@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 15:01:15 by haalouan          #+#    #+#             */
-/*   Updated: 2024/07/13 03:14:13 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/07/14 04:11:13 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,18 @@
 int	check_error(char **tab)
 {
 	if (check(tab) == 2)
-		return (1);
-	if (check(tab) == 1)
 	{
-		handle_error();
+		free_tab(tab);
 		return (1);
 	}
+	else if (check(tab) == 1)
+	{
+		handle_error();
+		free_tab(tab);
+		return (1);
+	}
+	if (check_error2(tab) == 1)
+		return (1);
 	return (0);
 }
 
@@ -46,11 +52,11 @@ int	check_error2(char **tab)
 {
 	if (check(tab) == 2)
 		return (1);
-	// if (check(tab) == 0 && check_ambiguous_redir(tab) == 0)
-	// 	return (1);
 	if (check(tab) == 0 && check_ambiguous_redir(tab) == 1)
 	{
 		printf("minishell: ambiguous redirect\n");
+		exit_status(1);
+		free_tab(tab);
 		return (1);
 	}
 	return (0);

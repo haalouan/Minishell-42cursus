@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 16:38:45 by haalouan          #+#    #+#             */
-/*   Updated: 2024/07/13 02:58:30 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/07/14 04:06:04 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,18 +54,20 @@ char	**handle_parssing(char *line, t_env *env_list)
 	tab = expand(tab, env_list, 0);
 	return (tab);
 }
-
+int g_signal = 0;
 void	signal_handler(int sig)
 {
 	if (sig == SIGINT)
 	{
 		if (g_status == 2)
 		{
+			g_signal = 1;
 			g_status = 1;
 			printf("\n");
 			return ;
 		}
 		printf("\n");
+		exit_status(1);
 		rl_on_new_line();
 		rl_replace_line("", 1);
 		rl_redisplay();
@@ -103,7 +105,7 @@ t_list	**parssing(char *line, t_env *env_list)
 	if (check_error(tab) == 1)
 		return (NULL);
 	list = allocation_list(tab);
-	if (continue_parssing(list, tab, line, env_list) == 1)
+	if (continue_parssing(list, tab, line) == 1)
 		return (NULL);
 	free_tab(tab);
 	remove_quotes(list);

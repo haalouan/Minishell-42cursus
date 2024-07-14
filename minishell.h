@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:22:31 by haalouan          #+#    #+#             */
-/*   Updated: 2024/07/13 02:58:53 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/07/14 03:15:54 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define MINISHELL_H
 
 int g_status;
+
+extern int g_signal;
 
 # include <stdio.h>
 # include <stdlib.h>
@@ -121,6 +123,8 @@ void	close_here_doc(t_list **list);
 void	handle_mult_cmd(t_list **list, t_env **env_list, int i, int prev_pipe);;
 void	ft_builtins(t_list *cmds, t_env **env_list);
 void	freee_list(t_env **env);
+void free_struct(char **new_env);
+
 /*******************************************************parssing*******************************************************/
 char *ft_substr(char const *s, unsigned int start, int len);
 char **safe_alloc(int count);
@@ -214,7 +218,7 @@ char	**handle_parssing(char *line, t_env *env_list);
 void add_tab(char *line, char **tab, int len);
 
 //parssing2
-int continue_parssing(t_list **list, char **tab, char *line, t_env *env_list);
+int	continue_parssing(t_list **list, char **tab, char *line);
 int exit_status(int status);
 //parssing3
 int count_pipe(char **tab);

@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 16:35:11 by haalouan          #+#    #+#             */
-/*   Updated: 2024/07/13 02:52:28 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/07/14 03:09:24 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,19 +43,15 @@ int main(int arc, char **arv, char **env)
             list = parssing(line, env_list);
             add_history(line);
             if (!list)
+            {
+                free(line);
                 continue;
-            // execution(list, &env_list);
+            }
+            execution(list, &env_list);
         }
         if (!line)
-        {
-            // free_list(list);
-            free(line);//??
-            // freee_list(&env_list);
-            exit(1);
-        }
+            exit(exit_status(-1));
         free_list(list);
         free(line);
     }
-    free_list(list);
-    free(line);
 }

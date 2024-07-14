@@ -6,26 +6,12 @@
 /*   By: achater <achater@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 12:50:01 by achater           #+#    #+#             */
-/*   Updated: 2024/07/11 11:25:16 by achater          ###   ########.fr       */
+/*   Updated: 2024/07/13 09:54:05 by achater          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-t_env	*ft_copy_list(t_env *env_list)
-{
-	t_env *new;
-	t_env *tmp;
-
-	new = NULL;
-	tmp = env_list;
-	while (tmp)
-	{
-		ft_lstadd_back(&new, ft_lstnew(tmp->key, tmp->value));
-		tmp = tmp->next;
-	}
-	return (new);
-}
 void	swap_nodes(t_env *node1, t_env *node2)
 {
 	char *swap_key ;
@@ -42,22 +28,8 @@ void	swap_nodes(t_env *node1, t_env *node2)
 
 void	sort_and_print_env(t_env *lst, int (*cmp)(char*,char*))
 {
-	t_env	*tmp;
-
-	tmp = lst;
 	if (lst == NULL)
 		return;
-	while(lst->next != NULL)
-	{
-		if (((*cmp)(lst->key, lst->next->key)) > 0)
-		{
-			swap_nodes(lst, lst->next);
-			lst = tmp;
-		}
-		else
-			lst = lst->next;
-	}
-	lst = tmp;
 	while (lst)
 	{
 		if ((*cmp)(lst->key, "_") != 0 && lst->value != NULL)
@@ -119,8 +91,9 @@ void	freee_list(t_env **env)
 	while (tmp)
 	{
 		tmp1 = tmp->next;
-		// free(tmp->key);
-		// free(tmp->value);
+		free(tmp->key);
+		if (tmp->value == NULL)
+			free(tmp->value);
 		free(tmp);
 		tmp = tmp1;
 	}
@@ -133,7 +106,10 @@ void	export_no_plus(char *key, char *value, t_env **env, t_env **tmp1)
 	else
 	{
 		if (value == NULL)
+		{
 			free(key);
+			return;
+		}
 		else
 		{
 			while(tmp1)
@@ -169,19 +145,20 @@ void	export_helper(char *key, char *value, t_env **env, t_env **tmp1)
 					tmp = ft_strjoin((*tmp1)->value, value);
 					free((*tmp1)->value);
 					(*tmp1)->value = tmp;
-					free(key);
-					free(value);
 					break;
 				}
 				*tmp1 = (*tmp1)->next;
 			}
 	}
 }
-void	last_char_is_plus(char *key)
+void	error_hendler(char *key, char *value, int i)
 {
 	write(2, "minishell: export: `': not a valid identifier\n", 46);
 	exit_status(1);
-	free(key);
+	if (i == 1)
+		free(value);
+	if (i == 0)
+		free(key);
 }
 void	export_whith_args(char **args, t_env **tmp1, int i, t_env **env)
 {
@@ -200,13 +177,12 @@ void	export_whith_args(char **args, t_env **tmp1, int i, t_env **env)
 		split_by_equal(args[i], &key, &value, 0);
 		if (key == NULL)
 		{
-			write(2, "minishell: export: `': not a valid identifier\n", 46);
-			exit_status(1);
+			error_hendler(key, value, 1);
 			continue;
 		}
 		if (check_args(key, "export") == 1
 			|| (key[ft_strlen(key) - 1] == '+' && value == NULL))
-			last_char_is_plus(key);
+			error_hendler(key, value, 0);
 		else
 			export_helper(key, value, env, tmp1);
 	}
@@ -214,17 +190,13 @@ void	export_whith_args(char **args, t_env **tmp1, int i, t_env **env)
 
 void	ft_export(char **args, t_env **env)
 {
-	t_env *tmp;
 	t_env *tmp1;
 	int i;
 
 	i = -1;
-	tmp = ft_copy_list(*env);
 	tmp1 = *env;
 	if (args == NULL)
-		sort_and_print_env(tmp, ft_strcmp);
-		// free_list(&tmp)
+		sort_and_print_env(*env, ft_strcmp);
 	else
 		export_whith_args(args, &tmp1, i, env);
-	freee_list(&tmp);
 }

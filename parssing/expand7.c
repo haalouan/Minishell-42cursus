@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 14:10:35 by haalouan          #+#    #+#             */
-/*   Updated: 2024/07/10 10:28:43 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/07/13 20:15:33 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	search_for_value(char *str, char *s)
 char	*expand_digit(char *str)
 {
 	int		i;
-	char	*new = NULL;
+	char	*new;
 
 	i = 1;
 	new = malloc(ft_strlen(str) - 2 + 1);
@@ -48,10 +48,10 @@ char	*expand_digit(char *str)
 
 char	*int_to_str(int num)
 {
-	int		temp = 0;
+	int		temp;
 	int		len;
-	int		i = 0;
-	char	*str = NULL;
+	int		i;
+	char	*str;
 
 	temp = num;
 	len = 0;
@@ -78,7 +78,7 @@ char	*protect_new_tab(char *str)
 {
 	int		i;
 	int		k;
-	char	*s = NULL;
+	char	*s;
 
 	i = 1;
 	k = 1;

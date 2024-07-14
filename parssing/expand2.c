@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 15:45:59 by haalouan          #+#    #+#             */
-/*   Updated: 2024/07/11 12:03:34 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/07/13 20:12:08 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ char	**continue_expand(char **tab, t_int *f, t_env *env_list)
 		tab[f->i] = remove_dollar(tab[f->i], 1);
 		if (search_for_value(tab[f->i], value) == 1 && f->in_here_doc == 0)
 			tab = change_tab(tab, tab[f->i]);
-		return tab;
 	}
 	else
 	{

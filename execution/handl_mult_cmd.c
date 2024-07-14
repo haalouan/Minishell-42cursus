@@ -6,7 +6,7 @@
 /*   By: achater <achater@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 12:25:01 by achater           #+#    #+#             */
-/*   Updated: 2024/07/09 12:25:25 by achater          ###   ########.fr       */
+/*   Updated: 2024/07/12 10:30:17 by achater          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	help_fct2(t_list **list,int fd[2], int pid[(*list)->nbr])
 	while (++i < (*list)->nbr)
 		waitpid(pid[i], &status, 0);
 	exit_status(WEXITSTATUS(status));
+	free(pid);
 }
 
 void	help_fct1(t_list **list, int i)
@@ -89,9 +90,10 @@ void child_of_mult_cmd2(t_list **list, t_env **env_list, int i, int fd[2])
 void	handle_mult_cmd(t_list **list, t_env **env_list, int i, int prev_pipe)
 {
 	int	fd[2];
-	int	pid[(*list)->nbr + 1];
+	int	*pid;
 
-	 while (++i < (*list)->nbr)
+	pid = malloc(sizeof(int) * (*list)->nbr);
+	while (++i < (*list)->nbr)
         {
         	if (pipe(fd) == -1)
         		error();
@@ -105,8 +107,7 @@ void	handle_mult_cmd(t_list **list, t_env **env_list, int i, int prev_pipe)
 		}
             	else
             	{
-                	close(prev_pipe);
-			close(fd[1]);
+                	(1) && (close(prev_pipe), close(fd[1]));
                 	prev_pipe = fd[0];
         	}
          	if (i != (*list)->nbr - 1)

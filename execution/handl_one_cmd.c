@@ -6,11 +6,25 @@
 /*   By: achater <achater@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 11:15:20 by achater           #+#    #+#             */
-/*   Updated: 2024/07/07 13:35:18 by achater          ###   ########.fr       */
+/*   Updated: 2024/07/13 09:41:24 by achater          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void free_struct(char **new_env)
+{
+	int	i;
+
+	i = 0;
+	while (new_env[i])
+	{
+		free(new_env[i]);
+		i++;
+	}
+	free(new_env);
+
+}
 
  int	check_builtins(char *cmd)
 {
@@ -105,5 +119,5 @@ void	handle_one_cmd(t_list *cmds, t_env **env_list, int status)
 				exit_status(WEXITSTATUS(status));
 		}
 	}
-	free(new_env);
+	free_struct(new_env);
 }

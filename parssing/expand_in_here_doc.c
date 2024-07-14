@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 17:53:18 by haalouan          #+#    #+#             */
-/*   Updated: 2024/07/12 09:07:47 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/07/13 20:18:13 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,4 +73,3 @@ char	*expand_in_here_doc(char *line, t_env *env_list, int ex)
 	}
 	return (line);
 }
-
