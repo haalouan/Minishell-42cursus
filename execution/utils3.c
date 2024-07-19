@@ -6,7 +6,7 @@
 /*   By: achater <achater@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 16:53:49 by achater           #+#    #+#             */
-/*   Updated: 2024/07/03 10:58:58 by achater          ###   ########.fr       */
+/*   Updated: 2024/07/14 08:00:44 by achater          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,34 @@ char	*ft_strjoin(char *s1,char *s2)
 		j++;
 	}
 	s3[i] = '\0';
+	return(s3);
+}
+
+char	*ft_strjoin_free(char *s1, char *s2)
+{
+	char *s3;
+	int i;
+	int j;
+
+	i = -1;
+	j = 0;
+	s3 = malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
+	if(s3 == NULL)
+		return(NULL);
+	if(s1 == NULL)
+		return(s2);
+	if(s2 == NULL)
+		return(s1);
+	while(s1[++i])
+		s3[i] = s1[i];
+	while(s2[j])
+	{
+		s3[i] = s2[j];
+		i++;
+		j++;
+	}
+	s3[i] = '\0';
+	free(s2);
 	return(s3);
 }
 

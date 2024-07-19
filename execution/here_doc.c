@@ -6,24 +6,18 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 11:49:08 by achater           #+#    #+#             */
-/*   Updated: 2024/07/14 03:23:59 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/07/19 21:17:54 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-void handle_here_doc(int seg)
-{
-	(void)seg;
-	exit(0);
-}
 
 void	set_here_doc(t_list **list, int i, int j, t_env *env_list)
 {
 	int	fd[2];
 	char	*line;
 
-	while (++i < (*list)->nbr && !g_signal)
+	while (++i < (*list)->nbr)
 	{
 		j = 0;
 		while (list[i]->redir[j])
@@ -36,7 +30,6 @@ void	set_here_doc(t_list **list, int i, int j, t_env *env_list)
 			}
 			if (ft_strcmp(list[i]->redir[j], "<<") == 0)
 			{
-				// signal(SIGINT, handle_here_doc);
 				if (pipe(fd) == -1)
 					error();
 				while (1)
@@ -58,5 +51,4 @@ void	set_here_doc(t_list **list, int i, int j, t_env *env_list)
 			j += 2;
 		}
 	}
-	g_signal = 1;
 }

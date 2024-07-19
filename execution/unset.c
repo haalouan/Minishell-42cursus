@@ -6,7 +6,7 @@
 /*   By: achater <achater@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 11:24:13 by achater           #+#    #+#             */
-/*   Updated: 2024/07/09 12:26:21 by achater          ###   ########.fr       */
+/*   Updated: 2024/07/14 11:21:47 by achater          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,9 @@ void	remove_node(t_env **env_list, t_env *node_to_remove)
 		if (temp != NULL)
 			temp->next = node_to_remove->next;
 	}
+	free(node_to_remove->key);
+	if (node_to_remove->value)
+		free(node_to_remove->value);
 	free(node_to_remove);
 }
 

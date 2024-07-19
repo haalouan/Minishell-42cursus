@@ -6,7 +6,7 @@
 /*   By: achater <achater@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 11:28:38 by achater           #+#    #+#             */
-/*   Updated: 2024/07/13 09:43:16 by achater          ###   ########.fr       */
+/*   Updated: 2024/07/14 08:55:14 by achater          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	ft_builtins(t_list *cmds, t_env **env_list)
 	if (ft_strcmp(cmds->cmd, "echo") == 0)
 		ft_echo(cmds->args, 0, 0, 0);
 	else if (ft_strcmp(cmds->cmd, "cd") == 0)
-		ft_cd(cmds->args, *env_list);
+		ft_cd(cmds->args, *env_list, 0, 0);
 	else if (ft_strcmp(cmds->cmd, "env") == 0 && cmds)
 		ft_env(*env_list, cmds->args);
 	else if (ft_strcmp(cmds->cmd, "export") == 0)

@@ -6,7 +6,7 @@
 /*   By: achater <achater@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 12:50:01 by achater           #+#    #+#             */
-/*   Updated: 2024/07/13 09:54:05 by achater          ###   ########.fr       */
+/*   Updated: 2024/07/14 09:46:42 by achater          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,18 +110,17 @@ void	export_no_plus(char *key, char *value, t_env **env, t_env **tmp1)
 			free(key);
 			return;
 		}
-		else
+		while(tmp1)
 		{
-			while(tmp1)
+			if (ft_strcmp((*tmp1)->key, key) == 0)
 			{
-				if (ft_strcmp((*tmp1)->key, key) == 0)
-				{
-					(*tmp1)->value = value;
-					break;
-				}
-				*tmp1 = (*tmp1)->next;
+				free((*tmp1)->value);
+				(*tmp1)->value = value;
+				break;
 			}
+			*tmp1 = (*tmp1)->next;
 		}
+		free(key);
 	}
 }
 
@@ -131,26 +130,27 @@ void	export_helper(char *key, char *value, t_env **env, t_env **tmp1)
 
 	tmp = NULL;
 	if (key[ft_strlen(key) - 1] != '+')
-		export_no_plus(key, value, env, tmp1);
-	else
+		return (export_no_plus(key, value, env, tmp1));
+	key[ft_strlen(key) - 1] = '\0';
+	if (key_exist(*env, key) == 0)
+		return (ft_lstadd_back(env, ft_lstnew(key, value)));
+	if (value == NULL)
+		return (free(key));
+	while(tmp1)
 	{
-		key[ft_strlen(key) - 1] = '\0';
-		if (key_exist(*env, key) == 0)
-			ft_lstadd_back(env, ft_lstnew(key, value));
-		else
-			while(tmp1)
-			{
-				if (ft_strcmp((*tmp1)->key, key) == 0)
-				{
-					tmp = ft_strjoin((*tmp1)->value, value);
-					free((*tmp1)->value);
-					(*tmp1)->value = tmp;
-					break;
-				}
-				*tmp1 = (*tmp1)->next;
-			}
+		if (ft_strcmp((*tmp1)->key, key) == 0)
+		{
+			tmp = ft_strjoin((*tmp1)->value, value);
+			free((*tmp1)->value);
+			(*tmp1)->value = tmp;
+			free(value);
+			break ;
+		}
+		*tmp1 = (*tmp1)->next;
 	}
+	free(key);
 }
+
 void	error_hendler(char *key, char *value, int i)
 {
 	write(2, "minishell: export: `': not a valid identifier\n", 46);

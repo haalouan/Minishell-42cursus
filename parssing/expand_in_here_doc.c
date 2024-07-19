@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 17:53:18 by haalouan          #+#    #+#             */
-/*   Updated: 2024/07/13 20:18:13 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/07/19 21:13:05 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ static void	continue_expand_in_here_doc(char **l, t_env *env_list,
 		(*l) = ft_str_replace((*l), k, "");
 		(*l) = remove_dollar((*l), 1);
 	}
+	free(k);
 }
 
 char	*expand_in_here_doc(char *line, t_env *env_list, int ex)
@@ -71,5 +72,6 @@ char	*expand_in_here_doc(char *line, t_env *env_list, int ex)
 		}
 		i++;
 	}
+	free(value);
 	return (line);
 }

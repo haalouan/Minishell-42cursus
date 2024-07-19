@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:22:31 by haalouan          #+#    #+#             */
-/*   Updated: 2024/07/14 03:15:54 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/07/19 20:57:12 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ char    *ft_strjoin3(char *s1, char *s2, char *s3);
 char    *ft_strnstr(const char *haystack, const char *needle, size_t len);
 void    error(void);
 void    execute(char **cmds, char **envp, char *cmd);
-void    change_value(t_env **env_list,char *value);
+int	change_value(t_env **env_list, char *value);
 char    *ft_strjoin(char *s1,char *s2);
 void    handle_redir(t_list *list, int i);
 void    handle_redir_no_command(t_list *list, int i);
@@ -110,7 +110,7 @@ int ft_is_number(char *str);
 int	ft_atoi(const char *str);
 void	ft_echo(char **args, int n, int j, int x);
 void	change_env_last_cmd(t_list *cmds, t_env **env_list);
-void	ft_cd(char **args, t_env *env_list);
+void	ft_cd(char **args, t_env *env_list, int x, int y);
 void	ft_env(t_env *env_list, char **args);
 void	ft_exit(char **args, t_list *cmds);
 void	ft_pwd(t_env *env_list);
@@ -124,7 +124,7 @@ void	handle_mult_cmd(t_list **list, t_env **env_list, int i, int prev_pipe);;
 void	ft_builtins(t_list *cmds, t_env **env_list);
 void	freee_list(t_env **env);
 void free_struct(char **new_env);
-
+void	split_by_equal(char *str, char **key, char **value, int i);
 /*******************************************************parssing*******************************************************/
 char *ft_substr(char const *s, unsigned int start, int len);
 char **safe_alloc(int count);

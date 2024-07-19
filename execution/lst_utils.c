@@ -6,7 +6,7 @@
 /*   By: achater <achater@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 16:48:07 by achater           #+#    #+#             */
-/*   Updated: 2024/06/30 16:49:04 by achater          ###   ########.fr       */
+/*   Updated: 2024/07/14 10:35:07 by achater          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ t_env	*ft_lstnew(char *key , char *content)
 	x = malloc(sizeof(t_env));
 	if (x == 0)
 		return (0);
-
 	x ->key = key;
 	x ->value = content;
 	x ->next = NULL;

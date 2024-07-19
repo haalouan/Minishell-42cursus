@@ -6,7 +6,7 @@
 /*   By: achater <achater@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 11:15:20 by achater           #+#    #+#             */
-/*   Updated: 2024/07/13 09:41:24 by achater          ###   ########.fr       */
+/*   Updated: 2024/07/14 08:55:21 by achater          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	fct_helper(t_list *cmds, t_env **env_list)
 {
 	if (ft_strcmp(cmds->cmd, "cd") == 0)
 	{
-		ft_cd(cmds->args, *env_list);
+		ft_cd(cmds->args, *env_list, 0, 0);
 		return (1);
 	}
 	else if (ft_strcmp(cmds->cmd, "unset") == 0)
