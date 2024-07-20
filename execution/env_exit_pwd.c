@@ -6,7 +6,7 @@
 /*   By: achater <achater@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 16:43:38 by achater           #+#    #+#             */
-/*   Updated: 2024/07/14 10:18:23 by achater          ###   ########.fr       */
+/*   Updated: 2024/07/20 14:44:30 by achater          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	ft_is_too_long(char *str)
 
 	nb = 0;
 	i = 0;
-	while(str[i])
+	while (str[i])
 	{
 		nb2 = nb;
 		if (str[i] < '0' || str[i] > '9')
@@ -39,7 +39,7 @@ void	ft_env(t_env *env_list, char **args)
 	{
 		printf("env: %s: No such file or directory\n", args[0]);
 		exit_status(127);
-		return;
+		return ;
 	}
 	while (env_list)
 	{
@@ -52,7 +52,7 @@ void	ft_env(t_env *env_list, char **args)
 void	ft_exit(char **args, t_list *cmds)
 {
 	unsigned char	i;
-	int	x;
+	int				x;
 
 	x = 0;
 	i = 0;
@@ -62,20 +62,22 @@ void	ft_exit(char **args, t_list *cmds)
 		x++;
 	if (args && x > 1 && ft_is_too_long(args[0]) == 0)
 	{
-		printf("minishell: exit: too many arguments\n");
-		exit_status(1);
+		(1) && (printf("minishell: exit: too many args\n"), exit_status(1));
 		return ;
 	}
 	if (args && x == 1 && ft_is_number(args[0]) == 1)
 		i = ft_atoi(args[0]);
 	if (args)
+	{
 		if (ft_is_too_long(args[0]) == -1 || args[0][0] == '\0')
 		{
 			printf("minishell: exit: %s: numeric argument required\n", args[0]);
 			exit(255);
 		}
+	}
 	exit(i);
 }
+
 char	*ft_getcwd(t_env *env_list)
 {
 	char	*pwd;

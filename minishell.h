@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:22:31 by haalouan          #+#    #+#             */
-/*   Updated: 2024/07/19 20:57:12 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/07/20 15:17:25 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 # define MINISHELL_H
 
 int g_status;
-
-extern int g_signal;
 
 # include <stdio.h>
 # include <stdlib.h>
@@ -99,7 +97,7 @@ char    *ft_strjoin3(char *s1, char *s2, char *s3);
 char    *ft_strnstr(const char *haystack, const char *needle, size_t len);
 void    error(void);
 void    execute(char **cmds, char **envp, char *cmd);
-int	change_value(t_env **env_list, char *value);
+int    change_value(t_env **env_list,char *value);
 char    *ft_strjoin(char *s1,char *s2);
 void    handle_redir(t_list *list, int i);
 void    handle_redir_no_command(t_list *list, int i);
@@ -122,9 +120,13 @@ void	handle_one_cmd(t_list *cmds, t_env **env_list, int status);
 void	close_here_doc(t_list **list);
 void	handle_mult_cmd(t_list **list, t_env **env_list, int i, int prev_pipe);;
 void	ft_builtins(t_list *cmds, t_env **env_list);
-void	freee_list(t_env **env);
-void free_struct(char **new_env);
+char **free_struct(char **new_env);
+char	*ft_strjoin_free(char *s1, char *s2);
 void	split_by_equal(char *str, char **key, char **value, int i);
+void	print_env(t_env *lst, int (*cmp)(char*,char*));
+int	key_exist(t_env *env, char *key);
+void	split_by_equal(char *str, char **key, char **value, int i);
+
 /*******************************************************parssing*******************************************************/
 char *ft_substr(char const *s, unsigned int start, int len);
 char **safe_alloc(int count);
@@ -218,7 +220,7 @@ char	**handle_parssing(char *line, t_env *env_list);
 void add_tab(char *line, char **tab, int len);
 
 //parssing2
-int	continue_parssing(t_list **list, char **tab, char *line);
+int continue_parssing(t_list **list, char **tab, char *line);
 int exit_status(int status);
 //parssing3
 int count_pipe(char **tab);

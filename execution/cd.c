@@ -6,7 +6,7 @@
 /*   By: achater <achater@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 16:40:37 by achater           #+#    #+#             */
-/*   Updated: 2024/07/14 16:48:02 by achater          ###   ########.fr       */
+/*   Updated: 2024/07/20 14:32:12 by achater          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ int	change_value(t_env **env_list, char *value)
 
 void	change_env_last_cmd(t_list *cmds, t_env **env_list)
 {
-	t_env	*tmp;
 	char	*last_cmd;
-	int	i;
+	int		i;
+	t_env	*tmp;
 
 	tmp = *env_list;
 	i = 0;
@@ -43,7 +43,7 @@ void	change_env_last_cmd(t_list *cmds, t_env **env_list)
 	}
 }
 
-void	ft_cd(char **args, t_env *env_list,int x, int y)
+void	ft_cd(char **args, t_env *env_list, int x, int y)
 {
 	char	*oldpwd;
 	char	*newpwd;

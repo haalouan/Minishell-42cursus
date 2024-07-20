@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: achater <achater@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 16:59:42 by achater           #+#    #+#             */
-/*   Updated: 2024/05/08 22:38:31 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/07/20 15:02:27 by achater          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static char *ft_strchr(const char *s, int c)
+static char	*ft_strchr(const char *s, int c)
 {
 	while (*s)
 	{
@@ -23,10 +23,10 @@ static char *ft_strchr(const char *s, int c)
 	return (0);
 }
 
-char *ft_substr(char const *s, unsigned int start, int len)
+char	*ft_substr(char const *s, unsigned int start, int len)
 {
-	char *x;
-	int i;
+	char	*x;
+	int		i;
 
 	i = 0;
 	x = malloc(len + 1);
@@ -60,20 +60,6 @@ static int	count_word(char const *s, char c)
 	return (x);
 }
 
-static char	**free_substrs(char **substrs)
-{
-	int	i;
-
-	i = 0;
-	while (substrs[i])
-	{
-		free(substrs[i]);
-		i++;
-	}
-	free(substrs);
-	return (0);
-}
-
 static void	helper(char const *s, int *len, char c)
 {
 	if (ft_strchr(s, c))
@@ -103,7 +89,7 @@ char	**ft_split(char const *s, char c)
 			helper(s, &len, c);
 			substrs[i] = ft_substr(s, 0, len);
 			if (!substrs[i++])
-				return (free_substrs(substrs));
+				return (free_struct(substrs));
 			s += len;
 		}
 	}
