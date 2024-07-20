@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 16:38:45 by haalouan          #+#    #+#             */
-/*   Updated: 2024/07/14 04:06:04 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/07/20 16:28:32 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,14 +54,13 @@ char	**handle_parssing(char *line, t_env *env_list)
 	tab = expand(tab, env_list, 0);
 	return (tab);
 }
-int g_signal = 0;
+
 void	signal_handler(int sig)
 {
 	if (sig == SIGINT)
 	{
 		if (g_status == 2)
 		{
-			g_signal = 1;
 			g_status = 1;
 			printf("\n");
 			return ;
