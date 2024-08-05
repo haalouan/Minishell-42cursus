@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 15:56:59 by achater           #+#    #+#             */
-/*   Updated: 2024/08/05 22:00:38 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/08/05 22:03:15 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ void	sig_handler_heredoc(int sig)
 void	handle_sigint(int signum)
 {
 	extern int	g_status;
+
 	if (signum == SIGINT)
 	{
 		exit_status(1);
