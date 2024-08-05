@@ -6,7 +6,7 @@
 /*   By: achater <achater@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 11:28:38 by achater           #+#    #+#             */
-/*   Updated: 2024/07/20 13:35:43 by achater          ###   ########.fr       */
+/*   Updated: 2024/08/03 09:50:19 by achater          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	ft_builtins(t_list *cmds, t_env **env_list)
 	if (ft_strcmp(cmds->cmd, "echo") == 0)
 		ft_echo(cmds->args, 0, 0, 0);
 	else if (ft_strcmp(cmds->cmd, "cd") == 0)
-		ft_cd(cmds->args, *env_list, 0, 0);
+		ft_cd(cmds->args, *env_list);
 	else if (ft_strcmp(cmds->cmd, "env") == 0 && cmds)
 		ft_env(*env_list, cmds->args);
 	else if (ft_strcmp(cmds->cmd, "export") == 0)
@@ -53,7 +53,7 @@ void	ft_builtins(t_list *cmds, t_env **env_list)
 	else if (ft_strcmp(cmds->cmd, "unset") == 0)
 		ft_unset(env_list, cmds->args);
 	else if (ft_strcmp(cmds->cmd, "exit") == 0)
-		ft_exit(cmds->args, cmds);
+		ft_exit(cmds->args, cmds, 0, 0);
 	else
 		handle_cmd(cmds, new_env);
 	free_struct(new_env);
@@ -63,8 +63,8 @@ void	execution(t_list **list, t_env **env_list)
 {
 	(*list)->file_in = 0;
 	(*list)->file_out = 1;
-	change_env_last_cmd(*list, env_list);
-	set_here_doc(list, -1, 0, *env_list);
+	if (set_here_doc(list, -1, 0, *env_list) == 1)
+		return ;
 	if ((*list)->nbr == 1)
 	{
 		if ((*list)->cmd == NULL && (*list)->redir[0] == NULL)

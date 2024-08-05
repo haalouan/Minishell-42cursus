@@ -6,7 +6,7 @@
 /*   By: achater <achater@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 15:31:52 by achater           #+#    #+#             */
-/*   Updated: 2024/06/30 16:55:44 by achater          ###   ########.fr       */
+/*   Updated: 2024/08/03 11:15:08 by achater          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int	ft_strcmp(char *arg, char *str)
 		return (1);
 	return (0);
 }
+
 static int	f(char *s4, char *s2, char *s1, char *s3)
 {
 	int	i;
@@ -82,6 +83,7 @@ char	*ft_strjoin3(char *s1, char *s2, char *s3)
 	s4[i] = '\0';
 	return (s4);
 }
+
 char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
 {
 	size_t	i;
@@ -103,17 +105,27 @@ char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
 	}
 	return (NULL);
 }
+
 int	ft_atoi(const char *str)
 {
 	int	i;
 	int	x;
+	int	neg;
 
 	x = 0;
 	i = 0;
+	neg = 1;
+	if (str[i] == '+')
+		i++;
+	else if (str[i] == '-')
+	{
+		neg = -1;
+		i++;
+	}
 	while (str[i] >= 48 && str[i] <= 57)
 	{
 		x = (x * 10) + str[i] - '0';
 		i++;
 	}
-	return (x);
+	return (x * neg);
 }

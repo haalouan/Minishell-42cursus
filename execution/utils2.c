@@ -6,7 +6,7 @@
 /*   By: achater <achater@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 16:51:56 by achater           #+#    #+#             */
-/*   Updated: 2024/07/14 08:43:23 by achater          ###   ########.fr       */
+/*   Updated: 2024/08/03 11:14:16 by achater          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,8 @@ int	ft_is_number(char *str)
 	i = 0;
 	if (!str)
 		return (0);
+	if (str[i] == '+' || str[i] == '-')
+		i++;
 	while (str[i])
 	{
 		if (str[i] < '0' || str[i] > '9')

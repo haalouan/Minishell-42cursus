@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 15:01:15 by haalouan          #+#    #+#             */
-/*   Updated: 2024/07/14 04:11:13 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/08/05 16:10:46 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	check_line(char *line)
 	while (line && line[i] != '\0')
 		i++;
 	i--;
-	while (line && (line[i] == ' ' || line[i] == '\t'))
+	while (line && i != 0 && (line[i] == ' ' || line[i] == '\t'))
 		i--;
 	if (line[i] && (line[i] == '|' || line[i] == '>' || line[i] == '<'))
 	{

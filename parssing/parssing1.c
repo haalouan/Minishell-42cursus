@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 16:38:45 by haalouan          #+#    #+#             */
-/*   Updated: 2024/07/20 16:28:32 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/08/05 22:00:33 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ void	signal_handler(int sig)
 			return ;
 		}
 		printf("\n");
-		exit_status(1);
 		rl_on_new_line();
 		rl_replace_line("", 1);
 		rl_redisplay();
@@ -109,6 +108,5 @@ t_list	**parssing(char *line, t_env *env_list)
 	free_tab(tab);
 	remove_quotes(list);
 	list[0]->exit = 0;
-	print_tab(list);
 	return (list);
 }

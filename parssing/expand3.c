@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand3.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: achater <achater@student.42.fr>            +#+  +:+       +#+        */
+/*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 04:04:33 by haalouan          #+#    #+#             */
-/*   Updated: 2024/07/13 08:33:36 by achater          ###   ########.fr       */
+/*   Updated: 2024/08/05 21:54:24 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,16 +55,14 @@ char	**expand_in_double_quote(char **tab, int i, int *j, t_env *env_list)
 		{
 			key = exp_d(tab[i], &value, *j, env_list);
 			tab[i] = exp_d_q(key, value, tab[i]);
+			break ;
 		}
 		else if (tab && tab[i] && tab[i][*j] == '$' && tab[i][*j + 1] == '\"')
 			break ;
 		else
 			(*j)++;
 	}
-	if (ft_strcmp(key, "?") != 0)
-	{
-		free(key);
-		free(value);
-	}
+	free(key);
+	free(value);
 	return (tab);
 }

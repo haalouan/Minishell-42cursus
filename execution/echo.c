@@ -6,7 +6,7 @@
 /*   By: achater <achater@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 11:20:41 by achater           #+#    #+#             */
-/*   Updated: 2024/06/30 11:27:08 by achater          ###   ########.fr       */
+/*   Updated: 2024/07/25 08:57:24 by achater          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void	ft_echo(char **args, int n, int j, int x)
 	if (args == NULL)
 	{
 		printf("\n");
+		exit_status(0);
 		return ;
 	}
 	if (cmp(args[0]) == 0)
@@ -63,4 +64,5 @@ void	ft_echo(char **args, int n, int j, int x)
 	}
 	if (x == 0)
 		printf("\n");
+	exit_status(0);
 }

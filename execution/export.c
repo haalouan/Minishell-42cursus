@@ -6,7 +6,7 @@
 /*   By: achater <achater@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 12:50:01 by achater           #+#    #+#             */
-/*   Updated: 2024/07/20 14:52:22 by achater          ###   ########.fr       */
+/*   Updated: 2024/08/02 12:31:58 by achater          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,16 +47,12 @@ void	export_helper(char *key, char *value, t_env **env, t_env **tmp1)
 	key[ft_strlen(key) - 1] = '\0';
 	if (key_exist(*env, key) == 0)
 		return (ft_lstadd_back(env, ft_lstnew(key, value)));
-	if (value == NULL)
-		return (free(key));
 	while (tmp1)
 	{
 		if (ft_strcmp((*tmp1)->key, key) == 0)
 		{
-			tmp = ft_strjoin((*tmp1)->value, value);
-			free((*tmp1)->value);
+			tmp = ft_strjoin((*tmp1)->value, value, -1, 0);
 			(*tmp1)->value = tmp;
-			free(value);
 			break ;
 		}
 		*tmp1 = (*tmp1)->next;
@@ -66,7 +62,7 @@ void	export_helper(char *key, char *value, t_env **env, t_env **tmp1)
 
 void	error_hendler(char *key, char *value, int i)
 {
-	write(2, "minishell: export: `': not a valid identifier\n", 46);
+	write(2, "minishell: export not a valid identifier\n", 41);
 	exit_status(1);
 	if (i == 1)
 		free(value);
@@ -84,13 +80,12 @@ void	export_whith_args(char **args, t_env **tmp1, int i, t_env **env)
 	char	*key;
 	char	*value;
 
-	while (args[++i])
+	while (args && args[++i])
 	{
 		if (args[i][0] == '\0')
 		{
-			write(2, "minishell: export: `': not a valid identifier\n", 46);
+			write(2, "minishell: not a valid identifier\n", 35);
 			exit_status(1);
-			i++;
 			continue ;
 		}
 		split_by_equal(args[i], &key, &value, 0);
@@ -110,11 +105,12 @@ void	export_whith_args(char **args, t_env **tmp1, int i, t_env **env)
 
 void	ft_export(char **args, t_env **env)
 {
-	t_env	*tmp1;
 	int		i;
+	t_env	*tmp1;
 
 	i = -1;
 	tmp1 = *env;
+	exit_status(0);
 	if (args == NULL)
 		print_env(*env, ft_strcmp);
 	else

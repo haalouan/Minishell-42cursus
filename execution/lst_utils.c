@@ -6,7 +6,7 @@
 /*   By: achater <achater@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 16:48:07 by achater           #+#    #+#             */
-/*   Updated: 2024/07/14 10:35:07 by achater          ###   ########.fr       */
+/*   Updated: 2024/07/21 11:10:13 by achater          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	ft_lstadd_back(t_env **lst, t_env *new)
 	else
 		*lst = new;
 }
+
 t_env	*ft_lstlast(t_env *lst)
 {
 	t_env	*x;
@@ -36,9 +37,10 @@ t_env	*ft_lstlast(t_env *lst)
 	return (x);
 }
 
-t_env	*ft_lstnew(char *key , char *content)
+t_env	*ft_lstnew(char *key, char *content)
 {
 	t_env	*x;
+
 	x = malloc(sizeof(t_env));
 	if (x == 0)
 		return (0);
@@ -47,6 +49,7 @@ t_env	*ft_lstnew(char *key , char *content)
 	x ->next = NULL;
 	return (x);
 }
+
 int	ft_lstsize(t_env *lst)
 {
 	int		i;

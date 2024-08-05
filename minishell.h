@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: achater <achater@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:22:31 by haalouan          #+#    #+#             */
-/*   Updated: 2024/07/20 16:28:36 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/08/03 11:23:08 by achater          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <string.h>
 # include <signal.h>
 # include <fcntl.h>
+# include <sys/stat.h>
 
 int	g_status;
 
@@ -93,19 +94,18 @@ char	*ft_strnstr(const char *haystack, const char *needle, size_t len);
 void	error(void);
 void	execute(char **cmds, char **envp, char *cmd);
 int		change_value(t_env **env_list, char *value);
-char	*ft_strjoin(char *s1, char *s2);
-void	handle_redir(t_list *list, int i);
+char	*ft_strjoin(char *s1, char *s2, int i, int j);
+void	handle_redir(t_list *list, int i, int x);
 void	handle_redir_no_command(t_list *list, int i);
 char	*shlvl_increment(char *str);
-void	set_here_doc(t_list **list, int i, int j, t_env *env_list);
+int		set_here_doc(t_list **list, int i, int j, t_env *env_list);
 void	ft_env(t_env *env_list, char **args);
 int		ft_is_number(char *str);
 int		ft_atoi(const char *str);
 void	ft_echo(char **args, int n, int j, int x);
-void	change_env_last_cmd(t_list *cmds, t_env **env_list);
-void	ft_cd(char **args, t_env *env_list, int x, int y);
+void	ft_cd(char **args, t_env *env_list);
 void	ft_env(t_env *env_list, char **args);
-void	ft_exit(char **args, t_list *cmds);
+void	ft_exit(char **args, t_list *cmds, int x, unsigned char i);
 void	ft_pwd(t_env *env_list);
 void	ft_unset(t_env **env_list, char **args);
 void	ft_free(char **str);
@@ -121,6 +121,12 @@ void	split_by_equal(char *str, char **key, char **value, int i);
 void	print_env(t_env *lst, int (*cmp)(char*, char*));
 int		key_exist(t_env *env, char *key);
 void	split_by_equal(char *str, char **key, char **value, int i);
+void	help_fct2(t_list **list, int fd[2], int pid[(*list)->nbr]);
+void	error_handling(char *cmd, char *str, int i, int x);
+void	fork_error(int *x, int i, int *pid, int *fd);
+void	handle_access(char **cmds, char **envp, char *cmd, char *path);
+void	handle_directory(char **cmds, char **envp, char *cmd, char *path);
+
 //
 char	*ft_substr(char const *s, unsigned int start, int len);
 char	**safe_alloc(int count);
@@ -197,4 +203,12 @@ int		finnd_pipe(char **tab, int count);
 int		find_redir(char **tab, int count);
 char	*int_to_str(int num);
 void	signal_handler(int sig);
+void	init_signals(void);
+void	setup_signal_handlers(void (*int_)(int), void (*quit_)(int));
+void	sig_handler_child(int sig);
+void	ignore_signals(void);
+void	exit_helper(t_list *cmds, int status);
+int		check_builtins(char *cmd);
+void	handle_sigint(int signum);
+
 #endif
