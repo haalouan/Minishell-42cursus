@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: achater <achater@student.42.fr>            +#+  +:+       +#+        */
+/*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 15:01:15 by haalouan          #+#    #+#             */
-/*   Updated: 2024/08/06 09:22:55 by achater          ###   ########.fr       */
+/*   Updated: 2024/08/06 17:56:04 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,13 +52,6 @@ int	check_error2(char **tab)
 {
 	if (check(tab) == 2)
 		return (1);
-	// if (check(tab) == 0 && check_ambiguous_redir(tab) == 1)
-	// {
-	// 	printf("minishell: ambiguous redirect\n");
-	// 	exit_status(1);
-	// 	free_tab(tab);
-	// 	return (1);
-	// }
 	return (0);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand6.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: achater <achater@student.42.fr>            +#+  +:+       +#+        */
+/*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 00:31:58 by haalouan          #+#    #+#             */
-/*   Updated: 2024/08/06 15:23:57 by achater          ###   ########.fr       */
+/*   Updated: 2024/08/06 18:01:05 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,37 +87,33 @@ char	*get_env_key(char *str, int i)
 	return (key);
 }
 
-char    *protect_env(char *str, int key)
+char	*protect_env(char *str, int key)
 {
-    char    *value;
-    t_int    f;
-    char    rep;
+	char	*value;
+	t_int	f;
+	char	rep;
 
-    f.i = 0;
-    f.j = 0;
-    value = NULL;
-    value = malloc(ft_strlen(str) + 2 + 1);
-    rep = '\"';
-    if (ft_strcmp(str, "\"") == 0)
-        rep = '\'';
-    if (!value)
-        exit(EXIT_FAILURE);
-    value[f.j++] = rep;
-    while ((key == 1 && str[f.i] == ' ') || str[f.i] == '\t')
-        f.i++;
-    while (str && str[f.i])
-        value[f.j++] = str[f.i++];
-    if (key == 1 && (value[f.j - 1] == ' ' || value[f.j - 1] == '\t'))
-    {
-        f.j--;
-        while (value[f.j] == ' ' || value[f.j] == '\t')
-            f.j--;
-        f.j++;
-    }
-    value[f.j++] = rep;
-    value[f.j] = '\0';
-    free(str);
-    return (value);
+	f.i = 0;
+	f.j = 0;
+	value = my_alloc(ft_strlen(str) + 2 + 1);
+	rep = '\"';
+	if (ft_strcmp(str, "\"") == 0)
+		rep = '\'';
+	value[f.j++] = rep;
+	while ((key == 1 && str[f.i] == ' ') || str[f.i] == '\t')
+		f.i++;
+	while (str && str[f.i])
+		value[f.j++] = str[f.i++];
+	if (key == 1 && (value[f.j - 1] == ' ' || value[f.j - 1] == '\t'))
+	{
+		f.j--;
+		while (value[f.j] == ' ' || value[f.j] == '\t')
+			f.j--;
+		f.j++;
+	}
+	value[f.j++] = rep;
+	value[f.j] = '\0';
+	return (free(str), value);
 }
 
 char	**ft_realloc(char **tab)

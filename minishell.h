@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: achater <achater@student.42.fr>            +#+  +:+       +#+        */
+/*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:22:31 by haalouan          #+#    #+#             */
-/*   Updated: 2024/08/03 11:23:08 by achater          ###   ########.fr       */
+/*   Updated: 2024/08/06 18:01:26 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,5 +210,6 @@ void	ignore_signals(void);
 void	exit_helper(t_list *cmds, int status);
 int		check_builtins(char *cmd);
 void	handle_sigint(int signum);
+char	*my_alloc(int len);
 
 #endif

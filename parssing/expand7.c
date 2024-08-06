@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 14:10:35 by haalouan          #+#    #+#             */
-/*   Updated: 2024/07/13 20:15:33 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/08/06 18:01:16 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,4 +97,15 @@ char	*protect_new_tab(char *str)
 	s[k] = '\0';
 	free(str);
 	return (s);
+}
+
+char	*my_alloc(int len)
+{
+	char	*value;
+
+	value = NULL;
+	value = malloc(len);
+	if (!value)
+		exit(EXIT_FAILURE);
+	return (value);
 }
