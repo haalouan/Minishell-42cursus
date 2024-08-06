@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 15:45:59 by haalouan          #+#    #+#             */
-/*   Updated: 2024/07/13 20:12:08 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/08/06 16:49:56 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,30 +61,31 @@ char	*cont_exp2(char **value, int j, t_env *env_list, char *tab)
 	return (key);
 }
 
-char	**continue_expand(char **tab, t_int *f, t_env *env_list)
+char    **continue_expand(char **tab, t_int *f, t_env *env_list)
 {
-	char	*key;
-	char	*value;
+    char    *key;
+    char    *value;
 
-	key = NULL;
-	value = NULL;
-	if (exppp(tab[f->i], f->j) == 11)
-		key = cont_exp(&value);
-	else
-		key = cont_exp2(&value, f->j, env_list, tab[f->i]);
-	if (key && value)
-	{
-		tab[f->i] = ft_str_replace(tab[f->i], key, value);
-		tab[f->i] = remove_dollar(tab[f->i], 1);
-		if (search_for_value(tab[f->i], value) == 1 && f->in_here_doc == 0)
-			tab = change_tab(tab, tab[f->i]);
-	}
-	else
-	{
-		tab[f->i] = ft_str_replace(tab[f->i], key, "");
-		tab[f->i] = remove_dollar(tab[f->i], 1);
-	}
-	free(key);
-	free(value);
-	return (tab);
-}
+    key = NULL;
+    value = NULL;
+    if (exppp(tab[f->i], f->j) == 11)
+        key = cont_exp(&value);
+    else
+        key = cont_exp2(&value, f->j, env_list, tab[f->i]);
+    if (key && value)
+    {
+        tab[f->i] = ft_str_replace(tab[f->i], key, value);
+        tab[f->i] = remove_dollar(tab[f->i], 1);
+        if (search_for_value(tab[f->i], value) == 1 && f->in_here_doc == 0)
+            tab = change_tab(tab, tab[f->i]);
+    }
+    else
+    {
+        tab[f->i] = ft_str_replace(tab[f->i], key, "");
+        tab[f->i] = remove_dollar(tab[f->i], 1);
+    }
+    free(key);
+    free(value);
+    f->j += ft_strlen(value);
+    return (tab);
+} 

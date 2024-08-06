@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_redir.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: achater <achater@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 14:34:20 by achater           #+#    #+#             */
-/*   Updated: 2024/08/05 16:30:37 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/08/06 12:09:25 by achater          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	help_error(void)
 {
-	perror("minishell");
+	printf("minishell : error in redirection\n");
 	exit_status(1);
 	return (1);
 }
@@ -100,22 +100,6 @@ void	handle_redir(t_list *list, int i, int x)
 	}
 }
 
-// echo "$?" leeaks
+//export A='"'   echo $A
 
-// bash-3.2$ export x="'"
-// bash-3.2$ echo "$x"kkkk"$x"
-
-//empty line  should reset exit status to 0
-
-// => minishell => "echo $?"
-// minishell:echo 0: command not found
-// => minishell => echo "$?"
-// 27
-
-//..
-
-// ./ls
-
-// echo ls > y
-//chmod +x y
-//./y
+//export A='$A'  echo $A

@@ -6,11 +6,23 @@
 /*   By: achater <achater@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 11:20:41 by achater           #+#    #+#             */
-/*   Updated: 2024/07/25 08:57:24 by achater          ###   ########.fr       */
+/*   Updated: 2024/08/06 11:35:33 by achater          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	ft_putstr(char *s)
+{
+	int	i;
+
+	i = 0;
+	while (s[i])
+	{
+		write(1, &s[i], 1);
+		i++;
+	}
+}
 
 int	cmp(char *s1)
 {
@@ -42,7 +54,7 @@ void	ft_echo(char **args, int n, int j, int x)
 {
 	if (args == NULL)
 	{
-		printf("\n");
+		ft_putstr("\n");
 		exit_status(0);
 		return ;
 	}
@@ -57,12 +69,12 @@ void	ft_echo(char **args, int n, int j, int x)
 		}
 		if (cmp(args[j]) != 0)
 			n = 0;
-		printf("%s", args[j]);
+		ft_putstr(args[j]);
 		if (args[j + 1])
-			printf(" ");
+			ft_putstr(" ");
 		j++;
 	}
 	if (x == 0)
-		printf("\n");
+		ft_putstr("\n");
 	exit_status(0);
 }

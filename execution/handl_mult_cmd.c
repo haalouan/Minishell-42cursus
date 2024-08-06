@@ -6,7 +6,7 @@
 /*   By: achater <achater@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 12:25:01 by achater           #+#    #+#             */
-/*   Updated: 2024/08/02 15:38:44 by achater          ###   ########.fr       */
+/*   Updated: 2024/08/06 14:13:15 by achater          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,7 @@ void	handle_mult_cmd(t_list **list, t_env **env_list, int i, int prev_pipe)
 	int	*pid;
 	int	x;
 
-	x = 0;
-	pid = malloc(sizeof(int) * (*list)->nbr);
+	1 && (x = 0, pid = malloc(sizeof(int) * (*list)->nbr));
 	while (++i < (*list)->nbr)
 	{
 		ignore_signals();
@@ -90,12 +89,13 @@ void	handle_mult_cmd(t_list **list, t_env **env_list, int i, int prev_pipe)
 		pid[i] = fork();
 		if (pid[i] < 0)
 		{
-			close(prev_pipe);
-			fork_error(&x, i, pid, fd);
+			1 && (close(prev_pipe), fork_error(&x, i, pid, fd), x = x + 0);
 			break ;
 		}
-		(pid[i] == 0) && (child_of_mult_cmd(list, i, prev_pipe, fd),
-			child_of_mult_cmd2(list, env_list, i, fd), i = i + 0);
+		if (pid[i] == 0)
+			1 && (setup_signal_handlers(sig_handler_child, sig_handler_child),
+				child_of_mult_cmd(list, i, prev_pipe, fd),
+				child_of_mult_cmd2(list, env_list, i, fd), x = x + 0);
 		if (pid[i] > 0)
 			(1) && (close(prev_pipe), close(fd[1]), prev_pipe = fd[0]);
 		(i != (*list)->nbr - 1) && (help_fct1(list, i), i = i + 0);

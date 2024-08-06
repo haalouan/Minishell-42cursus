@@ -6,7 +6,7 @@
 /*   By: achater <achater@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 11:21:04 by achater           #+#    #+#             */
-/*   Updated: 2024/08/03 11:25:58 by achater          ###   ########.fr       */
+/*   Updated: 2024/08/06 11:30:27 by achater          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,18 +87,18 @@ void	execute(char **cmds, char **envp, char *cmd)
 	char	*path;
 
 	path = find_path(cmd, envp);
+	if (cmd[0] == '.' && cmd[1] == '\0' )
+	{
+		write(2, "minishell: .: filename argument required\n", 41);
+		write(2, ".: usage: . filename [arguments]\n", 33);
+		exit(2);
+	}
 	handle_access(cmds, envp, cmd, path);
 	handle_directory(cmds, envp, cmd, path);
 	if (ft_strchr(cmd, '/') != 0)
 		error_handling(cmd, ": No such file or directory", 28, 127);
 	if (execve(path, cmds, envp) < 0)
 	{
-		if (cmd[0] == '.' && cmd[1] == '\0' )
-		{
-			write(2, "minishell: .: filename argument required\n", 41);
-			write(2, ".: usage: . filename [arguments]\n", 33);
-			exit(2);
-		}
 		error_handling(cmd, ": command not found", 20, 127);
 	}
 }
