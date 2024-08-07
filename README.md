@@ -24,10 +24,10 @@ Make
 Usage
 ./minishell
 Contributing
-Zouhair Jamali
- 42intra profile : zjamali
-Mehdi Bari
- 42intra profile : mbari
+Alouani Hatim
+ 42intra profile : haalouan
+Abderrafie Chater
+ 42intra profile : achater
 
 
 Resources
@@ -60,12 +60,6 @@ Releases
 No releases published
 Packages
 No packages published
-Contributors
-2
-@zjamali
-zjamali Zouhair Jamali
-@barimehdi77
-barimehdi77 DarkSide77
 Languages
 C
 95.6%
