@@ -23,12 +23,6 @@ Use the Makrfile
 Make
 Usage
 ./minishell
-Contributing
-Alouani Hatim
- 42intra profile : haalouan
-Abderrafie Chater
- 42intra profile : achater
-
 
 Resources
 https://cs61.seas.harvard.edu/site/2019/Section7/
