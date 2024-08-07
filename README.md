@@ -57,6 +57,5 @@ No packages published
 Languages
 C
 95.6%
- 
 Makefile
 4.4%
