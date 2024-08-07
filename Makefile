@@ -22,7 +22,7 @@ RM = rm -f
 READLINE_I = /Users/haalouan/.brew/opt/readline/include
 READLINE_L = /Users/haalouan/.brew/opt/readline/lib
 
-CFLAGS = -Wall -Wextra -g -I $(READLINE_I) #-g -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -g -I $(READLINE_I) #-g -fsanitize=address
 LDFLAGS = -L$(READLINE_L) -lreadline -lhistory
 
 $(NAME): $(OBJS)

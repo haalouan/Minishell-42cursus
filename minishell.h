@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:22:31 by haalouan          #+#    #+#             */
-/*   Updated: 2024/08/06 18:01:26 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/08/07 10:28:41 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <errno.h>
-# include <string.h>
 # include <signal.h>
 # include <fcntl.h>
 # include <sys/stat.h>
@@ -27,11 +26,8 @@
 int	g_status;
 
 # define ANSI_RESET_ALL          "\x1b[0m"
-# define ANSI_COLOR_RED          "\x1b[31m"
-# define ANSI_COLOR_GREEN        "\x1b[32m"
 # define ANSI_COLOR_YELLOW       "\x1b[33m"
 # define ANSI_BACKGROUND_RED     "\x1b[41m"
-# define ANSI_COLOR_MAGENTA      "\x1b[35m"
 
 typedef struct s_check
 {

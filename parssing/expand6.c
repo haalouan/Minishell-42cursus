@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 00:31:58 by haalouan          #+#    #+#             */
-/*   Updated: 2024/08/06 18:01:05 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/08/07 10:16:29 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ char	*get_env_value(char *key, t_env *export_i)
 	tmp = export_i;
 	while (tmp)
 	{
-		if (!strcmp(tmp->key, key))
+		if (!ft_strcmp(tmp->key, key))
 		{
 			value = ft_strdup(tmp->value);
 			return (value);

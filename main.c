@@ -6,7 +6,7 @@
 /*   By: haalouan <haalouan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 16:35:11 by haalouan          #+#    #+#             */
-/*   Updated: 2024/08/05 21:59:32 by haalouan         ###   ########.fr       */
+/*   Updated: 2024/08/07 10:28:03 by haalouan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,11 @@ int	main(int arc, char **arv, char **env)
 	env_list = NULL;
 	(void)arc;
 	(void)arv;
+	if (!isatty(0) || (env[0] == NULL))
+	{
+		printf("try again\n");
+		exit(EXIT_FAILURE);
+	}
 	set_env(env, &env_list, -1);
 	signal(SIGINT, signal_handler);
 	signal(SIGQUIT, signal_handler);
